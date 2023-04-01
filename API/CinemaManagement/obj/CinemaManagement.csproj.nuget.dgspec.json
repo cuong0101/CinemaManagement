@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DoAnQLDA_TH\\CinemaManagement\\CinemaManagement\\CinemaManagement\\CinemaManagement.csproj": {}
+    "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj": {}
   },
   "projects": {
-    "D:\\DoAnQLDA_TH\\CinemaManagement\\CinemaManagement\\CinemaManagement\\CinemaManagement.csproj": {
+    "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DoAnQLDA_TH\\CinemaManagement\\CinemaManagement\\CinemaManagement\\CinemaManagement.csproj",
+        "projectUniqueName": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
         "projectName": "CinemaManagement",
-        "projectPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\CinemaManagement\\CinemaManagement\\CinemaManagement.csproj",
+        "projectPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
         "packagesPath": "C:\\Users\\KyThuat88\\.nuget\\packages\\",
-        "outputPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\CinemaManagement\\CinemaManagement\\obj\\",
+        "outputPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -43,6 +43,16 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.15, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.15, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
