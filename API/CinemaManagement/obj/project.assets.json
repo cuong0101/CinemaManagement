@@ -6209,23 +6209,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KyThuat88\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\S_member\\.nuget\\packages\\": {},
+    "C:\\Program Files\\DevExpress 22.1\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
+      "projectUniqueName": "D:\\DoAnTH_QLDA\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
       "projectName": "CinemaManagement",
-      "projectPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
-      "packagesPath": "C:\\Users\\KyThuat88\\.nuget\\packages\\",
-      "outputPath": "D:\\DoAnQLDA_TH\\CinemaManagement\\API\\CinemaManagement\\obj\\",
+      "projectPath": "D:\\DoAnTH_QLDA\\CinemaManagement\\API\\CinemaManagement\\CinemaManagement.csproj",
+      "packagesPath": "C:\\Users\\S_member\\.nuget\\packages\\",
+      "outputPath": "D:\\DoAnTH_QLDA\\CinemaManagement\\API\\CinemaManagement\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files\\DevExpress 22.1\\Components\\Offline Packages"
       ],
       "configFilePaths": [
-        "C:\\Users\\KyThuat88\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\S_member\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.1.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6233,6 +6234,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\DevExpress 22.1\\Components\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

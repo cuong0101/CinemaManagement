@@ -33,7 +33,14 @@ namespace CinemaManagement
             services.AddControllers();
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("Default"));
+                opt.UseSqlServer(Configuration.GetConnectionString("Default"), 
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null);
+                    });
             });
             services.AddSwaggerGen(c =>
             {
