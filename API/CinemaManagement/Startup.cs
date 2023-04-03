@@ -1,12 +1,18 @@
 using CinemaManagement.Data;
+using CinemaManagement.Extentions;
+using CinemaManagement.Interfaces;
+using CinemaManagement.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text;
 
 namespace CinemaManagement
 {
@@ -23,19 +29,10 @@ namespace CinemaManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+           
             services.AddControllers();
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseSqlServer(Configuration.GetConnectionString("Default"),
-                    sqlServerOptionsAction: sqlOptions =>
-                    {
-                        sqlOptions.EnableRetryOnFailure(
-                            maxRetryCount: 10,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
-                    });
-            });
+            services.AddApplicationService(Configuration);
+            services.AddIdentityService(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CinemaManagement", Version = "v1" });
@@ -57,6 +54,7 @@ namespace CinemaManagement
             app.UseRouting();
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

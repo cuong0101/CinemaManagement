@@ -1,5 +1,6 @@
 ﻿using CinemaManagement.Data;
 using CinemaManagement.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers
 {
-
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly DataContext _dataContext;
         public UsersController(DataContext dataContext) { _dataContext = dataContext; }
+        [AllowAnonymous]
         [HttpGet]
         public List<AppUser> GetAll()
         {
