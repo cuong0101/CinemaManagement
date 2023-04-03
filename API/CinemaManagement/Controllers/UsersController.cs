@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController
+
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _dataContext;
         public UsersController(DataContext dataContext) { _dataContext = dataContext; }
@@ -21,7 +20,7 @@ namespace CinemaManagement.Controllers
                          select new AppUser
                          {
                              Id = appUser.Id,
-                             Username = appUser.Username,
+                             UserName = appUser.UserName,
                          }).ToList();
             return query;
         }
