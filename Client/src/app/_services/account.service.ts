@@ -9,6 +9,6 @@ export class AccountService {
   constructor(private httpClient: HttpClient) { }
 
   login(model: any){
-    this.httpClient.post(this.baseUrl + "/account/login", model);
+    return this.httpClient.post(this.baseUrl + "/account/login", model);
   }
 }
