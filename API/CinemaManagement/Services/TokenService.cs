@@ -28,8 +28,8 @@ namespace CinemaManagement.Services
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
+                Expires = DateTime.Now.AddMinutes(20),
+                SigningCredentials = creds 
             };
             var tokenHander = new JwtSecurityTokenHandler();
             var token = tokenHander.CreateToken(tokenDescription);

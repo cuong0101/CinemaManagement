@@ -25,12 +25,14 @@ namespace CinemaManagement.Controllers
         public async Task<ActionResult<UserDto>> Register([FromBody]RegisterDto registerDto)
         {
             using var hmac = new HMACSHA512();
+            if (UsersExists(registerDto.username).Result) return BadRequest("User name invalid");
             var user = new AppUser()
             {
                 UserName = registerDto.username.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
                 PasswordSalt = hmac.Key
             };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return new UserDto
@@ -39,10 +41,10 @@ namespace CinemaManagement.Controllers
                 Token = _tokenService.CreateToken(user)
             };
         }
-        //public async Task<bool> UsersExists(string username)
-        //{
-        //    return await _context.Users.AnyAsync(e => e.UserName == username);
-        //}
+        private async Task<bool> UsersExists(string username)
+        {
+            return await _context.Users.AnyAsync(e => e.UserName == username);
+        }
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto login)
         {
