@@ -11,6 +11,8 @@ namespace CinemaManagement.DTOs
         [Required]
         public string Email { get; set; }
         [Required]
+        public string password { get; set; }
+        [Required]
         public string repassword { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
