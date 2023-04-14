@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     error: (error) => {this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")},
     complete: () => {
       
-      
     }
     })
   }

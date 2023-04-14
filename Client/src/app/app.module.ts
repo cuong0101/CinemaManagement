@@ -5,16 +5,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationComponent } from './navigation/navigation.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ToastrModule } from 'ngx-toastr';
+import { SideBarMenuComponent } from './navigation/side-bar-menu/side-bar-menu.component';
+import { BodyComponent } from './navigation/body/body.component';
+import { MstUsersComponent } from './business/mst-users/mst-users.component';
+import { SublevelMenuComponent } from './navigation/side-bar-menu/submenu';
+import { TopBarComponent } from './navigation/top-bar/top-bar.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 @NgModule({
-  declarations: [	
+  declarations: [			
     AppComponent,
-    NavigationComponent,
-    LoginComponent
+    LoginComponent,
+    SideBarMenuComponent,
+    BodyComponent,
+    MstUsersComponent,
+    SublevelMenuComponent,
+    TopBarComponent
    ],
   imports: [
     BrowserModule,
@@ -22,6 +32,8 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    OverlayModule,
+    CdkMenuModule,
     ToastrModule.forRoot(),
   ],
   providers: [],
