@@ -1,4 +1,7 @@
+using CinemaManagement.Data;
+using CinemaManagement.Entities;
 using CinemaManagement.Extentions;
+using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +24,8 @@ namespace CinemaManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSingleton<DapperContext>();
+            services.AddScoped<IAppUser, AppUser>();
             services.AddControllers();
             services.AddApplicationService(Configuration);
             services.AddIdentityService(Configuration);

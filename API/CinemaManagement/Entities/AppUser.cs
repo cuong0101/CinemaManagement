@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CinemaManagement.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace CinemaManagement.Entities
 {
-    public class AppUser
+    public class AppUser : IAppUser
     {
         [Key]
         public int Id { get; set; }
