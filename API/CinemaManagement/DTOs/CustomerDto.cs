@@ -12,7 +12,7 @@ namespace CinemaManagement.DTOs
         public string Address { get; set; }
         public string Phone { get; set; }
         public DateTime? DoB { get; set; }
-        public int Sex { get; set; }
+        public bool Sex { get; set; }
         public string Email { get; set; }
     }
 }

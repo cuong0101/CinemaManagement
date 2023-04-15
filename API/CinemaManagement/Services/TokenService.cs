@@ -1,4 +1,5 @@
-﻿using CinemaManagement.Entities;
+﻿using CinemaManagement.DTOs;
+using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -30,6 +31,24 @@ namespace CinemaManagement.Services
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddMinutes(20),
                 SigningCredentials = creds 
+            };
+            var tokenHander = new JwtSecurityTokenHandler();
+            var token = tokenHander.CreateToken(tokenDescription);
+            return tokenHander.WriteToken(token);
+        }
+
+        public string CreateToken(MstCustomer cus)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Email, cus.Email)
+            };
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(20),
+                SigningCredentials = creds
             };
             var tokenHander = new JwtSecurityTokenHandler();
             var token = tokenHander.CreateToken(tokenDescription);

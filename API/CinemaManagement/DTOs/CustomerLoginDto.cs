@@ -7,5 +7,8 @@ namespace CinemaManagement.DTOs
 {
     public class CustomerLoginDto
     {
+        public string email { get; set; }
+        public string password { get; set; }
+        
     }
 }

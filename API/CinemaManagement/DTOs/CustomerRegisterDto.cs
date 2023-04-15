@@ -20,6 +20,6 @@ namespace CinemaManagement.DTOs
         [Required]
         public string Phone { get; set; }
         public DateTime? DoB { get; set; }
-        public int Sex { get; set; }
+        public bool Sex { get; set; }
     }
 }

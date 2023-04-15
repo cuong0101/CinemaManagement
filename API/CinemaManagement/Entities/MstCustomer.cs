@@ -18,7 +18,7 @@ namespace CinemaManagement.Entities
         public string Phone { get; set; }
         [Required]
         public DateTime? DoB { get; set; }
-        public int Sex { get; set; }
+        public bool Sex { get; set; }
         [Required]
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
