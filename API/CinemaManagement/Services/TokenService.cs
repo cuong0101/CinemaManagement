@@ -24,7 +24,7 @@ namespace CinemaManagement.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, cus.Email)
+                new Claim(JwtRegisteredClaimNames.NameId, cus.Email)
             };
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescription = new SecurityTokenDescriptor
