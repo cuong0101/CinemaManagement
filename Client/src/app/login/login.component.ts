@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Login } from '../_interfaces/login';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   username!: string;
   password!: string;
   constructor(
-    private loginService: AccountService, 
-    private toastr: ToastrService,
+    private loginService: AccountService,
+    //private toastr: ToastrService,
     private route: Router) { }
 
   ngOnInit() {
@@ -30,9 +30,10 @@ export class LoginComponent implements OnInit {
     next: (reponse) => {
       this.route.navigateByUrl("/nav")
     },
-    error: (error) => {this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")},
+    error: (error) => {//this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")
+    },
     complete: () => {
-      
+
     }
     })
   }

@@ -24,7 +24,9 @@ namespace CinemaManagement.Extentions
                     });
             });
             services.AddCors();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddScoped<ISessionService, SessionService>();
+
             return services;
         }
     }
