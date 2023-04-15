@@ -5,12 +5,14 @@ using CinemaManagement.DTOs;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +44,38 @@ namespace CinemaManagement.Controllers
         }
 
         [HttpGet("GetMyInfo")]
-        public async Task<string> GetMyInfo()
+        public async Task<CustomerDto> GetMyInfo()
         {
-            return "a";
+            var mail = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            using (var conn = _dapper.CreateConnection())
+            {
+                var cus = await conn.QueryAsync<CustomerDto>(@"
+                Select * from MstCustomer where isDeleted = 0 and Email = @mail",new { mail = mail});
+                return cus.FirstOrDefault();
+            }
+        }
+
+        [HttpPost("EditMyInfo")]
+        public async Task<ActionResult<string>> EditMyInfo(string _name, string _image, string _address, string _phone)
+        {
+            var cus = _context.MstCustomer.Find(GetMyInfo().Result.Id);
+            using (var conn = _dapper.CreateConnection())
+            {
+                //var cus = await conn.QueryAsync<CustomerDto>(@"
+                //UPDATE dbo.MstCustomer
+                //SET name = @name, image = @image, address = @address, phone = @phone,
+                //lastmodify
+                //WHERE IsDeleted = 0 AND Email = @mail"
+                //, new { 
+                //    mail = GetMyInfo().Result.Email,
+                //    name = string.IsNullOrWhiteSpace(_name) || string.IsNullOrEmpty(_name) ? GetMyInfo().Result.Name : _name,
+                //    image = string.IsNullOrWhiteSpace(_image) || string.IsNullOrEmpty(_image) ? GetMyInfo().Result.Image : _image,
+                //    address = string.IsNullOrWhiteSpace(_address) || string.IsNullOrEmpty(_address) ? GetMyInfo().Result.Address : _address,
+                //    phone = string.IsNullOrWhiteSpace(_phone) || string.IsNullOrEmpty(_phone) ? GetMyInfo().Result.Phone : _phone
+                //});
+                return "Update account successfully";
+            }
         }
 
         [HttpPost("Register")]
