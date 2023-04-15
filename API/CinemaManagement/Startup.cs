@@ -25,10 +25,10 @@ namespace CinemaManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<DapperContext>();
-            services.AddScoped<IAppUser, AppUser>();
             services.AddControllers();
             services.AddApplicationService(Configuration);
             services.AddIdentityService(Configuration);
+            services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CinemaManagement", Version = "v1" });
