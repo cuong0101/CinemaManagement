@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CloudinaryDotNet;
 using System;
+using CloudinaryDotNet.Actions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -21,6 +23,10 @@ namespace CinemaManagement.Controllers
 {
     public class CustomerController : BaseApiController
     {
+        private Cloudinary cloudinary;
+        public const string CLOUD_NAME = "vitcamo";
+        public const string API_KEY = "994713494841983";
+        public const string API_SECRET = "j4IFJKw-dNFx382XJgZF0JYS3IY";
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
         private readonly ITokenService _tokenService;
@@ -59,23 +65,35 @@ namespace CinemaManagement.Controllers
         [HttpPost("EditMyInfo")]
         public async Task<ActionResult<string>> EditMyInfo(string _name, string _image, string _address, string _phone)
         {
+            string imageUrl;
             var cus = _context.MstCustomer.Find(GetMyInfo().Result.Id);
-            using (var conn = _dapper.CreateConnection())
+            if (await _context.MstCustomer.AnyAsync(e => e.Phone == _phone)) return BadRequest("Phone number is taken");
+
+            Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+            cloudinary = new Cloudinary(account);
+
+            try
             {
-                //var cus = await conn.QueryAsync<CustomerDto>(@"
-                //UPDATE dbo.MstCustomer
-                //SET name = @name, image = @image, address = @address, phone = @phone,
-                //lastmodify
-                //WHERE IsDeleted = 0 AND Email = @mail"
-                //, new { 
-                //    mail = GetMyInfo().Result.Email,
-                //    name = string.IsNullOrWhiteSpace(_name) || string.IsNullOrEmpty(_name) ? GetMyInfo().Result.Name : _name,
-                //    image = string.IsNullOrWhiteSpace(_image) || string.IsNullOrEmpty(_image) ? GetMyInfo().Result.Image : _image,
-                //    address = string.IsNullOrWhiteSpace(_address) || string.IsNullOrEmpty(_address) ? GetMyInfo().Result.Address : _address,
-                //    phone = string.IsNullOrWhiteSpace(_phone) || string.IsNullOrEmpty(_phone) ? GetMyInfo().Result.Phone : _phone
-                //});
-                return "Update account successfully";
+                var upload = new ImageUploadParams()
+                {
+                    File = new FileDescription(_image)
+                };
+                var uploadResult = cloudinary.Upload(upload);
+
+                imageUrl = uploadResult.SecureUri.AbsoluteUri;
+
+                cus.Name = string.IsNullOrWhiteSpace(_name) || string.IsNullOrEmpty(_name) ? GetMyInfo().Result.Name : _name;
+                cus.Image = imageUrl ?? GetMyInfo().Result.Image;
+                cus.Address = string.IsNullOrWhiteSpace(_address) || string.IsNullOrEmpty(_address) ? GetMyInfo().Result.Address : _address;
+                cus.Phone = string.IsNullOrWhiteSpace(_phone) || string.IsNullOrEmpty(_phone) ? GetMyInfo().Result.Phone : _phone;
+                _context.MstCustomer.Update(cus);
+                await _context.SaveChangesAsync();
             }
+            catch (Exception e)
+            {
+                throw new Exception("Error to loading");
+            }  
+            return "Update account successfully";
         }
 
         [HttpPost("Register")]
