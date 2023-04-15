@@ -1,11 +1,14 @@
 ﻿using CinemaManagement.DTOs;
 using CinemaManagement.Entities;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace CinemaManagement.Interfaces
 {
     public interface ITokenService
     {
-        public string CreateToken(AppUser users);
-        public string CreateToken(MstCustomer cus);
+        string GenerateAccessToken(IEnumerable<Claim> claims);
+        string GenerateRefreshToken();
+        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }
 }

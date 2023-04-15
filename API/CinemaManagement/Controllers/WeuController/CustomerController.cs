@@ -15,9 +15,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CinemaManagement.Controllers
+namespace CinemaManagement.Controllers.WeuController
 {
-    public class CustomerController : BaseApiController
+    public class CustomerController : BaseApiCusController
     {
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
@@ -33,7 +33,7 @@ namespace CinemaManagement.Controllers
         [HttpGet("GetAll")]
         public async Task<List<CustomerDto>> GetAll()
         {
-            using(var conn = _dapper.CreateConnection())
+            using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
                 Select * from MstCustomer where isDeleted = 0");
@@ -76,7 +76,7 @@ namespace CinemaManagement.Controllers
             return "Register successfully";
         }
 
-        private async Task<bool> CustomerExists (string input)
+        private async Task<bool> CustomerExists(string input)
         {
             return await _context.MstCustomer.AnyAsync(e => e.Email == input || e.Phone == input);
         }
@@ -89,15 +89,15 @@ namespace CinemaManagement.Controllers
                 return Unauthorized();
             var hmac = new HMACSHA512(customer.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
-            for(int i = 0; i < computedHash.Length; i++)
+            for (int i = 0; i < computedHash.Length; i++)
             {
                 if (computedHash[i] != customer.PasswordHash[i]) return Unauthorized();
             }
             return new UserDto()
             {
                 Username = customer.Name,
-                Token = _tokenService.CreateToken(customer)
-            }; 
+                //Token = _tokenService.CreateToken(customer)
+            };
         }
     }
 }
