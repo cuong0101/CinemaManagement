@@ -14,6 +14,15 @@ export class AppComponent implements OnInit {
   users: any;
   isSideNavCollapsed = false;
   screenWidth = 0
+  cInvalidLogin:boolean = true;
+  changeLoginServiceHandle(invalidLogin:boolean){
+    this.cInvalidLogin = invalidLogin;
+  }
+  changeLogoutServiceHandle(invalidLogin:boolean){
+    this.cInvalidLogin = invalidLogin;
+  }
+
+
   constructor(private httpClient: HttpClient){
 
   }

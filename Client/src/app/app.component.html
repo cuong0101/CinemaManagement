@@ -1,7 +1,12 @@
-<div hidden="true">
+
+<div *ngIf="!cInvalidLogin">
     <side-bar-menu (onToggleSideNav)="onToggleSideNav($event)"></side-bar-menu>
-    <top-bar [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></top-bar>
+    <top-bar (changeLogoutService)="changeLogoutServiceHandle($event)" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></top-bar>
     <app-body [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body>
 </div>
 
-<app-login></app-login>
+<div *ngIf="cInvalidLogin">
+    <app-login (changeLoginService)="changeLoginServiceHandle($event)"></app-login>
+</div>
+
+  

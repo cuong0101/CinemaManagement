@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Login } from '../_interfaces/login';
 import { Router } from '@angular/router';
-//import { ToastrService } from 'ngx-toastr';
-//import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,10 +16,10 @@ export class LoginComponent implements OnInit {
   invalidLogin?: boolean;
   constructor(
     private loginService: AccountService,
-    //private toastr: ToastrService,
+    private toastr: ToastrService,
     private route: Router
     ) { }
-
+    @Output() changeLoginService = new EventEmitter<boolean>();
   ngOnInit() {
   }
   login(){
@@ -27,19 +27,19 @@ export class LoginComponent implements OnInit {
       username: this.username,
       password: this.password
     }
+    this.invalidLogin = true;
     this.loginParam = params;
     this.loginService.login(this.loginParam).subscribe({
     next: (reponse) => {
-      const token = reponse.token;
+      const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
+      this.route.navigate(["/user"]);
+      console.log(this.invalidLogin);
       this.invalidLogin = false;
-      this.route.navigate(["/"]);
-      //this.route.navigateByUrl("/nav")
+      this.changeLoginService.emit(this.invalidLogin);
+        //this.route.navigateByUrl("/nav")
     },
-    error: (error) => {//this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")
-    },
-    complete: () => {
-
+    error: (error) => {this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")
     }
     })
   }
