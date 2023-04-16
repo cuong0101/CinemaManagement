@@ -10,5 +10,6 @@ namespace CinemaManagement.Data
         {
         }
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<MstCustomer> MstCustomer { get; set; }
     }
 }

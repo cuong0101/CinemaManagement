@@ -1,10 +1,14 @@
-﻿using CinemaManagement.Data;
+﻿using CinemaManagement.Controllers.CMSController;
+using CinemaManagement.Data;
 using CinemaManagement.DTOs;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +42,7 @@ namespace CinemaManagement.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                //Token = _tokenService.CreateToken(user)
             };
         }
         private async Task<bool> UsersExists(string username)
@@ -48,7 +52,7 @@ namespace CinemaManagement.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto login)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(e => e.UserName == login.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(e => e.UserName == login.Username);
             if (user == null) { return Unauthorized(); }
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -57,10 +61,24 @@ namespace CinemaManagement.Controllers
             {
                 if (computedHash[i] != user.PasswordHash[i]) { return Unauthorized(); }
             }
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, login.Username),
+                //new Claim(ClaimTypes.Role, "Manager")
+            };
+
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            await _context.SaveChangesAsync();
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
             };
         }
     }

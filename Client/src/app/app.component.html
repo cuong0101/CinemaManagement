@@ -1,2 +1,7 @@
+<div hidden="true">
+    <side-bar-menu (onToggleSideNav)="onToggleSideNav($event)"></side-bar-menu>
+    <top-bar [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></top-bar>
+    <app-body [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body>
+</div>
 
-<router-outlet></router-outlet>
+<app-login></app-login>
