@@ -43,6 +43,12 @@ namespace CinemaManagement.Controllers.WeuController
             }
         }
 
+        [HttpGet("TestDeploy")]
+        public async Task<string> TestDeploy()
+        {
+            return "Success";
+        }
+
         [HttpGet("GetMyInfo")]
         public async Task<CustomerDto> GetMyInfo()
         {
