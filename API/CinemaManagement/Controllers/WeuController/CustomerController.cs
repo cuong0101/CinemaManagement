@@ -6,7 +6,6 @@ using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CloudinaryDotNet;
@@ -19,6 +18,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaManagement.DTOs.WeuDtos;
+using System.Net;
+using System.Net.Http;
 
 namespace CinemaManagement.Controllers.WeuController
 {
@@ -178,7 +179,10 @@ namespace CinemaManagement.Controllers.WeuController
             };
         }
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
     }
 }
