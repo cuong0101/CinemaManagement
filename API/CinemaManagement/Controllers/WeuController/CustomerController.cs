@@ -102,29 +102,32 @@ namespace CinemaManagement.Controllers.WeuController
         [RequestFormLimits(MultipartBodyLengthLimit = 209715200/2)]
         public async Task<ActionResult> Register([FromForm] CustomerRegisterDto input)
         {
+            
             var hmac = new HMACSHA512();
             if (CustomerExists(input.Email).Result)
                 return BadRequest("Email is taken");
             if (CustomerExists(input.Phone).Result)
                 return BadRequest("Phone number is taken");
 
-            Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-            cloudinary = new Cloudinary(account);
-            var uploadParams = new ImageUploadParams()
+            string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
+            if (input.Image != null)
             {
-                File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
-                PublicId = Guid.NewGuid().ToString(),
-                Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-            };
-            var uploadResult = await cloudinary.UploadAsync(uploadParams);
-            var imageUrl = uploadResult.Url.ToString();
-
-            var noAvaUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
+                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+                cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
+                    PublicId = Guid.NewGuid().ToString(),
+                    Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
+                };
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                imageUrl = uploadResult.Url.ToString();
+            }
 
             var customer = new MstCustomer
             {
                 Name = input.Name,
-                Image = imageUrl ?? noAvaUrl,
+                Image = imageUrl,
                 Address = input.Address,
                 Phone = input.Phone,
                 DoB = input.DoB,
