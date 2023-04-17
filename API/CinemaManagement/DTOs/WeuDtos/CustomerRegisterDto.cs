@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,10 +14,8 @@ namespace CinemaManagement.DTOs
         public string Email { get; set; }
         [Required]
         public string password { get; set; }
-        [Required]
-        public string repassword { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
         public string Address { get; set; }
         [Required]
         public string Phone { get; set; }
