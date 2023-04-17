@@ -178,11 +178,5 @@ namespace CinemaManagement.Controllers.WeuController
                 RefreshToken = refreshToken
             };
         }
-
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
     }
 }
