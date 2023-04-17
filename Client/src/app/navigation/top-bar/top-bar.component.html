@@ -58,7 +58,7 @@
 <ng-template #userOverlay>
     <div class="overlay overlay-user overlay-fall" cdkMenu>
         <ul>
-            <li>
+            <li (click)="logout()">
                 <a>
                     <i class="icon far fa-power-off"></i>
                     <span>Logout</span>

@@ -1,5 +1,6 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
-
+import { Component, HostListener, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { AccountService } from '../../_services/account.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'top-bar',
   templateUrl: './top-bar.component.html',
@@ -10,9 +11,16 @@ export class TopBarComponent implements OnInit {
   @Input() collapsed = false;
   @Input() screenWidth = 0
   canShowSearch = false;
-  constructor() { }
+  invalidLogin?: boolean;
+  constructor(
+    private logoutService: AccountService,
+    private route: Router
+    ) 
+    {
+   
+   }
 
-  
+   @Output() changeLogoutService = new EventEmitter<boolean>();
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkCanShowSearch(window.innerWidth);
@@ -34,5 +42,12 @@ export class TopBarComponent implements OnInit {
   checkCanShowSearch(innerWidth: number){
     if(innerWidth < 845) this.canShowSearch = true;
     else this.canShowSearch = false;
+  }
+  
+  logout() {
+    this.logoutService.logout();
+    this.route.navigate(["/login"]);
+    this.invalidLogin = true;
+    this.changeLogoutService.emit(this.invalidLogin);
   }
 }
