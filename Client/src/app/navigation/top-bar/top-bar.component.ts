@@ -48,6 +48,7 @@ export class TopBarComponent implements OnInit {
     this.logoutService.logout();
     this.route.navigate(["/login"]);
     this.invalidLogin = true;
+    localStorage.clear();
     this.changeLogoutService.emit(this.invalidLogin);
   }
 }
