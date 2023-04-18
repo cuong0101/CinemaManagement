@@ -6,7 +6,6 @@ using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CloudinaryDotNet;
@@ -19,6 +18,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaManagement.DTOs.WeuDtos;
+using System.Net;
+using System.Net.Http;
 
 namespace CinemaManagement.Controllers.WeuController
 {
@@ -57,29 +58,31 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpGet("GetMyInfo")]
-        public async Task<CustomerDto> GetMyInfo()
+        public async Task<WebEndUserDto<CustomerDto>> GetMyInfo()
         {
+            var response = new WebEndUserDto<CustomerDto>(false, null, 500, "");
             var mail = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
                 Select * from MstCustomer where isDeleted = 0 and Email = @mail",new { mail = mail});
-                return cus.FirstOrDefault();
+                response = new WebEndUserDto<CustomerDto>(true, cus.FirstOrDefault(),200,"Success"); 
             }
+            return response;
         }
 
         [HttpPost("EditMyInfo")]
-        public async Task<ActionResult> EditMyInfo([FromForm]CustomerEditDto input)
+        public async Task<WebEndUserDto<object>> EditMyInfo([FromForm]CustomerEditDto input)
         {
-            var cus = _context.MstCustomer.Find(GetMyInfo().Result.Id);
-            if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) return BadRequest("Phone number is taken");
-
-            Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-            cloudinary = new Cloudinary(account);
-
+            var response = new WebEndUserDto<object>(false, null, 500, "");
+            var cus = _context.MstCustomer.Find(GetMyInfo().Result.Data.Id);
+            if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
+            
             try
             {
+            Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+            cloudinary = new Cloudinary(account);
                 var uploadParams = new ImageUploadParams()
                 {
                     File = new FileDescription(input.image.FileName, input.image.OpenReadStream()),
@@ -88,64 +91,76 @@ namespace CinemaManagement.Controllers.WeuController
                 };
                 var uploadResult = await cloudinary.UploadAsync(uploadParams);
                 var imageUrl = uploadResult.Url.ToString();
-
-                cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? GetMyInfo().Result.Name : input.name;
-                cus.Image = imageUrl ?? GetMyInfo().Result.Image;
-                cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? GetMyInfo().Result.Address : input.address;
-                cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Phone : input.phone;
+                cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? GetMyInfo().Result.Data.Name : input.name;
+                cus.Image = imageUrl ?? GetMyInfo().Result.Data.Image;
+                cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? GetMyInfo().Result.Data.Address : input.address;
+                cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Data.Phone : input.phone;
                 _context.MstCustomer.Update(cus);
                 await _context.SaveChangesAsync();
+                response.Status = true; response.Data = cus;
+                response.Code = 200; response.Message = "Success";
             }
             catch (Exception e)
             {
-                throw new Exception("Error to loading");
-            }  
-            return Ok("Update account successfully");
+                response.Message = e.Message;
+            }
+            return response;
         }
 
         [HttpPost("Register")]
         [Consumes("multipart/form-data")]
         [RequestFormLimits(MultipartBodyLengthLimit = 209715200/2)]
-        public async Task<ActionResult> Register([FromForm] CustomerRegisterDto input)
+        public async Task<WebEndUserDto<object>> Register([FromForm] CustomerRegisterDto input)
         {
-            
+            string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
+            var response = new WebEndUserDto<object>(false, null, 500, "");
             var hmac = new HMACSHA512();
             if (CustomerExists(input.Email).Result)
-                return BadRequest("Email is taken");
-            if (CustomerExists(input.Phone).Result)
-                return BadRequest("Phone number is taken");
-
-            string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
-            if (input.Image != null)
             {
-                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-                cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
+                response.Message = "Email is taken";
+            }
+            if (CustomerExists(input.Phone).Result)
+            {
+                response.Message = "Phone number is taken";
+            }
+            try
+            {
+                if (input.Image != null)
                 {
-                    File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
-                    PublicId = Guid.NewGuid().ToString(),
-                    Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                imageUrl = uploadResult.Url.ToString();
+                    Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+                    cloudinary = new Cloudinary(account);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
+                        PublicId = Guid.NewGuid().ToString(),
+                        Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
+                    };
+                    var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                    imageUrl = uploadResult.Url.ToString();
+                    var customer = new MstCustomer
+                    {
+                        Name = input.Name,
+                        Image = imageUrl,
+                        Address = input.Address,
+                        Phone = input.Phone,
+                        DoB = input.DoB,
+                        Sex = input.Sex,
+                        Email = input.Email,
+                        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
+                        PasswordSalt = hmac.Key
+                    };
+
+                    _context.Add(customer);
+                    await _context.SaveChangesAsync();
+                    response.Status = true; response.Code = 200; response.Message = "Success";
+                    response.Data = customer;
+                }
+            }catch(Exception ex)
+            {
+                response.Message = ex.Message;
             }
 
-            var customer = new MstCustomer
-            {
-                Name = input.Name,
-                Image = imageUrl,
-                Address = input.Address,
-                Phone = input.Phone,
-                DoB = input.DoB,
-                Sex = input.Sex,
-                Email = input.Email,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
-                PasswordSalt = hmac.Key
-            };
-
-            _context.Add(customer);
-            await _context.SaveChangesAsync();
-            return Ok("Register successfully");
+            return response;
         }
 
         private async Task<bool> CustomerExists(string input)
@@ -154,18 +169,19 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<UserDto>> Login(CustomerLoginDto input)
+        public async Task<WebEndUserDto<UserDto>> Login(CustomerLoginDto input)
         {
-            var customer = await _context.MstCustomer.SingleOrDefaultAsync(e => e.Email == input.email);
-            if (customer == null)
-                return Unauthorized();
-            var hmac = new HMACSHA512(customer.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
-            for (int i = 0; i < computedHash.Length; i++)
+            var response = new WebEndUserDto<UserDto>(false, null, 500, "Email or Password is invalid");
+                var customer = await _context.MstCustomer.SingleOrDefaultAsync(e => e.Email == input.email);
+                if (customer == null) return response;
+                var hmac = new HMACSHA512(customer.PasswordSalt);
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != customer.PasswordHash[i]) return response;
+                }
+            try
             {
-                if (computedHash[i] != customer.PasswordHash[i]) return Unauthorized();
-            }
-
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, input.email)
@@ -175,13 +191,20 @@ namespace CinemaManagement.Controllers.WeuController
             customer.RefreshToken = refreshToken;
             customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
             await _context.SaveChangesAsync();
-
-            return new UserDto()
+                response.Status = true; 
+                response.Data = new UserDto(){
+                        Username = customer.Name,
+                        AccessToken = accessToken,
+                        RefreshToken = refreshToken};
+                response.Code = 200;
+                response.Message = "Success";
+            }
+            catch(Exception ex)
             {
-                Username = customer.Name,
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
     }
 }

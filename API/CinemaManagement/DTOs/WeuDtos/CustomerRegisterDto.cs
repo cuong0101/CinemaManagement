@@ -19,7 +19,8 @@ namespace CinemaManagement.DTOs
         public string Address { get; set; }
         [Required]
         public string Phone { get; set; }
-        public DateTime? DoB { get; set; }
+        [Required]
+        public DateTime DoB { get; set; }
         public bool Sex { get; set; }
     }
 }
