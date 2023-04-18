@@ -8,5 +8,15 @@ namespace CinemaManagement.DTOs
         public T Data { get; set; } // Dữ liệu trả về
         public int Code { get; set; }//200 | 500
         public string Message { get; set; }//
+
+        public WebEndUserDto(bool status, T data, int code, string message)
+        {
+            Status = status;
+            Data = data;
+            Code = code;
+            Message = message;
+        }
+
+
     }
 }
