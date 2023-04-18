@@ -67,9 +67,9 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpPost("EditMyInfo")]
-        public async Task<WebEndUserDto<string>> EditMyInfo([FromForm]CustomerEditDto input)
+        public async Task<WebEndUserDto<object>> EditMyInfo([FromForm]CustomerEditDto input)
         {
-            var response = new WebEndUserDto<string>(false, null, 500, "");
+            var response = new WebEndUserDto<object>(false, null, 500, "");
             var cus = _context.MstCustomer.Find(GetMyInfo().Result.Data.Id);
             if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
             
@@ -91,7 +91,7 @@ namespace CinemaManagement.Controllers.WeuController
                 cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Data.Phone : input.phone;
                 _context.MstCustomer.Update(cus);
                 await _context.SaveChangesAsync();
-                response.Status = true; response.Data = "Update profile successfully";
+                response.Status = true; response.Data = cus;
                 response.Code = 200; response.Message = "Success";
             }
             catch (Exception e)
@@ -104,10 +104,10 @@ namespace CinemaManagement.Controllers.WeuController
         [HttpPost("Register")]
         [Consumes("multipart/form-data")]
         [RequestFormLimits(MultipartBodyLengthLimit = 209715200/2)]
-        public async Task<WebEndUserDto<string>> Register([FromForm] CustomerRegisterDto input)
+        public async Task<WebEndUserDto<object>> Register([FromForm] CustomerRegisterDto input)
         {
             string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
-            var response = new WebEndUserDto<string>(false, null, 500, "");
+            var response = new WebEndUserDto<object>(false, null, 500, "");
             var hmac = new HMACSHA512();
             if (CustomerExists(input.Email).Result)
             {
@@ -147,7 +147,7 @@ namespace CinemaManagement.Controllers.WeuController
                     _context.Add(customer);
                     await _context.SaveChangesAsync();
                     response.Status = true; response.Code = 200; response.Message = "Success";
-                    response.Data = "Register successfully";
+                    response.Data = customer;
                 }
             }catch(Exception ex)
             {
