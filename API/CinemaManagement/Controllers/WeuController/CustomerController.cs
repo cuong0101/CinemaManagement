@@ -137,25 +137,26 @@ namespace CinemaManagement.Controllers.WeuController
                     };
                     var uploadResult = await cloudinary.UploadAsync(uploadParams);
                     imageUrl = uploadResult.Url.ToString();
-                    var customer = new MstCustomer
-                    {
-                        Name = input.Name,
-                        Image = imageUrl,
-                        Address = input.Address,
-                        Phone = input.Phone,
-                        DoB = input.DoB,
-                        Sex = input.Sex,
-                        Email = input.Email,
-                        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
-                        PasswordSalt = hmac.Key
-                    };
-
-                    _context.Add(customer);
-                    await _context.SaveChangesAsync();
-                    response.Status = true; response.Code = 200; response.Message = "Success";
-                    response.Data = customer;
                 }
-            }catch(Exception ex)
+                var customer = new MstCustomer
+                {
+                    Name = input.Name,
+                    Image = imageUrl,
+                    Address = input.Address,
+                    Phone = input.Phone,
+                    DoB = input.DoB,
+                    Sex = input.Sex,
+                    Email = input.Email,
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
+                    PasswordSalt = hmac.Key
+                };
+
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
+                response.Status = true; response.Code = 200; response.Message = "Success";
+                response.Data = customer;
+            }
+            catch(Exception ex)
             {
                 response.Message = ex.Message;
             }
