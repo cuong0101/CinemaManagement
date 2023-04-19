@@ -81,10 +81,10 @@ namespace CinemaManagement.Controllers.WeuController
 
             try
             {
-                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-                string imageUrl = null;
-                if (input?.image != null)
+                var imageUrl = GetMyInfo().Result.Data.Image;
+                if (input.image != null)
                 {
+                    Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
                     cloudinary = new Cloudinary(account);
                     var uploadParams = new ImageUploadParams()
                     {
@@ -95,9 +95,8 @@ namespace CinemaManagement.Controllers.WeuController
                     var uploadResult = await cloudinary.UploadAsync(uploadParams);
                     imageUrl = uploadResult.Url.ToString();
                 }
-
                 cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? GetMyInfo().Result.Data.Name : input.name;
-                cus.Image = imageUrl ?? GetMyInfo().Result.Data.Image;
+                cus.Image = imageUrl;
                 cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? GetMyInfo().Result.Data.Address : input.address;
                 cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Data.Phone : input.phone;
                 _context.MstCustomer.Update(cus);
