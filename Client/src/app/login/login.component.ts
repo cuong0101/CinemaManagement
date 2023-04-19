@@ -34,9 +34,9 @@ export class LoginComponent implements OnInit {
     {
       this.toastr.warning("Bạn phải nhập đủ tài khoản và mật khẩu");
     }
-    else if(params.password.length <6)
+    else if(params.password.length <6 ||params.password.length >12)
     {
-      this.toastr.warning("mật khẩu phải lớn hơn 6 ký tự");
+      this.toastr.warning("mật khẩu phải lớn hơn 6 và nhỏ hơn 12 ký tự");
     }
     else if(this.output == null)
     {
