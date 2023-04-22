@@ -1,0 +1,5 @@
+dotnet publish -c Release
+heroku container:login
+docker build -t cinema-api-standby D:\\DoAnTH_QLDA\\CinemaManagement\\API\\CinemaManagement\\bin\\Release\\net5.0\\publish
+docker tag cinema-api-standby registry.heroku.com/cinema-api-standby/web
+docker push registry.heroku.com/cinema-api-standby/web
