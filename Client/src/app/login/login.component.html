@@ -1,7 +1,5 @@
 <div class="form_container">
-
-  <form #loginForm="ngForm" method="post" novalidate (ngSubmit)="login()">
-      
+  <form #loginForm="ngForm" method="post" novalidate (ngSubmit)="login()">  
       <label>Tài khoản <span class="custom-star">*</span></label>
       <input [ngModelOptions]="{standalone: true}"
       [(ngModel)]="username" placeholder="{{'UserNameOrEmail' }} *" required />

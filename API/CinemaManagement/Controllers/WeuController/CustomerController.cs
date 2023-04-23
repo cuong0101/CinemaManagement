@@ -51,6 +51,12 @@ namespace CinemaManagement.Controllers.WeuController
             }
         }
 
+        [HttpGet("TestDeploy")]
+        public async Task<string> TestDeploy()
+        {
+            return "Success";
+        }
+
         [HttpGet("GetMyInfo")]
         public async Task<WebEndUserDto<CustomerDto>> GetMyInfo()
         {
@@ -60,19 +66,19 @@ namespace CinemaManagement.Controllers.WeuController
             using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
-                Select * from MstCustomer where isDeleted = 0 and Email = @mail",new { mail = mail});
-                response = new WebEndUserDto<CustomerDto>(true, cus.FirstOrDefault(),200,"Success"); 
+                Select * from MstCustomer where isDeleted = 0 and Email = @mail", new { mail = mail });
+                response = new WebEndUserDto<CustomerDto>(true, cus.FirstOrDefault(), 200, "Success");
             }
             return response;
         }
 
         [HttpPost("EditMyInfo")]
-        public async Task<WebEndUserDto<object>> EditMyInfo([FromForm]CustomerEditDto input)
+        public async Task<WebEndUserDto<object>> EditMyInfo([FromForm] CustomerEditDto input)
         {
             var response = new WebEndUserDto<object>(false, null, 500, "");
             var cus = _context.MstCustomer.Find(GetMyInfo().Result.Data.Id);
             if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
-            
+
             try
             {
                 var imageUrl = GetMyInfo().Result.Data.Image;
@@ -135,25 +141,26 @@ namespace CinemaManagement.Controllers.WeuController
                     };
                     var uploadResult = await cloudinary.UploadAsync(uploadParams);
                     imageUrl = uploadResult.Url.ToString();
-                    var customer = new MstCustomer
-                    {
-                        Name = input.Name,
-                        Image = imageUrl,
-                        Address = input.Address,
-                        Phone = input.Phone,
-                        DoB = input.DoB,
-                        Sex = input.Sex,
-                        Email = input.Email,
-                        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
-                        PasswordSalt = hmac.Key
-                    };
-
-                    _context.Add(customer);
-                    await _context.SaveChangesAsync();
-                    response.Status = true; response.Code = 200; response.Message = "Success";
-                    response.Data = customer;
                 }
-            }catch(Exception ex)
+                var customer = new MstCustomer
+                {
+                    Name = input.Name,
+                    Image = imageUrl,
+                    Address = input.Address,
+                    Phone = input.Phone,
+                    DoB = input.DoB,
+                    Sex = input.Sex,
+                    Email = input.Email,
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
+                    PasswordSalt = hmac.Key
+                };
+
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
+                response.Status = true; response.Code = 200; response.Message = "Success";
+                response.Data = customer;
+            }
+            catch (Exception ex)
             {
                 response.Message = ex.Message;
             }
@@ -170,34 +177,36 @@ namespace CinemaManagement.Controllers.WeuController
         public async Task<WebEndUserDto<UserDto>> Login(CustomerLoginDto input)
         {
             var response = new WebEndUserDto<UserDto>(false, null, 500, "Email or Password is invalid");
-                var customer = await _context.MstCustomer.SingleOrDefaultAsync(e => e.Email == input.email);
-                if (customer == null) return response;
-                var hmac = new HMACSHA512(customer.PasswordSalt);
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != customer.PasswordHash[i]) return response;
-                }
+            var customer = await _context.MstCustomer.SingleOrDefaultAsync(e => e.Email == input.email);
+            if (customer == null) return response;
+            var hmac = new HMACSHA512(customer.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != customer.PasswordHash[i]) return response;
+            }
             try
             {
-            var claims = new List<Claim>
+                var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, input.email)
             };
-            var accessToken = _tokenService.GenerateAccessToken(claims);
-            var refreshToken = _tokenService.GenerateRefreshToken();
-            customer.RefreshToken = refreshToken;
-            customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
-            await _context.SaveChangesAsync();
-                response.Status = true; 
-                response.Data = new UserDto(){
-                        Username = customer.Name,
-                        AccessToken = accessToken,
-                        RefreshToken = refreshToken};
+                var accessToken = _tokenService.GenerateAccessToken(claims);
+                var refreshToken = _tokenService.GenerateRefreshToken();
+                customer.RefreshToken = refreshToken;
+                customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+                await _context.SaveChangesAsync();
+                response.Status = true;
+                response.Data = new UserDto()
+                {
+                    Username = customer.Name,
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken
+                };
                 response.Code = 200;
                 response.Message = "Success";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response.Message = ex.Message;
             }
