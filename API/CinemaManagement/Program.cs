@@ -6,8 +6,6 @@ using CloudinaryDotNet.Actions;
 
 namespace CinemaManagement
 {
-
-
     public class Program
     {
         public static void Main(string[] args)

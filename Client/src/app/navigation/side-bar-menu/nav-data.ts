@@ -3,7 +3,7 @@ import { INavbarData } from "./helper";
 export const navbarData: INavbarData[] = [
     {
         routeLink: 'user',
-        icon: 'fal fa-users',
+        icon: 'fa-regular fa-users',
         label: 'Users'
     },
     {

@@ -4,7 +4,7 @@
     z-index: 1;
     transition: all .5s ease;
     background: #f4f7fa;
-    padding: 1rem 1.5rem 0 1.5rem;
+    padding: 0.5rem 0.5rem 0 1.5rem;
     position: fixed;
     top: 0;
     .head-content{
@@ -121,8 +121,8 @@
     }
 }
 .head-trimmed{
-    width: calc(100% - 16.5625rem);
-    margin-left: 16.5625rem;
+    width: calc(100% - 14.5625rem);
+    margin-left: 15.5625rem;
 }
 .head-md-screen{
     width: calc(100% - 5rem);

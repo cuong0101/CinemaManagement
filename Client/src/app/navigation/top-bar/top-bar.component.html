@@ -7,7 +7,7 @@
                     <i class="far fa-search search-icon"></i>
                 </div>
                 <div *ngIf="canShowSearch" >
-                    <button [cdkMenuTriggerFor]="searchOverlay" class="search-menu-btn ripple">
+                    <button class="search-menu-btn ripple">
                         <i class="far fa-search search-icon"></i>
                     </button>
                 </div>
@@ -37,7 +37,7 @@
                 </div> -->
             </div>
             <div class="head-user-avatar-container">
-                <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
+                <div class="head-user-avatar" >
                     <img src="../../assets/flags/user.jpg" alt="" class="user-avatar">
                     <div class="circle-indicator pulse">
                     </div>
