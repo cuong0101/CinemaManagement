@@ -1,4 +1,5 @@
-﻿using CinemaManagement.Controllers.CMSController;
+﻿using AutoMapper;
+using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs;
 using CinemaManagement.Entities;
@@ -20,7 +21,8 @@ namespace CinemaManagement.Controllers
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
 
-        public AccountController(DataContext context, ITokenService tokenService)
+        public AccountController(DataContext context,
+            ITokenService tokenService, IMapper mapper):base(mapper)
         {
             _context=context;
             _tokenService=tokenService;
