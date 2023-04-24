@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridReadyEvent } from 'ag-grid-community';
 import { UserManagement } from 'src/app/_interfaces/usermanagement';
 import { UsersService } from 'src/app/_services/users.service';
+import { CreateOrEditUserComponent } from './create-or-edit-user/create-or-edit-user.component';
 
 @Component({
   selector: 'app-mst-users',
@@ -10,6 +11,7 @@ import { UsersService } from 'src/app/_services/users.service';
 })
 export class MstUsersComponent implements OnInit {
 
+  @ViewChild("createOrEdit") user?: CreateOrEditUserComponent
   colDefs?: ColDef[];
   defaultColDef?:ColDef;
   rowData?: UserManagement[]

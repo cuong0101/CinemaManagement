@@ -27,10 +27,7 @@ export class AppComponent {
 
   }
   ngOnInit(): void {
-    this.httpClient.get("https://localhost:44389/api/users").subscribe(re => this.users = re);
-    
     console.log(this.cInvalidLogin);
-    
   }
   onToggleSideNav(sidenav: SideNavToggle){
     this.isSideNavCollapsed = sidenav.collapsed;

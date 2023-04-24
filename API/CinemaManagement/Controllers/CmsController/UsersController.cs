@@ -1,11 +1,17 @@
-﻿using AutoMapper;
+﻿using Abp.UI;
+using AutoMapper;
 using CinemaManagement.Data;
+using CinemaManagement.DTOs;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Cryptography.Xml;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CMSController
@@ -14,11 +20,11 @@ namespace CinemaManagement.Controllers.CMSController
     public class UsersController : BaseApiController
     {
         private readonly DataContext _dataContext;
-        public UsersController(DataContext dataContext, IMapper mapper):base(mapper)
+        public UsersController(DataContext dataContext, IMapper mapper):base(mapper) 
         {
-            _dataContext = dataContext; 
+            _dataContext = dataContext;
         }
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<List<UserManagementDto>> GetAll()
         {
@@ -31,13 +37,14 @@ namespace CinemaManagement.Controllers.CMSController
                          }).ToList();
             return query;
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        [HttpGet("{id}", Name = "GetUserById")]
+        public async Task<ActionResult<AppUser>> GetUser(long id)
         {
             return _dataContext.Users.Find(id);
         }
+        [HttpPost("createOrEdit")]
 
-        public async Task CreateOrEdit(UserManagementDto createOrEdit)
+        public async Task CreateOrEdit([FromForm]UserManagementDto createOrEdit)
         {
             if (createOrEdit.Id == null)
             {
@@ -45,32 +52,40 @@ namespace CinemaManagement.Controllers.CMSController
             }
             else await Edit(createOrEdit);
         }
-        private async Task<CmsCommonDto<object>> Create (UserManagementDto createOrEdit)
+        private async Task Create (UserManagementDto createOrEdit)
         {
-            try
+            var username = _dataContext.Users.FirstOrDefault(e => e.UserName.ToLower() ==  createOrEdit.UserName.ToLower());
+            if (username != null)
             {
-                var username = _dataContext.Users.FirstOrDefault(e => e.UserName.ToLower() ==  createOrEdit.UserName.ToLower());
-                if (username != null)
-                {
-
-                }
-                else
-                {
-                    var user = _mapper.Map(createOrEdit, username);
-                    _dataContext.Users.Add(user);
-                    await _dataContext.SaveChangesAsync();
-                }
+                throw new UserFriendlyException("Đã tồn tại username");
             }
-            
-            
+            else
+            {
+                using var hmac = new HMACSHA512();
+                var user = _mapper.Map<AppUser>(createOrEdit);
+                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(createOrEdit.Password));
+                user.PasswordSalt = hmac.Key;
+                _dataContext.Users.Add(user);
+                await _dataContext.SaveChangesAsync();
+            }
         }
         private async Task Edit(UserManagementDto userManagementDto)
         {
-            var username = _dataContext.Users.FirstOrDefault(e => e.UserName.ToLower() ==  userManagementDto.UserName.ToLower());
+            using var hmac = new HMACSHA512();
+            var username = _dataContext.Users.FirstOrDefault(e => e.Id ==  userManagementDto.Id);
             var user = _mapper.Map(userManagementDto, username);
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userManagementDto.Password));
+            user.PasswordSalt = hmac.Key;
             _dataContext.Users.Update(user);
             await _dataContext.SaveChangesAsync();
-
+        }
+        [HttpDelete("{id}", Name = "deleted")]
+        public async Task Delete(long Id)
+        {
+            var user = _dataContext.Users.FirstOrDefault(e => e.Id == Id);
+            //user.IsDeleted = false;
+            _dataContext.Users.Remove(user);
+            await _dataContext.SaveChangesAsync();
         }
 
     }

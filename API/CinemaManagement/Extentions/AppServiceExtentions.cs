@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-
+using CinemaManagement.Helpers;
 namespace CinemaManagement.Extentions
 {
     public static class AppServiceExtentions
@@ -26,7 +26,7 @@ namespace CinemaManagement.Extentions
             services.AddCors();
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<ISessionService, SessionService>();
-
+            services.AddAutoMapper(typeof(AutoMapperPro));
             return services;
         }
     }

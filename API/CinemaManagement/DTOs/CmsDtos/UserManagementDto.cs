@@ -13,5 +13,6 @@ namespace CinemaManagement.DTOs.CmsDtos
         public DateTime? DoB { get; set; }
         public bool Sex { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

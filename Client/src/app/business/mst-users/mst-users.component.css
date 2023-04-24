@@ -1,9 +1,6 @@
-@import 'ag-grid-community/styles/ag-grid.css';
-@import 'ag-grid-community/styles/ag-theme-alpine.css';
-.test {
-    height: 100%;
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-  }
+.col-md-12{
+  text-align: right;
+}
+.btn.btn-outline-primary{
+  margin-right: 10px;
+}

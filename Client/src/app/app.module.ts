@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { AgGridModule } from 'ag-grid-angular';
+import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -26,6 +27,7 @@ import { AgGridModule } from 'ag-grid-angular';
     MstUsersComponent,
     SublevelMenuComponent,
     TopBarComponent,
+    CreateOrEditUserComponent
     //GridTableComponent,
     //GridPaginationComponent
   ],
