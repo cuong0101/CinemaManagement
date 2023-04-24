@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { OverlayModule } from '@angular/cdk/overlay';
  import { CdkMenuModule } from '@angular/cdk/menu';
+import { SeatRankViewComponent } from './seat-rank/seat-rank-view/seat-rank-view.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     BodyComponent,
     MstUsersComponent,
     SublevelMenuComponent,
-    TopBarComponent
+    TopBarComponent,
+    SeatRankViewComponent
    ],
   imports: [
     BrowserModule,
