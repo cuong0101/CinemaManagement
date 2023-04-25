@@ -9,12 +9,14 @@ import { BodyComponent } from './navigation/body/body.component';
 import { MstUsersComponent } from './business/mst-users/mst-users.component';
 import { SublevelMenuComponent } from './navigation/side-bar-menu/submenu';
 import { TopBarComponent } from './navigation/top-bar/top-bar.component';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { AgGridModule } from 'ag-grid-angular';
 import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingInterceptor } from './loading.interceptor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -27,7 +29,8 @@ import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-u
     MstUsersComponent,
     SublevelMenuComponent,
     TopBarComponent,
-    CreateOrEditUserComponent
+    CreateOrEditUserComponent,
+    SpinnerComponent
     //GridTableComponent,
     //GridPaginationComponent
   ],
@@ -47,7 +50,11 @@ import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-u
     ToastrModule.forRoot(),
     AgGridModule,
   ],
-  providers: [],
+  providers:  [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
