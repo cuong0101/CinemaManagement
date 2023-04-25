@@ -9,6 +9,8 @@ namespace CinemaManagement.Helpers
         public AutoMapperPro() 
         {
             CreateMap<UserManagementDto, AppUser>().ReverseMap();
+            CreateMap<SeatRankDto, MstSeatRank>().ReverseMap();
+            //map nhưng gì thì khai báo vào đâu
         }
     }
 }
