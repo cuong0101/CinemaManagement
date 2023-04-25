@@ -21,13 +21,20 @@ export class AppComponent {
   changeLogoutServiceHandle(invalidLogin:boolean){
     this.cInvalidLogin = invalidLogin;
   }
-
+  
 
   constructor(private httpClient: HttpClient){
 
   }
   ngOnInit(): void {
     console.log(this.cInvalidLogin);
+    if( localStorage.getItem("jwt") == null)
+    {
+      this.cInvalidLogin = true;
+    }
+    else{
+      this.cInvalidLogin = false;
+    }
   }
   onToggleSideNav(sidenav: SideNavToggle){
     this.isSideNavCollapsed = sidenav.collapsed;

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Login } from '../_interfaces/login';
-import { Router } from '@angular/router';
+import  {Router}  from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

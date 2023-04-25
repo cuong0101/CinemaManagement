@@ -19,7 +19,7 @@ namespace CinemaManagement.Controllers.CMSController
     [Authorize]
     public class UsersController : BaseApiController
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _dataContext; 
         public UsersController(DataContext dataContext, IMapper mapper):base(mapper) 
         {
             _dataContext = dataContext;
