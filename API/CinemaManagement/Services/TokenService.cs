@@ -30,7 +30,7 @@ namespace CinemaManagement.Services
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(20),
+                Expires = DateTime.Now.AddMinutes(100),
                 SigningCredentials = creds
             };
             var tokenHander = new JwtSecurityTokenHandler();
@@ -45,7 +45,7 @@ namespace CinemaManagement.Services
                 //issuer: "https://localhost:5001",
                 //audience: "https://localhost:5001",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: signinCredentials
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
