@@ -1,10 +1,11 @@
 export class UserManagement{
-    Id?: number;
-    UserName?: string;
-    Image?: string;
-    Address?: string;
-    Phone?: string;
-    DoB?: string;
-    Sex?: string;
-    Email?: string;
+    id?: number;
+    userName?: string;
+    password?: string;
+    image?: string;
+    address?: string;
+    phone?: string;
+    doB?: string;
+    sex?: string;
+    email?: string;
 }

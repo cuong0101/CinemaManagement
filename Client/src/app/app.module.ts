@@ -13,10 +13,11 @@ import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { AgGridModule } from 'ag-grid-angular';
-import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -26,11 +27,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     LoginComponent,
     SideBarMenuComponent,
     BodyComponent,
-    MstUsersComponent,
     SublevelMenuComponent,
     TopBarComponent,
-    CreateOrEditUserComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    MstUsersComponent,
+    CreateOrEditUserComponent
     //GridTableComponent,
     //GridPaginationComponent
   ],
@@ -49,6 +50,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     }),
     ToastrModule.forRoot(),
     AgGridModule,
+    ModalModule.forRoot()
   ],
   providers:  [
     {

@@ -1,6 +1,10 @@
 .col-md-12{
   text-align: right;
+
 }
 .btn.btn-outline-primary{
   margin-right: 10px;
+}
+.container-fluid{
+  background-color: #f4f7fa;
 }

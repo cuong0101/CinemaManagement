@@ -44,7 +44,7 @@ namespace CinemaManagement.Controllers.CMSController
         }
         [HttpPost("createOrEdit")]
 
-        public async Task CreateOrEdit([FromForm]UserManagementDto createOrEdit)
+        public async Task CreateOrEdit(UserManagementDto createOrEdit)
         {
             if (createOrEdit.Id == null)
             {
@@ -52,7 +52,7 @@ namespace CinemaManagement.Controllers.CMSController
             }
             else await Edit(createOrEdit);
         }
-        private async Task Create (UserManagementDto createOrEdit)
+        private async Task Create ( UserManagementDto createOrEdit)
         {
             var username = _dataContext.Users.FirstOrDefault(e => e.UserName.ToLower() ==  createOrEdit.UserName.ToLower());
             if (username != null)

@@ -1,26 +1,24 @@
-
-
-
-
-
 <div class="container-fluid">
     
     <div class="row mb-2">
-        <div class="col-md-12 ">
-            <button type="button" class="btn btn-outline-primary" (click)="user?.show()"><i class="fa-sharp fa-solid fa-plus"></i> <span>Thêm mới</span></button>
-            <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
-            <button type="button" class="btn btn-outline-danger"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+        <div class="col-md-12">
+            <button type="button" class="btn btn-outline-primary" (click)="user?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+            <button type="button" class="btn btn-outline-primary" [disabled]="!userSelected" (click)="user?.openModal(userSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+            <button type="button" class="btn btn-outline-danger" [disabled]="!userSelected" (click)="deleted()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
         </div>
         
   </div>
 <div class="panel-grid">
                         <ag-grid-angular
-                        style="width: 100%; height: 500px;"
+                        style="width: 100%; height: 400px;"
                         class="ag-theme-alpine"
                         [rowData]="rowData"
                         [columnDefs]="colDefs"
                         (gridReady)="onGridReady($event)"
+                        (selectionChanged)="onSelectionChanged($event)"
+                        [rowSelection]="rowSelection"
+
                         ></ag-grid-angular>
                     </div>
 </div>
-<create-or-edit-user #createOrEdit></create-or-edit-user>
+<create-or-edit-user #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-user>

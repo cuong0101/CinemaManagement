@@ -28,6 +28,8 @@ export class AppComponent {
   }
   ngOnInit(): void {
     console.log(this.cInvalidLogin);
+    console.log(localStorage.getItem("jwt"));
+
     if( localStorage.getItem("jwt") == null)
     {
       this.cInvalidLogin = true;
