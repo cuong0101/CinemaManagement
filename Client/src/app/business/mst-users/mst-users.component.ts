@@ -47,7 +47,7 @@ export class MstUsersComponent implements OnInit {
   onGridReady(params: GridReadyEvent){
     this.gridApi = params.api;
     this.params = params
-    this.users.getAll().subscribe((re) => {
+    this.users.getAll().subscribe((re: UserManagement[] | undefined) => {
       this.rowData = re;
     })
   }
@@ -60,7 +60,7 @@ export class MstUsersComponent implements OnInit {
   deleted(){
     this.users.delete(this.userSelected.id).subscribe({
       next:() => this.toastr.success("Xóa thành công!"),
-      error: (err) => this.toastr.error("Xóa thất bại")
+      error: (ersr: any) => this.toastr.error("Xóa thất bại")
     })
   }
 

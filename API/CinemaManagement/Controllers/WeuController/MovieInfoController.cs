@@ -1,8 +1,7 @@
-﻿using CinemaManagement.Controllers.CMSController;
+﻿using AutoMapper;
+using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace CinemaManagement.Controllers.WeuController
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
 
-        public MovieInfoController(DataContext context, DapperContext dapper)
+        public MovieInfoController(DataContext context, DapperContext dapper, IMapper mapper) : base(mapper)
         {
             _context = context;
             _dapper = dapper;

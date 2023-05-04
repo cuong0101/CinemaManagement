@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {  } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-
-import { ToastrModule } from 'ngx-toastr';
-
 import { LoginComponent } from './login/login.component';
-
 import { SideBarMenuComponent } from './navigation/side-bar-menu/side-bar-menu.component';
 import { BodyComponent } from './navigation/body/body.component';
 import { MstUsersComponent } from './business/mst-users/mst-users.component';

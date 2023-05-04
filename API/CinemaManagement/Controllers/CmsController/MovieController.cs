@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.UI;
+using AutoMapper;
 using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
@@ -23,7 +24,7 @@ namespace CinemaManagement.Controllers.CmsController
         public const string API_SECRET = "j4IFJKw-dNFx382XJgZF0JYS3IY";
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
-        public MovieController(DataContext context, DapperContext dapper)
+        public MovieController(DataContext context, DapperContext dapper, IMapper mapper):base(mapper)
         {
             _context = context;
             _dapper = dapper;
