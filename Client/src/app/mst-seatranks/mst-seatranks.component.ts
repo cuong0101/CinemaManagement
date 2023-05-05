@@ -11,7 +11,7 @@ import { error } from 'console';
   styleUrls: ['./mst-seatranks.component.css']
 })
 export class MstSeatranksComponent implements OnInit {
-
+  public checked:boolean = false;
   @ViewChild("createOrEdit") seatrank?: CreateOrEditSeatrankComponent
   colDefs?: ColDef[];
   defaultColDef?:ColDef;
@@ -20,7 +20,8 @@ export class MstSeatranksComponent implements OnInit {
   seatrankSelected: SeatRank = new SeatRank();
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
-  constructor(private seatranks: SeatRanksService, private toastr: ToastrService,) { 
+  constructor(private seatranks: SeatRanksService,
+     private toastr: ToastrService,) { 
     this.colDefs=[
       {
         headerName: "Tên hạng ghế",
@@ -41,6 +42,7 @@ export class MstSeatranksComponent implements OnInit {
 
   ngOnInit() {
     this.rowData = [];
+    this.checked = false;
   }
 
   onGridReady(params: GridReadyEvent){
@@ -52,6 +54,7 @@ export class MstSeatranksComponent implements OnInit {
   }
 
   onSelectionChanged(event: any){
+    this.checked = true;
     const selectedRow = this.gridApi?.getSelectedRows()[0];
     if(selectedRow) this.seatrankSelected = selectedRow;
   }

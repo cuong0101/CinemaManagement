@@ -51,14 +51,29 @@ export class CreateOrEditSeatrankComponent implements OnInit {
   }
 
   save(){
-    this.seatrankService.createOrEdit(this.seatrank).pipe(finalize(() => this.seatrank = new SeatRank())).subscribe({
-      next: (re) => this.toastr.success("Lưu thành công"),
-      error: (error) => this.toastr.error("Đã xảy ra lỗi")
+    if(this.seatrank.description ==null && this.seatrank.name == null)
+    {
+      this.toastr.warning("Cần nhập đủ các trường");
     }
-    );
-    location.reload();
-    this.modalSave.emit(null);
-    this.route.navigate(["/seatrank"]);
-    this.hide();
+    else if(this.seatrank.name == null)
+    {
+      this.toastr.warning("cần nhập tên")
+    }
+    else if(this.seatrank.description == null)
+    {
+      this.toastr.warning("Cần nhập description");
+    }
+    else{
+      this.seatrankService.createOrEdit(this.seatrank).pipe(finalize(() => this.seatrank = new SeatRank())).subscribe({
+        next: (re) => this.toastr.success("Lưu thành công"),
+        error: (error) => this.toastr.error("Đã xảy ra lỗi")
+      }
+      );
+      location.reload();
+      this.modalSave.emit(null);
+      this.route.navigate(["/seatrank"]);
+      this.hide();
+    }
+    
   }
 }

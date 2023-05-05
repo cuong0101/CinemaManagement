@@ -371,8 +371,6 @@ export class GridTableComponent implements OnInit {
     var KEY_RIGHT = 39;
 
     if (params.keyCode === KEY_UP || params.keyCode === KEY_DOWN) {
-      // this.keydown.emit(params);
-      // console.log(12312);
     }
     if (!this.isSuppressRowClickSelection) {
       let focusCell = this.params.api.getFocusedCell();
