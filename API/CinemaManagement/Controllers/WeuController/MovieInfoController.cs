@@ -2,6 +2,7 @@
 using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace CinemaManagement.Controllers.WeuController
             _context = context;
             _dapper = dapper;
         }
+        [HttpGet("getListMovie")]
         public async Task<List<MovieDto>> getListMovie()
         {
             var movies = _context.MstMovie.ToList().Where(e => e.IsDeleted == false);
