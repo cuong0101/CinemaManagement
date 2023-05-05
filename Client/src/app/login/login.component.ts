@@ -22,6 +22,10 @@ export class LoginComponent implements OnInit {
     ) { }
     @Output() changeLoginService = new EventEmitter<boolean>();
   ngOnInit() {
+    if(localStorage.getItem("jwt")!==null) 
+    {
+      this.route.navigateByUrl("/seatrank")
+    }
   }
   login(){
     let params = {
@@ -40,7 +44,6 @@ export class LoginComponent implements OnInit {
     }
     else if(this.output == null)
     {
-      console.log(this.output);
       /*Giải thích:
         - `^` : Bắt đầu chuỗi
         - `(?=.*[A-Za-z])` : Positive lookahead để đảm bảo tồn tại ít nhất một chữ cái
@@ -56,8 +59,7 @@ export class LoginComponent implements OnInit {
       next: (reponse) => {
       const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
-      this.route.navigate(["/user"]);
-      console.log(this.invalidLogin);
+      this.route.navigate(["/seatrank"]);
       this.invalidLogin = false;
       this.changeLoginService.emit(this.invalidLogin);
         //this.route.navigateByUrl("/nav")

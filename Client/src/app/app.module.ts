@@ -19,9 +19,8 @@ import { LoadingInterceptor } from './loading.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
-// import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
-// import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
-
+import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
+import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +31,9 @@ import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-u
     TopBarComponent,
     SpinnerComponent,
     MstUsersComponent,
-    CreateOrEditUserComponent
+    CreateOrEditUserComponent,
+    MstSeatranksComponent,
+    CreateOrEditSeatrankComponent
     //GridTableComponent,
     //GridPaginationComponent
   ],
