@@ -1,25 +1,20 @@
-﻿
-using Abp.Runtime.Session;
-using CinemaManagement.Data;
+﻿using CinemaManagement.Data;
 using CinemaManagement.DTOs;
+using CinemaManagement.DTOs.WeuDtos;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Dapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CloudinaryDotNet;
 using System;
-using CloudinaryDotNet.Actions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using CinemaManagement.DTOs.WeuDtos;
-using System.Net;
-using System.Net.Http;
 
 namespace CinemaManagement.Controllers.WeuController
 {
