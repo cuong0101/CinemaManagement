@@ -3,21 +3,22 @@ import { error } from 'console';
 import { BsModalRef, BsModalService, ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { UserManagement } from 'src/app/_interfaces/usermanagement';
-import { UsersService } from 'src/app/_services/users.service';
+import { SeatRank } from 'src/app/_interfaces/seatrank';
+import { SeatRanksService } from 'src/app/_services/seatrank.service';
 import  {Router}  from '@angular/router';
+
 @Component({
-  selector: 'create-or-edit-user',
-  templateUrl: './create-or-edit-user.component.html',
-  styleUrls: ['./create-or-edit-user.component.css']
+  selector: 'app-create-or-edit-seatrank',
+  templateUrl: './create-or-edit-seatrank.component.html',
+  styleUrls: ['./create-or-edit-seatrank.component.css']
 })
-export class CreateOrEditUserComponent implements OnInit {
+export class CreateOrEditSeatrankComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   bsModalRef!: BsModalRef;
-  user: UserManagement = new UserManagement();
+  seatrank: SeatRank = new SeatRank();
   constructor(private modalService: BsModalService, 
+    private seatrankService: SeatRanksService,
     private route: Router,
-    private userService: UsersService,
     private toastr: ToastrService,
     ) { 
     }
@@ -26,22 +27,22 @@ export class CreateOrEditUserComponent implements OnInit {
     
   }
 
-  openModal(user?: UserManagement) {
+  openModal(seatrank?: SeatRank) {
     
-    this.user = new UserManagement();
+    this.seatrank = new SeatRank();
     const config: ModalOptions = {
       class: 'modal-dialog modal-xl',
       backdrop: 'static',
       keyboard: false
     };
     
-    this.bsModalRef = this.modalService.show(CreateOrEditUserComponent, config);
-    if(user) {
-      this.user = user;
-      this.bsModalRef.content.user = user;
+    this.bsModalRef = this.modalService.show(CreateOrEditSeatrankComponent, config);
+    if(seatrank) {
+      this.seatrank = seatrank;
+      this.bsModalRef.content.seatrank = seatrank;
     }
     else{
-      this.bsModalRef.content.user = new UserManagement();
+      this.bsModalRef.content.seatrank = new SeatRank();
     } 
   }
 
@@ -50,15 +51,14 @@ export class CreateOrEditUserComponent implements OnInit {
   }
 
   save(){
-    this.user!.password = "abcd1234";
-    this.userService.createOrEdit(this.user).pipe(finalize(() => this.user = new UserManagement())).subscribe({
+    this.seatrankService.createOrEdit(this.seatrank).pipe(finalize(() => this.seatrank = new SeatRank())).subscribe({
       next: (re) => this.toastr.success("Lưu thành công"),
       error: (error) => this.toastr.error("Đã xảy ra lỗi")
     }
     );
-    this.modalSave.emit(null);
     location.reload();
+    this.modalSave.emit(null);
+    this.route.navigate(["/seatrank"]);
     this.hide();
-    this.route.navigate(["/user"]);
   }
 }
