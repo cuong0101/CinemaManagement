@@ -11,6 +11,7 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,6 +38,7 @@ namespace CinemaManagement.Controllers.CmsController
             var res = (from movie in movies
                        select new MovieDto
                        { 
+                        Id = movie.Id,
                         Name = movie.Name,
                         Image = movie.Image,
                         Trailer = movie.Trailer,
@@ -136,9 +138,9 @@ namespace CinemaManagement.Controllers.CmsController
             }
         }
         [HttpPost("Delete")]
-        public async Task Delete(EntityDto<long> input)
+        public async Task Delete([Required]long id)
         {
-            var movie = _context.MstMovie.Find(input.Id);
+            var movie = _context.MstMovie.Find(id);
             movie.IsDeleted = true;
             _context.MstMovie.Update(movie);
             await _context.SaveChangesAsync();
