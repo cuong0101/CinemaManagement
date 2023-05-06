@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div class="row mb-2">
+      <div class="col-md-12">
+          <button type="button" class="btn btn-outline-primary" ><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+          <button type="button" class="btn btn-outline-primary" ><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+          <button type="button" class="btn btn-outline-danger" > <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+      </div>
+      
+  </div>
+  <div>
+    Xin chào
+  </div>
+  <div class="panel-grid">
+                      <ag-grid-angular
+                      style="width: 100%; height: 500px;"
+                      class="ag-theme-alpine"
+                      [rowData]="rowData"
+                      [columnDefs]="columnDefs"
+                      [defaultColDef]="defaultColDef"
+                      (onChangeSelection)="onSelectionChanged($event)"
+                      ></ag-grid-angular>
+  </div>
+</div>
