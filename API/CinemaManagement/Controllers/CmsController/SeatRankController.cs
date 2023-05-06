@@ -18,6 +18,7 @@ using System.Xml.Linq;
 
 namespace CinemaManagement.Controllers.CmsController
 {
+    [Authorize]
     public class SeatRankController : BaseApiController
     {
         private readonly DataContext _dataContext;
@@ -25,6 +26,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
             _dataContext = dataContext;
         }
+        [AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<List<SeatRankDto>> GetAll()
         {

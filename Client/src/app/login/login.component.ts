@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem("jwt")!==null) 
     {
-      this.route.navigateByUrl("/seatrank")
+      this.route.navigateByUrl("/customer")
     }
   }
   login(){
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       next: (reponse) => {
       const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
-      this.route.navigate(["/seatrank"]);
+      this.route.navigate(["/customer"]);
       this.invalidLogin = false;
       this.changeLoginService.emit(this.invalidLogin);
         //this.route.navigateByUrl("/nav")

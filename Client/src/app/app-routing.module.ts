@@ -4,12 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { BodyComponent } from './navigation/body/body.component';
 import { MstUsersComponent } from './business/mst-users/mst-users.component';
+import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},
-  {path: "seatrank", component: MstSeatranksComponent}
+  {path: "seatrank", component: MstSeatranksComponent},
+  {path: "customer", component: MstCustomersComponent}
+
   
 ];
 
