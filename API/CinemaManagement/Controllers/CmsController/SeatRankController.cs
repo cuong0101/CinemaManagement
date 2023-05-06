@@ -26,7 +26,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
             _dataContext = dataContext;
         }
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<List<SeatRankDto>> GetAll()
         {
