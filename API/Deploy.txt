@@ -1,0 +1,13 @@
+------------------------HEROKU DEPLOY-------------------------
+cài Heroku CLI
+Docker Desktop
+dotnet publish -c Release
+bật Docker desktop
+heroku container:login
+Copyfile Docker vào publish
+docker build -t cinema-api-standby D:\\DoAnTH_QLDA\\CinemaManagement\\API\\CinemaManagement\\bin\\Release\\net5.0\\publish
+docker tag cinema-api-standby registry.heroku.com/cinema-api-standby/web
+docker push registry.heroku.com/cinema-api-standby/web
+-----------------------GOOGLE CLOUD DEPLOY-----------------------
+chạy trên cloud
+gcloud builds submit --tag gcr.io/cinemaapi-384016/cinema-api

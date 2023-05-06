@@ -1,0 +1,20 @@
+<div class="form_container">
+  <form #loginForm="ngForm" method="post" novalidate (ngSubmit)="login()">  
+      <label>Tài khoản <span class="custom-star">*</span></label>
+      <input [ngModelOptions]="{standalone: true}"
+      [(ngModel)]="username" placeholder="{{'UserNameOrEmail' }} *" required />
+      <!-- <validation-messages [formCtrl]="userNameOrEmailAddressInput" *ngIf="!userNameOrEmailAddressInput.touched">
+      </validation-messages> -->
+      <label>Mật khẩu <span class="custom-star">*</span></label>
+      <input [(ngModel)]="password" class="form-control m-input" type="password" placeholder="{{'Password' }} *" name="password" required maxlength="32" [ngModelOptions]="{standalone: true}" />
+      <!-- <validation-messages [formCtrl]="passwordInput" *ngIf="!passwordInput.touched"></validation-messages> -->
+      <!-- <div class="help">Mật khẩu phân biệt hoa thường. Ví dụ: @htHi89(0M</div> -->
+      <!-- <div>
+          <input [(ngModel)]="loginService.rememberMe" text='aaa' type="checkbox" name="rememberMe" value="true" />
+          <span class="labelText">{{"RememberMe" | localize}} </span>
+      </div> -->
+      <div>
+          <button type="submit" [disabled]="!loginForm.form.valid">{{"LogIn"}}</button>
+          <!-- <a routerLink="/account/forgot-password" id="forget-password">{{"ForgotPassword"}}</a> -->
+      </div>
+  </form>
