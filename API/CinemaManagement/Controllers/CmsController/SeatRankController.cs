@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Xml.Linq;
 
 namespace CinemaManagement.Controllers.CmsController
 {
+    [Authorize]
     public class SeatRankController : BaseApiController
     {
         private readonly DataContext _dataContext;
@@ -24,6 +26,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
             _dataContext = dataContext;
         }
+        //[AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<List<SeatRankDto>> GetAll()
         {
@@ -33,9 +36,53 @@ namespace CinemaManagement.Controllers.CmsController
                          {
                              Id = appseatrank.Id,
                              Name = appseatrank.Name,
+                             Description = appseatrank.Description,
                          }).ToList();
             return query;
         }
+        [HttpPost("createOrEdit")]
 
+        public async Task CreateOrEdit(SeatRankDto createOrEdit)
+        {
+            if (createOrEdit.Id == null)
+            {
+                await Create(createOrEdit);
+            }
+            else await Edit(createOrEdit);
+        }
+        private async Task Create(SeatRankDto createOrEdit)
+        {
+            var Name = _dataContext.MstSeatRank.FirstOrDefault(e => e.Name.ToLower() == createOrEdit.Name.ToLower());
+            if (Name != null)
+            {
+                throw new UserFriendlyException("Đã tồn tại seat rank");
+            }
+            else
+            {
+                var seatrank = _mapper.Map<MstSeatRank>(createOrEdit);
+                seatrank.Name = createOrEdit.Name;
+                seatrank.Description = createOrEdit.Description;
+                _dataContext.MstSeatRank.Add(seatrank);
+                await _dataContext.SaveChangesAsync();
+            }
+        }
+        private async Task Edit(SeatRankDto seatRankDto)
+        {
+            var name = _dataContext.MstSeatRank.FirstOrDefault(e => e.Id == seatRankDto.Id);
+            var seatrank = _mapper.Map(seatRankDto, name);
+            seatrank.Name = seatRankDto.Name;
+            seatrank.Description = seatRankDto.Description;
+            _dataContext.MstSeatRank.Update(seatrank);
+            await _dataContext.SaveChangesAsync();
+        }
+        [HttpDelete("{id}", Name = "deleted")]
+        public async Task Delete(long Id)
+        {
+            var seatRank = _dataContext.MstSeatRank.FirstOrDefault(e => e.Id == Id);
+            //seatRank.IsDeleted = false;
+            _dataContext.MstSeatRank.Remove(seatRank);
+            await _dataContext.SaveChangesAsync();
+        }
     }
+    
 }

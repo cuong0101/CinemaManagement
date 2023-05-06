@@ -79,11 +79,11 @@ namespace CinemaManagement.Controllers.CMSController
             _dataContext.Users.Update(user);
             await _dataContext.SaveChangesAsync();
         }
-        [HttpDelete("{id}", Name = "deleted")]
+        [HttpDelete("{id}", Name = "delete-seatrank")]
         public async Task Delete(long Id)
         {
             var user = _dataContext.Users.FirstOrDefault(e => e.Id == Id);
-            //user.IsDeleted = false;
+            user.IsDeleted = false;
             _dataContext.Users.Remove(user);
             await _dataContext.SaveChangesAsync();
         }

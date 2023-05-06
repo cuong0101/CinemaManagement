@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { UserManagement } from 'src/app/_interfaces/usermanagement';
 import { UsersService } from 'src/app/_services/users.service';
-
+import  {Router}  from '@angular/router';
 @Component({
   selector: 'create-or-edit-user',
   templateUrl: './create-or-edit-user.component.html',
@@ -16,6 +16,7 @@ export class CreateOrEditUserComponent implements OnInit {
   bsModalRef!: BsModalRef;
   user: UserManagement = new UserManagement();
   constructor(private modalService: BsModalService, 
+    private route: Router,
     private userService: UsersService,
     private toastr: ToastrService,
     ) { 
@@ -56,6 +57,8 @@ export class CreateOrEditUserComponent implements OnInit {
     }
     );
     this.modalSave.emit(null);
+    location.reload();
     this.hide();
+    this.route.navigate(["/user"]);
   }
 }
