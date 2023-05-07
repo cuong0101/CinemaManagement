@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       next: (reponse) => {
       const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
-      this.route.navigate(["/customer"]);
+      this.route.navigate(["/test"]);
       this.invalidLogin = false;
       this.changeLoginService.emit(this.invalidLogin);
         //this.route.navigateByUrl("/nav")

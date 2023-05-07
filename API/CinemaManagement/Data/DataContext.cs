@@ -13,6 +13,7 @@ namespace CinemaManagement.Data
         public DbSet<MstCustomer> MstCustomer { get; set; }
         public DbSet<MstSeatRank> MstSeatRank { get; set; }
         public DbSet<MstMovieType> MstMovieTypes { get; set; }
+        public DbSet<MstMovie> MstMovie { get; set; }
         public DbSet<MstBenefitsCus> MstBenefitsCus { get; set; }
         public DbSet<MstPromotion> MstPromotions { get; set; }
         public DbSet<MstPromotionDetail> MstPromotionDetail { get; set; }

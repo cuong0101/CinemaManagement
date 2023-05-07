@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {  } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { SideBarMenuComponent } from './navigation/side-bar-menu/side-bar-menu.component';
 import { BodyComponent } from './navigation/body/body.component';
@@ -12,7 +13,7 @@ import { TopBarComponent } from './navigation/top-bar/top-bar.component';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,9 +21,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
+import { MstMovieComponent } from './business/mst-users/mst-movie/mst-movie.component';
+import { MatPaginator } from '@angular/material/paginator';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
-// import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
-// import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,10 @@ import { MstCustomersComponent } from './business/mst-customer/mst-customer.comp
     CreateOrEditUserComponent,
     MstSeatranksComponent,
     CreateOrEditSeatrankComponent,
+    MstMovieComponent,
     MstCustomersComponent,
     //GridTableComponent,
-    //GridPaginationComponent
+    //GridPaginationComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,7 @@ import { MstCustomersComponent } from './business/mst-customer/mst-customer.comp
     }),
     ToastrModule.forRoot(),
     AgGridModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers:  [
     {
