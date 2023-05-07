@@ -26,13 +26,16 @@ namespace CinemaManagement.Controllers.WeuController
             var res = (from movie in movies
                        select new MovieDto
                        {
+                           Id = movie.Id,
                            Name = movie.Name,
                            Image = movie.Image,
                            Trailer = movie.Trailer,
                            Director = movie.Director,
                            Actor = movie.Actor,
                            PublishDate = movie.PublishDate,
-                           Time = movie.Time,
+                           Time = (movie.Time.Value.Hours < 10 ? "0" + movie.Time.Value.Hours :
+                            movie.Time.Value.Hours + "") + ":" + (movie.Time.Value.Minutes < 10 ?
+                            "0" + movie.Time.Value.Minutes : movie.Time.Value.Minutes + ""),
                            Languages = movie.Languages,
                            Rated = movie.Rated,
                            Description = movie.Description

@@ -22,7 +22,7 @@ import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-u
 import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
 import { MstMovieComponent } from './business/mst-users/mst-movie/mst-movie.component';
-import { TestGridTableComponent } from './business/mst-users/test-grid-table/test-grid-table.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { TestGridTableComponent } from './business/mst-users/test-grid-table/tes
     MstMovieComponent,
     //GridTableComponent,
     //GridPaginationComponent,
-    TestGridTableComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +56,7 @@ import { TestGridTableComponent } from './business/mst-users/test-grid-table/tes
     }),
     ToastrModule.forRoot(),
     AgGridModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers:  [
     {
