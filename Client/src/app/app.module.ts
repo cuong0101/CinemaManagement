@@ -23,6 +23,7 @@ import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
 import { MstMovieComponent } from './business/mst-users/mst-movie/mst-movie.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatPaginator } from '@angular/material/paginator';
     MstSeatranksComponent,
     CreateOrEditSeatrankComponent,
     MstMovieComponent,
+    MstCustomersComponent,
     //GridTableComponent,
     //GridPaginationComponent,
   ],

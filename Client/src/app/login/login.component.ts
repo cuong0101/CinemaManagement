@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem("jwt")!==null) 
     {
-      this.route.navigateByUrl("/seatrank")
+      this.route.navigateByUrl("/customer")
     }
   }
   login(){
