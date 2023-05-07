@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
       this.route.navigate(["/customer"]);
-      
       this.invalidLogin = false;
       this.changeLoginService.emit(this.invalidLogin);
         //this.route.navigateByUrl("/nav")
