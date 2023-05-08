@@ -25,6 +25,7 @@ import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-
     ToastrModule.forRoot(),
     AgGridModule,
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers:  [
     {

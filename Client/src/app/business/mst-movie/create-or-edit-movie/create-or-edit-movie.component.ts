@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -16,6 +17,7 @@ export class CreateOrEditMovieComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   bsModalRef!: BsModalRef;
   movie: MstMovieManagement = new MstMovieManagement();
+  datepicker?: Date;
   constructor(private modalService: BsModalService, 
     private route: Router,
     private movieService: MstMovieService,
@@ -35,9 +37,11 @@ export class CreateOrEditMovieComponent implements OnInit {
     
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
     if(movie) {
+      // this.datepicker = moment(movie.publishDate).toDate();
+      // console.log(moment(movie.publishDate))
       this.movie = movie;
-      movie.publishDate = new Date(new Date(movie.publishDate!).toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit'}));
-      this.bsModalRef.content.movie = movie;
+      this.movie.publishDate = moment(movie.publishDate).toDate();
+      this.bsModalRef.content.movie = this.movie;
     }
     else{
       this.bsModalRef.content.movie = new MstMovieManagement();
