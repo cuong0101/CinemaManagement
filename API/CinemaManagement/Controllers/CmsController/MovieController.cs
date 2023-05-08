@@ -132,7 +132,7 @@ namespace CinemaManagement.Controllers.CmsController
         [HttpPost("CreateOrEdit")]
         [Consumes("multipart/form-data")]
         [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task CreateOrEdit(CreateOrEditMovieDto input)
+        public async Task CreateOrEdit([FromForm] CreateOrEditMovieDto input)
         {
             if (input.Id == null)
             {
