@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
+import { CreateOrEditMovieComponent } from './create-or-edit-movie/create-or-edit-movie.component';
 
 @Component({
   selector: 'app-mst-movie',
@@ -11,11 +12,13 @@ import { MstMovieService } from 'src/app/_services/mstmovie.service';
   styleUrls: ['./mst-movie.component.css']
 })
 export class MstMovieComponent implements OnInit {
+  @ViewChild("createOrEdit") movie?: CreateOrEditMovieComponent
+  
   colDefs?: ColDef[];
   defaultColDef?:ColDef;
   rowData?: MstMovieManagement[];
   private gridApi!: GridApi<MstMovieManagement>;
-  movieSelected: MstMovieManagement = new MstMovieManagement();
+  movieSelected?: MstMovieManagement = new MstMovieManagement();
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
   message:any;
@@ -35,6 +38,7 @@ export class MstMovieComponent implements OnInit {
       {
         headerName: "Publish Date",
         field: "publishDate",
+        valueFormatter: (params) => formatMyDate(params.value)
       },
       {
         headerName: "Time",
@@ -42,7 +46,7 @@ export class MstMovieComponent implements OnInit {
       },
       {
         headerName: "Language",
-        field: "language",
+        field: "languages",
       },
     ];
     this.defaultColDef = {
@@ -53,13 +57,17 @@ export class MstMovieComponent implements OnInit {
       floatingFilter: true,
     };
   }
+
+
   ngOnInit() {
     this.rowData = [];
+    this.movieSelected = undefined;
   }
 
   onGridReady(params: GridReadyEvent<MstMovieManagement>){
     this.gridApi = params.api;
     this.params = params;
+    this.movieSelected = undefined;
     this.mstmovieService.getAll().subscribe((re: MstMovieManagement[] | undefined) => {
       this.rowData = re;
     })
@@ -75,7 +83,7 @@ export class MstMovieComponent implements OnInit {
     if(this.message)
     {
       this.movies
-      .delete(this.movieSelected.id)
+      .delete(this.movieSelected?.id)
       .subscribe({
         next:() => {
           this.toastr.success("Xóa thành công!")
@@ -86,3 +94,10 @@ export class MstMovieComponent implements OnInit {
     }
   }
 }
+
+function formatMyDate(date: Date): string {
+  if (date == null) return '';
+  const dateFormat = 'dd/MM/yyyy';
+  return new Date(date).toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit'});
+}
+

@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="modal-header modal-lg">
+      <h4 class="modal-title pull-left">
+        <span *ngIf="movie.id">Sửa thông tin phim</span>
+        <span *ngIf="!movie.id">Thêm mới phim</span>
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Name" [(ngModel)]="movie!.name">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Publish-Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" id="PublishDate" name="PublishDate" required [(ngModel)]="movie.publishDate!">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Time</label>
+              <div class="col-sm-9">
+                <input type="time" class="form-control" id="Time" name="Time" [(ngModel)]="movie.time" step="3600">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Languages</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Language" [(ngModel)]="movie.languages">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Rated</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="rated" [(ngModel)]="movie.rated">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Directors</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Director" [(ngModel)]="movie.director">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Actors</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Actor" [(ngModel)]="movie.actor">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="form-group row">
+              <label class="col-form-label">Description</label>
+              <div class="col-sm-12">
+                <textarea class="form-control" id="movieDescription" name="description" rows="5" [(ngModel)]="movie.description"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Image</label>
+              <div class="col-sm-9">
+                <input type="file" class="form-control" id="movieImage" name="Image" accept="image/*">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Trailer-link</label>
+              <div class="col-sm-9">
+                <input type="url" class="form-control" id="movieTrailer" name="Trailer" [(ngModel)]="movie.trailer">
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Close</button>
+  </div>
+</div>

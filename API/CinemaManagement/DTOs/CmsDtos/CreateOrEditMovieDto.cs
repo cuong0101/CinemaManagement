@@ -10,11 +10,11 @@ namespace CinemaManagement.DTOs.CmsDtos
     public class CreateOrEditMovieDto : Entity<long?>
     {
         public string Name { get; set; }
-        public IFormFile? Image { get; set; }
+        public IFormFile Image { get; set; }
         public string Trailer { get; set; }
         public string Director { get; set; }
         public string Actor { get; set; }
-        public DateTime? PublishDate { get; set; }
+        public DateTime PublishDate { get; set; }
         public string Time { get; set; }
         public string Languages { get; set; }
         public string Rated { get; set; }

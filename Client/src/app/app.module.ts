@@ -21,9 +21,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
-import { MstMovieComponent } from './business/mst-users/mst-movie/mst-movie.component';
+import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
+import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MstCustomersComponent } from './business/mst-customer/mst-customer.comp
     MstSeatranksComponent,
     CreateOrEditSeatrankComponent,
     MstMovieComponent,
+    CreateOrEditMovieComponent,
     MstCustomersComponent,
     //GridTableComponent,
     //GridPaginationComponent,
