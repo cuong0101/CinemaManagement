@@ -46,7 +46,7 @@ namespace CinemaManagement.Controllers.CmsController
                         Trailer = movie.Trailer,
                         Director = movie.Director,
                         Actor = movie.Actor,
-                        PublishDate = movie.PublishDate,
+                        PublishDate = movie.PublishDate.Value.Date,
                         Time = (movie.Time.Value.Hours < 10 ? "0"+movie.Time.Value.Hours : 
                         movie.Time.Value.Hours+"")+":"+(movie.Time.Value.Minutes < 10 ? 
                         "0"+movie.Time.Value.Minutes : movie.Time.Value.Minutes+""),
@@ -56,6 +56,7 @@ namespace CinemaManagement.Controllers.CmsController
                        }).ToList();
             return res;
         }
+       
         protected virtual async Task Create([FromForm]CreateOrEditMovieDto input)
         {
             var name = _context.MstMovie.ToList().Where(e => e.Name == input.Name).Count();
@@ -65,7 +66,7 @@ namespace CinemaManagement.Controllers.CmsController
             }
             string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
 
-            if (input.Image != null)
+            if (input.Image!=null)
             {
                 Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
                 cloudinary = new Cloudinary(account);
@@ -94,6 +95,7 @@ namespace CinemaManagement.Controllers.CmsController
             _context.Add(movie);
             await _context.SaveChangesAsync();
         }
+
         protected virtual async Task Update([FromForm] CreateOrEditMovieDto input)
         {
             var movie = _context.MstMovie.Find(input.Id);

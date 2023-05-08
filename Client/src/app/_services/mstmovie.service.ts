@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserManagement } from '../_interfaces/usermanagement';
-import { MstMovieComponent } from '../business/mst-users/mst-movie/mst-movie.component';
+import { MstMovieComponent } from '../business/mst-movie/mst-movie.component';
 import { MstMovieManagement } from '../_interfaces/moviemanagement';
 
 @Injectable({

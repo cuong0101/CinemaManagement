@@ -32,7 +32,7 @@ namespace CinemaManagement.Controllers.WeuController
                            Trailer = movie.Trailer,
                            Director = movie.Director,
                            Actor = movie.Actor,
-                           PublishDate = movie.PublishDate,
+                           PublishDate = movie.PublishDate.Value.Date,
                            Time = (movie.Time.Value.Hours < 10 ? "0" + movie.Time.Value.Hours :
                             movie.Time.Value.Hours + "") + ":" + (movie.Time.Value.Minutes < 10 ?
                             "0" + movie.Time.Value.Minutes : movie.Time.Value.Minutes + ""),
