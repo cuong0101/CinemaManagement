@@ -56,8 +56,10 @@ namespace CinemaManagement.Controllers.CmsController
                        }).ToList();
             return res;
         }
-       
-        protected virtual async Task Create([FromForm]CreateOrEditMovieDto input)
+
+        [Consumes("multipart/form-data")]
+        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
+        public async Task Create([FromForm]CreateOrEditMovieDto input)
         {
             var name = _context.MstMovie.ToList().Where(e => e.Name == input.Name).Count();
             if (name > 0)
@@ -96,7 +98,9 @@ namespace CinemaManagement.Controllers.CmsController
             await _context.SaveChangesAsync();
         }
 
-        protected virtual async Task Update([FromForm] CreateOrEditMovieDto input)
+        [Consumes("multipart/form-data")]
+        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
+        public async Task Update([FromForm] CreateOrEditMovieDto input)
         {
             var movie = _context.MstMovie.Find(input.Id);
 
