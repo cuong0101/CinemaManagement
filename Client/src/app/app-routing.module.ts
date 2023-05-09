@@ -7,7 +7,7 @@ import { MstUsersComponent } from './business/mst-users/mst-users.component';
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 const routes: Routes = [
-  {path: "", redirectTo:"test", pathMatch:"full"},
+  {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},

@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
     ) { }
     @Output() changeLoginService = new EventEmitter<boolean>();
   ngOnInit() {
-    if(localStorage.getItem("jwt")!==null) 
-    {
-      this.route.navigateByUrl("/customer")
-    }
+    localStorage.clear();
+    this.invalidLogin =true;
+    console.log(this.loginService)
+    this.changeLoginService.emit(this.invalidLogin);
   }
   login(){
     let params = {
@@ -59,10 +59,9 @@ export class LoginComponent implements OnInit {
       next: (reponse) => {
       const token = reponse.accessToken;
       localStorage.setItem("jwt", token);
-      this.route.navigate(["/test"]);
+      this.route.navigate(["/user"]);
       this.invalidLogin = false;
       this.changeLoginService.emit(this.invalidLogin);
-        //this.route.navigateByUrl("/nav")
     },
     error: (error) => {this.toastr.warning("Tài khoản hoặc mật khẩu không chính xác")
     }

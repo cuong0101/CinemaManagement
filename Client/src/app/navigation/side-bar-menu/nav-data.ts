@@ -7,59 +7,19 @@ export const navbarData: INavbarData[] = [
         label: 'Users'
     },
     {
-        routeLink: 'products',
-        icon: 'fal fa-box-open',
-        label: 'Products',
-        items: [
-            {
-                routeLink: 'products/level1.1',
-                label: 'Level 1.1',
-                items: [
-                    {
-                        routeLink: 'products/level2.1',
-                        label: 'Level 2.1',
-                    },
-                    {
-                        routeLink: 'products/level2.2',
-                        label: 'Level 2.2',
-                        items: [
-                            {
-                                routeLink: 'products/level3.1',
-                                label: 'Level 3.1'
-                            },
-                            {
-                                routeLink: 'products/level3.2',
-                                label: 'Level 3.2'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                routeLink: 'products/level1.2',
-                label: 'Level 1.2',
-            }
-        ]
+        routeLink: 'seatrank',
+        icon: 'fa-solid fa-chair',
+        label: 'Seat Rank',
     },
     {
         routeLink: 'Rank Point',
         icon: 'fa-solid fa-ranking-star',
-        label: 'Statistics'
+        label: 'Rank Point'
     },
     {
-        routeLink: 'coupens',
-        icon: 'fal fa-tags',
-        label: 'Coupens',
-        items: [
-            {
-                routeLink: 'coupens/list',
-                label: 'List Coupens'
-            },
-            {
-                routeLink: 'coupens/create',
-                label: 'Create Coupens'
-            }
-        ]
+        routeLink: 'customer',
+        icon: 'fa-solid fa-file-invoice',
+        label: 'Customer',
     },
     {
         routeLink: 'pages',

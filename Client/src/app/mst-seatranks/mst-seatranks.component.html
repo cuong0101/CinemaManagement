@@ -1,10 +1,11 @@
+<p>mst-seatrank works works!</p>
 <div class="container-fluid">
     
     <div class="row mb-2">
         <div class="col-md-12">
             <button type="button" class="btn btn-outline-primary" (click)="seatrank?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
-            <button type="button" class="btn btn-outline-primary" *ngIf="checked" (click)="seatrank?.openModal(seatrankSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
-            <button type="button" class="btn btn-outline-danger" *ngIf="checked" (click)="deleted()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+            <button type="button" class="btn btn-outline-primary" [disabled]="!checked" (click)="seatrank?.openModal(seatrankSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+            <button type="button" class="btn btn-outline-danger" [disabled]="!checked" (click)="deleted()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
         </div>
         <!-- [disabled]="!seatrankSelected" -->
         
@@ -17,7 +18,11 @@
                         [columnDefs]="colDefs"
                         (gridReady)="onGridReady($event)"
                         (selectionChanged)="onSelectionChanged($event)"
+                        [defaultColDef]="defaultColDef"
                         [rowSelection]="rowSelection"
+                        [pagination]="true"
+                        [paginationPageSize]="paginationPageSize"
+                        [paginationNumberFormatter]="paginationNumberFormatter"
 
                         ></ag-grid-angular>
                     </div>

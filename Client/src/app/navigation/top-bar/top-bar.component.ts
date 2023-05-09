@@ -16,12 +16,10 @@ export class TopBarComponent implements OnInit {
     private logoutService: AccountService,
     private route: Router
     ) 
-    {
-   
-   }
-
+    {}
    @Output() changeLogoutService = new EventEmitter<boolean>();
-  @HostListener('window:resize', ['$event'])
+   @Output() changeSearch = new EventEmitter<string>();
+   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkCanShowSearch(window.innerWidth);
   }
