@@ -42,9 +42,9 @@ export const navbarData: INavbarData[] = [
         ]
     },
     {
-        routeLink: 'statistics',
-        icon: 'fal fa-chart-bar',
-        label: 'Statistics'
+        routeLink: 'rankpoints',
+        icon: 'fa-solid fa-ranking-star',
+        label: 'Rank Point'
     },
     {
         routeLink: 'coupens',

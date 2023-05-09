@@ -17,6 +17,7 @@ export class CreateOrEditMovieComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   bsModalRef!: BsModalRef;
   movie: MstMovieManagement = new MstMovieManagement();
+  datepicker?: Date;
   constructor(private modalService: BsModalService, 
     private route: Router,
     private movieService: MstMovieService,
@@ -36,9 +37,11 @@ export class CreateOrEditMovieComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
     if(movie) {
+      // this.datepicker = moment(movie.publishDate).toDate();
+      // console.log(moment(movie.publishDate))
       this.movie = movie;
-      this.bsModalRef.content.movie = movie;
-      console.log(this.movie)
+      this.movie.publishDate = moment(movie.publishDate).toDate();
+      this.bsModalRef.content.movie = this.movie;
     }
     else{
       this.bsModalRef.content.movie = new MstMovieManagement();

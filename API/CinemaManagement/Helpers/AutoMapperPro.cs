@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos;
 using CinemaManagement.Entities;
 
 namespace CinemaManagement.Helpers
@@ -10,6 +11,7 @@ namespace CinemaManagement.Helpers
         {
             CreateMap<UserManagementDto, AppUser>().ReverseMap();
             CreateMap<SeatRankDto, MstSeatRank>().ReverseMap();
+            CreateMap<CreateOrEditRankPointsDto, MstRankPoint>().ReverseMap();
             //map nhưng gì thì khai báo vào đâu
         }
     }

@@ -24,7 +24,9 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Publish-Date</label>
               <div class="col-sm-9">
-                <input type="date" class="form-control" id="PublishDate" name="PublishDate" required [(ngModel)]="movie.publishDate!">
+                <input class="form-control" id="PublishDate" name="publishDate" 
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                bsDatepicker required [(ngModel)]="movie.publishDate">
               </div>
             </div>
           </div>
