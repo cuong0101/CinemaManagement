@@ -1,5 +1,11 @@
 <p>mst-customer works!</p>
 <div class="container-fluid">    
+  <!-- <div class="row mb-2">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-outline-primary" (click)="customer?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!checked" (click)="customer?.openModal(customerSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+        <button type="button" class="btn btn-outline-danger" [disabled]="!checked" (click)="deleted()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+    </div> -->
   </div>
 <div class="panel-grid">
                         <ag-grid-angular
@@ -9,7 +15,14 @@
                         [columnDefs]="colDefs"
                         (gridReady)="onGridReady($event)"
                         (selectionChanged)="onSelectionChanged($event)"
+                        (selectionChanged)="onSelectionChanged($event)"
+                        [defaultColDef]="defaultColDef"
                         [rowSelection]="rowSelection"
+                        [pagination]="true"
+                        [paginationPageSize]="paginationPageSize"
+                        [paginationNumberFormatter]="paginationNumberFormatter"
 
                         ></ag-grid-angular>
 </div>
+<app-create-or-edit-customer #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></app-create-or-edit-customer>
+

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent,PaginationNumberFormatterParams } from 'ag-grid-community';
 import { SeatRank } from 'src/app/_interfaces/seatrank';
 import { SeatRanksService } from 'src/app/_services/seatrank.service';
 import { CreateOrEditSeatrankComponent } from './create-or-edit-seatrank/create-or-edit-seatrank.component';
@@ -17,9 +17,17 @@ export class MstSeatranksComponent implements OnInit {
   defaultColDef?:ColDef;
   rowData?: SeatRank[];
   private gridApi?: GridApi;
-  seatrankSelected: SeatRank = new SeatRank();
+  seatrankSelected?: SeatRank = new SeatRank();
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
+  message:any;
+  public paginationPageSize = 5;
+  public paginationNumberFormatter: (
+    params: PaginationNumberFormatterParams
+  ) => string = (params: PaginationNumberFormatterParams) => {
+    return '' + params.value.toLocaleString() + '';
+  };
+  
   constructor(private seatranks: SeatRanksService,
      private toastr: ToastrService,) { 
     this.colDefs=[
@@ -36,19 +44,23 @@ export class MstSeatranksComponent implements OnInit {
     this.defaultColDef = {
       sortable: true,
       filter: true,
-      resizable: true
+      resizable: true,
+      flex: 1,
+      floatingFilter: true,
     };
   }
 
   ngOnInit() {
     this.rowData = [];
     this.checked = false;
+    this.seatrankSelected = undefined;
   }
 
   onGridReady(params: GridReadyEvent){
     this.gridApi = params.api;
     this.params = params
-    this.seatranks.getAll().subscribe((re) => {
+    this.seatrankSelected = undefined;
+    this.seatranks.getAll().subscribe((re :SeatRank[] | undefined) => {
       this.rowData = re;
     })
   }
@@ -60,12 +72,18 @@ export class MstSeatranksComponent implements OnInit {
   }
 
   deleted(){
-    this.seatranks.delete(this.seatrankSelected.id).subscribe({
-      next:() => this.toastr.success("Xóa thành công!"),
-      error: (err) => this.toastr.error("Xóa thất bại")
+    this.message = confirm("Bạn có chắc chắn muốn xóa không?");
+    if(this.message)
+    {
+      this.seatranks
+      .delete(this.seatrankSelected?.id)
+      .subscribe({
+        next:() => {
+          this.toastr.success("Xóa thành công!")
+          this.onGridReady(this.params);
+        },
+        error: (ersr: any) => this.toastr.error("Xóa thất bại")
+      });
     }
-    )
-    location.reload();
   }
-
 }

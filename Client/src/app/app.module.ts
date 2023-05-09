@@ -25,6 +25,7 @@ import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
+import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or-edit-customer/create-or-edit-customer.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-
     MstMovieComponent,
     CreateOrEditMovieComponent,
     MstCustomersComponent,
+    CreateOrEditCustomerComponent,
     //GridTableComponent,
     //GridPaginationComponent,
   ],

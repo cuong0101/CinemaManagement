@@ -8,28 +8,18 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'seatrank',
-        icon: 'fa-thin fa-loveseat',
+        icon: 'fa-solid fa-chair',
         label: 'Seat Rank',
     },
     {
         routeLink: 'Rank Point',
         icon: 'fa-solid fa-ranking-star',
-        label: 'Statistics'
+        label: 'Rank Point'
     },
     {
-        routeLink: 'coupens',
-        icon: 'fal fa-tags',
-        label: 'Coupens',
-        items: [
-            {
-                routeLink: 'coupens/list',
-                label: 'List Coupens'
-            },
-            {
-                routeLink: 'coupens/create',
-                label: 'Create Coupens'
-            }
-        ]
+        routeLink: 'customer',
+        icon: 'fa-solid fa-file-invoice',
+        label: 'Customer',
     },
     {
         routeLink: 'pages',

@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title pull-left">Thêm mới nhân viên</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+          <div class="row">
+            
+            <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Name" [(ngModel)]="customer!.name" >
+                  </div>
+                </div>
+              </div>
+             
+              <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">image</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="image" [(ngModel)]="customer!.image" >
+                    </div>
+                  </div>
+              </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">address</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="address" [(ngModel)]="customer!.address" >
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">phone</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="phone" [(ngModel)]="customer!.phone" >
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">DoB</label>
+                <div class="col-sm-9">
+                  <input type="datetime-local" class="form-control" name="doB" [(ngModel)]="customer!.doB" >
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">sex</label>
+                <div class="col-sm-9">
+                  <input type="string" class="form-control" name="sex" [(ngModel)]="customer!.sex" >
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">email</label>
+                <div class="col-sm-9">
+                  <input type="string" class="form-control" name="email" [(ngModel)]="customer!.email" >
+                </div>
+              </div>
+            </div>
+           
+        </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Close</button>
+    </div>
+  </div>

@@ -13,4 +13,10 @@ export class CustomersService {
   getAll(){
     return this.httpClient.get<Customer[]>(this.baseUrl + "Customer/getAll");
   }
+  createOrEdit(customer?: Customer){
+    return this.httpClient.post(this.baseUrl + "Customer/CreateOrEdit", customer);
+  }
+  delete(id?: number){
+    return this.httpClient.post(this.baseUrl + `Customer/Delete?id=${id}`, id);
+  }
 }

@@ -16,6 +16,7 @@ export class AppComponent {
   screenWidth = 0
   cInvalidLogin:boolean = true;
   changeLoginServiceHandle(invalidLogin:boolean){
+    console.log(invalidLogin);
     this.cInvalidLogin = invalidLogin;
   }
   changeLogoutServiceHandle(invalidLogin:boolean){
