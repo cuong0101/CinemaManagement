@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -32,12 +33,12 @@ export class CreateOrEditMovieComponent implements OnInit {
       backdrop: 'static',
       keyboard: false
     };
-    
+
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
     if(movie) {
       this.movie = movie;
-      movie.publishDate = new Date(new Date(movie.publishDate!).toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit'}));
       this.bsModalRef.content.movie = movie;
+      console.log(this.movie)
     }
     else{
       this.bsModalRef.content.movie = new MstMovieManagement();
@@ -49,11 +50,13 @@ export class CreateOrEditMovieComponent implements OnInit {
   }
 
   save(){
+    console.log("da vao day")
     this.movieService.createOrEdit(this.movie).pipe(finalize(() => this.movie = new MstMovieManagement())).subscribe({
       next: (re) => this.toastr.success("Lưu thành công"),
       error: (error) => this.toastr.error("Đã xảy ra lỗi")
     }
     );
+    console.log(this.movie);
     this.modalSave.emit(null);
     location.reload();
     this.hide();

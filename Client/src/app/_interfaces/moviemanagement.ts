@@ -1,4 +1,5 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, Time } from "@angular/common";
+import { Moment } from "moment";
 
 export class MstMovieManagement{
     [x: string]: any;
@@ -8,8 +9,8 @@ export class MstMovieManagement{
     trailer?: string;
     director?: string;
     actor?: string;
-    publishDate?: Date;
-    time?: string;
+    publishDate?: Moment;
+    time?: Time;
     languages?: string;
     rated?: string;
     description?: string;

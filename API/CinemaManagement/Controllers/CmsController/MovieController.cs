@@ -124,8 +124,8 @@ namespace CinemaManagement.Controllers.CmsController
                 movie.Trailer = string.IsNullOrWhiteSpace(input.Trailer) || string.IsNullOrEmpty(input.Trailer) ? movie.Trailer : input.Trailer;
                 movie.Director = string.IsNullOrWhiteSpace(input.Director) || string.IsNullOrEmpty(input.Director) ? movie.Director : input.Director;
                 movie.Actor = string.IsNullOrWhiteSpace(input.Actor) || string.IsNullOrEmpty(input.Actor) ? movie.Actor : input.Actor;
-                movie.PublishDate = input.PublishDate;
-                movie.Time = TimeSpan.Parse(input.Time);
+                movie.PublishDate = string.IsNullOrEmpty(input.PublishDate.ToString())||string.IsNullOrWhiteSpace(input.PublishDate.ToString())?movie.PublishDate:input.PublishDate;
+                movie.Time = string.IsNullOrEmpty(input.Time.ToString()) || string.IsNullOrWhiteSpace(input.Time.ToString()) ? movie.Time : TimeSpan.Parse(input.Time);
                 movie.Rated = string.IsNullOrWhiteSpace(input.Rated) || string.IsNullOrEmpty(input.Rated) ? movie.Rated : input.Rated;
                 movie.Description = string.IsNullOrWhiteSpace(input.Description) || string.IsNullOrEmpty(input.Description) ? movie.Description : input.Description;
                 movie.Languages = string.IsNullOrWhiteSpace(input.Languages) || string.IsNullOrEmpty(input.Languages) ? movie.Languages : input.Languages;
