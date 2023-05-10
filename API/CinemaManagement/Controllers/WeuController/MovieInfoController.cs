@@ -33,9 +33,9 @@ namespace CinemaManagement.Controllers.WeuController
                            Director = movie.Director,
                            Actor = movie.Actor,
                            PublishDate = movie.PublishDate.Value.Date,
-                           Time = (movie.Time.Value.Hours < 10 ? "0" + movie.Time.Value.Hours :
+                           /*Time = (movie.Time.Value.Hours < 10 ? "0" + movie.Time.Value.Hours :
                             movie.Time.Value.Hours + "") + ":" + (movie.Time.Value.Minutes < 10 ?
-                            "0" + movie.Time.Value.Minutes : movie.Time.Value.Minutes + ""),
+                            "0" + movie.Time.Value.Minutes : movie.Time.Value.Minutes + ""),*/
                            Languages = movie.Languages,
                            Rated = movie.Rated,
                            Description = movie.Description

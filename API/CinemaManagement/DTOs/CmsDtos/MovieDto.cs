@@ -14,7 +14,7 @@ namespace CinemaManagement.DTOs.CmsDtos
         public string Director { get; set; }
         public string Actor { get; set; }
         public DateTime? PublishDate { get; set; }
-        public string Time { get; set; }
+        //public string Time { get; set; }
         public string Languages { get; set; }
         public string Rated { get; set; }
         public string Description { get; set; }
