@@ -18,7 +18,7 @@ export class SeatRanksService {
     return this.httpClient.post(this.baseUrl + "SeatRank/createOrEdit", seatrank);
   }
   delete(id?: number){
-    return this.httpClient.delete(this.baseUrl + `SeatRank/${id}`)
+    return this.httpClient.delete(this.baseUrl + `SeatRank/delete/${id}`)
   }
 
 }

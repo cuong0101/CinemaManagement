@@ -6,6 +6,8 @@ import { BodyComponent } from './navigation/body/body.component';
 import { MstUsersComponent } from './business/mst-users/mst-users.component';
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
+import { MstRoomComponent } from './business/mst-room/mst-room.component';
+
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
@@ -13,7 +15,9 @@ const routes: Routes = [
   {path: "user", component: MstUsersComponent},
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "mstmovie", component: MstMovieComponent},
-  {path: "customer", component: MstCustomersComponent}
+  {path: "customer", component: MstCustomersComponent},
+  {path: "room", component: MstRoomComponent}
+
 ];
 
 @NgModule({
