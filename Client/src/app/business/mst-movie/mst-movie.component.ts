@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
 import { CreateOrEditMovieComponent } from './create-or-edit-movie/create-or-edit-movie.component';
+import { log } from 'console';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-mst-movie',
@@ -70,12 +72,15 @@ export class MstMovieComponent implements OnInit {
     this.movieSelected = undefined;
     this.mstmovieService.getAll().subscribe((re: MstMovieManagement[] | undefined) => {
       this.rowData = re;
+      console.log(this.rowData)
     })
   }
 
   onSelectionChanged(event: any){
-    const selectedRow = this.gridApi?.getSelectedRows()[0];
-    if(selectedRow) this.movieSelected = selectedRow;
+    const selectedRow = this.gridApi.getSelectedRows()[0];
+    if(selectedRow) {
+      this.movieSelected = selectedRow;
+    }
   }
 
   delete(){
@@ -95,9 +100,9 @@ export class MstMovieComponent implements OnInit {
   }
 }
 
-function formatMyDate(date: Date): string {
+function formatMyDate(date:any): string {
   if (date == null) return '';
   const dateFormat = 'dd/MM/yyyy';
-  return new Date(date).toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit'});
+  return new Date(date).toLocaleDateString('vi-VN',{year: 'numeric', month: '2-digit', day: '2-digit'});
 }
 

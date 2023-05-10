@@ -47,9 +47,9 @@ namespace CinemaManagement.Controllers.CmsController
                         Director = movie.Director,
                         Actor = movie.Actor,
                         PublishDate = movie.PublishDate.Value.Date,
-                        Time = (movie.Time.Value.Hours < 10 ? "0"+movie.Time.Value.Hours : 
+                        /*Time = (movie.Time.Value.Hours < 10 ? "0"+movie.Time.Value.Hours : 
                         movie.Time.Value.Hours+"")+":"+(movie.Time.Value.Minutes < 10 ? 
-                        "0"+movie.Time.Value.Minutes : movie.Time.Value.Minutes+""),
+                        "0"+movie.Time.Value.Minutes : movie.Time.Value.Minutes+""),*/
                         Languages = movie.Languages,
                         Rated = movie.Rated,
                         Description = movie.Description
@@ -89,7 +89,7 @@ namespace CinemaManagement.Controllers.CmsController
                 Director = input.Director,
                 Actor = input.Actor,
                 PublishDate = input.PublishDate,
-                Time = TimeSpan.Parse(input.Time),
+                //Time = TimeSpan.Parse(input.Time),
                 Rated = input.Rated,
                 Description = input.Description,
                 Languages = input.Languages
@@ -124,8 +124,8 @@ namespace CinemaManagement.Controllers.CmsController
                 movie.Trailer = string.IsNullOrWhiteSpace(input.Trailer) || string.IsNullOrEmpty(input.Trailer) ? movie.Trailer : input.Trailer;
                 movie.Director = string.IsNullOrWhiteSpace(input.Director) || string.IsNullOrEmpty(input.Director) ? movie.Director : input.Director;
                 movie.Actor = string.IsNullOrWhiteSpace(input.Actor) || string.IsNullOrEmpty(input.Actor) ? movie.Actor : input.Actor;
-                movie.PublishDate = input.PublishDate;
-                movie.Time = TimeSpan.Parse(input.Time);
+                movie.PublishDate = string.IsNullOrEmpty(input.PublishDate.ToString())||string.IsNullOrWhiteSpace(input.PublishDate.ToString())?movie.PublishDate:input.PublishDate;
+                //movie.Time = string.IsNullOrEmpty(input.Time.ToString()) || string.IsNullOrWhiteSpace(input.Time.ToString()) ? movie.Time : TimeSpan.Parse(input.Time);
                 movie.Rated = string.IsNullOrWhiteSpace(input.Rated) || string.IsNullOrEmpty(input.Rated) ? movie.Rated : input.Rated;
                 movie.Description = string.IsNullOrWhiteSpace(input.Description) || string.IsNullOrEmpty(input.Description) ? movie.Description : input.Description;
                 movie.Languages = string.IsNullOrWhiteSpace(input.Languages) || string.IsNullOrEmpty(input.Languages) ? movie.Languages : input.Languages;

@@ -28,6 +28,7 @@ import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-
 import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or-edit-customer/create-or-edit-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-ro
     ToastrModule.forRoot(),
     AgGridModule,
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers:  [
     {

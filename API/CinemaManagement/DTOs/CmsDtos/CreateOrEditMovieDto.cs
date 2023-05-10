@@ -14,8 +14,8 @@ namespace CinemaManagement.DTOs.CmsDtos
         public string Trailer { get; set; }
         public string Director { get; set; }
         public string Actor { get; set; }
-        public DateTime PublishDate { get; set; }
-        public string Time { get; set; }
+        public DateTime? PublishDate { get; set; }
+        public DateTime? Time { get; set; }
         public string Languages { get; set; }
         public string Rated { get; set; }
         public string Description { get; set; }

@@ -12,7 +12,7 @@ export const navbarData: INavbarData[] = [
         label: 'Seat Rank',
     },
     {
-        routeLink: 'Rank Point',
+        routeLink: 'rankpoints',
         icon: 'fa-solid fa-ranking-star',
         label: 'Rank Point'
     },
