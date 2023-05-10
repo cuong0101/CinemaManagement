@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml.Linq;
+using Dapper;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -22,11 +23,12 @@ namespace CinemaManagement.Controllers.CmsController
     public class SeatRankController : BaseApiController
     {
         private readonly DataContext _dataContext;
+        private readonly DapperContext _dapper;
         public SeatRankController(DataContext dataContext, IMapper mapper) : base(mapper)
         {
             _dataContext = dataContext;
         }
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<List<SeatRankDto>> GetAll()
         {
@@ -39,6 +41,18 @@ namespace CinemaManagement.Controllers.CmsController
                              Description = appseatrank.Description,
                          }).ToList();
             return query;
+        }
+        [AllowAnonymous]
+
+        [HttpGet("{id}", Name = "GetSeatRankById")]
+        public async Task<RoomDto> GetUser(long id)
+        {
+            using (var conn = _dapper.CreateConnection())
+            {
+                var cus = await conn.QueryAsync<RoomDto>(@"
+                Select * from MstRooms where isDeleted = 0 and id = " + id);
+                return cus.FirstOrDefault();
+            }
         }
         [HttpPost("createOrEdit")]
 
@@ -75,7 +89,7 @@ namespace CinemaManagement.Controllers.CmsController
             _dataContext.MstSeatRank.Update(seatrank);
             await _dataContext.SaveChangesAsync();
         }
-        [HttpDelete("{id}", Name = "deleted")]
+        [HttpDelete("delete/{id}", Name = "deleted")]
         public async Task Delete(long Id)
         {
             var seatRank = _dataContext.MstSeatRank.FirstOrDefault(e => e.Id == Id);
