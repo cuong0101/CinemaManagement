@@ -18,6 +18,8 @@ namespace CinemaManagement.Data
         public DbSet<MstPromotion> MstPromotions { get; set; }
         public DbSet<MstPromotionDetail> MstPromotionDetail { get; set; }
         public DbSet<MstRankPoint> MstRankPoints { get; set; }
+        public DbSet<MstRoom> MstRooms { get; set; }
+        public DbSet<MstShowTime> MstShowTimes { get; set; }
 
     }
 }
