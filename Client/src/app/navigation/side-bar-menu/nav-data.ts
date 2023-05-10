@@ -22,9 +22,9 @@ export const navbarData: INavbarData[] = [
         label: 'Customer',
     },
     {
-        routeLink: 'pages',
-        icon: 'fal fa-file',
-        label: 'Pages'
+        routeLink: 'room',
+        icon: 'fa-regular fa-house-chimney-window',
+        label: 'Room Cinema'
     },
     {
         routeLink: 'media',
