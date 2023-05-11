@@ -2,6 +2,7 @@
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos;
 using CinemaManagement.Entities;
+using CinemaManagement.Entities.seat;
 
 namespace CinemaManagement.Helpers
 {

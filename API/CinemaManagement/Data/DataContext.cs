@@ -1,4 +1,5 @@
 ﻿using CinemaManagement.Entities;
+using CinemaManagement.Entities.seat;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
@@ -21,6 +22,7 @@ namespace CinemaManagement.Data
         public DbSet<MstRoom> MstRooms { get; set; }
         public DbSet<MstShowTime> MstShowTimes { get; set; }
         public DbSet<MstSeat> MstSeats { get; set; }
+
 
     }
 }

@@ -8,13 +8,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Dapper;
-using CinemaManagement.Entities;
 using Abp.UI;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml.Linq;
+using CinemaManagement.Migrations;
+using System.ComponentModel.DataAnnotations.Schema;
+using CinemaManagement.Entities.seat;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -29,15 +31,18 @@ namespace CinemaManagement.Controllers.CmsController
         }
         [AllowAnonymous]
         [HttpGet("GetAll")]
-        public async Task<List<SeatDto>> GetAll()
+        public async Task<List<GetAllSeatDto>> GetAll()
         {
             using (var conn = _dapper.CreateConnection())
             {
-                var cus = await conn.QueryAsync<SeatDto>(@"
-                Select * from MstSeats where isDeleted = 0");
+                var cus = await conn.QueryAsync<GetAllSeatDto>(@"
+                select s.Id, s.Row, s.[column] as [Column], r.Name as [NameRoom], sr.Name as [NameSeatRank] from (MstSeats as s inner join MstSeatRank as sr on s.IdSeatRank = sr.Id) inner join MstRooms as r on s.IdRoom = r.id
+                WHERE s.IsDeleted = 0");
                 return cus.ToList();
             }
         }
+ //       select s.Row, s.[column] as [Column], r.Name as [Room], sr.Name as [SeatRank] from (MstSeats as s inner join MstSeatRank as sr on s.IdSeatRank = sr.Id) inner join MstRooms as r on s.IdRoom = r.id
+ //WHERE s.IsDeleted = 0;
         [HttpGet("{id}", Name = "GetSeatById")]
         public async Task<SeatDto> GetUser(long id)
         {
@@ -73,7 +78,7 @@ namespace CinemaManagement.Controllers.CmsController
             }
             else
             {
-                var seat = _mapper.Map<MstSeat>(createOrEdit);
+                var seat = _mapper.Map<Entities.seat.MstSeat>(createOrEdit);
                 seat.Row = createOrEdit.Row;
                 seat.Column = createOrEdit.Column;
                 seat.IdRoom = (int?)createOrEdit.IdRoom;

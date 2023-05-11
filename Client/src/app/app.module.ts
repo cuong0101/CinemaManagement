@@ -29,6 +29,8 @@ import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MstSeatComponent } from './business/mst-seat/mst-seat.component';
+import { CreateOrEditSeatComponent } from './business/mst-seat/create-or-edit-seat/create-or-edit-seat.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CreateOrEditCustomerComponent,
     MstRoomComponent,
     CreateOrEditRoomComponent,
+    MstSeatComponent,
+    CreateOrEditSeatComponent,
     //GridTableComponent,
     //GridPaginationComponent,
   ],
