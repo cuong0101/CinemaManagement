@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserManagement } from '../_interfaces/usermanagement';
-import { MstMovieComponent } from '../business/mst-movie/mst-movie.component';
 import { MstMovieManagement } from '../_interfaces/moviemanagement';
 
 @Injectable({
@@ -17,7 +15,7 @@ export class MstMovieService {
   }
 
   createOrEdit(movie?: MstMovieManagement){
-    return this.httpClient.post(this.baseUrl + "Movie/CreateOrEdit", movie);
+    return this.httpClient.post(this.baseUrl + "Movie/CreateOrEdit", movie, {headers: new HttpHeaders({ "Content-Type": "multipart/form-data"})});
   }
   delete(id?: number){
     return this.httpClient.post(this.baseUrl + `Movie/Delete?id=${id}`, id);
