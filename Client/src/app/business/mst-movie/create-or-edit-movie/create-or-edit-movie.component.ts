@@ -53,17 +53,19 @@ export class CreateOrEditMovieComponent implements OnInit {
   }
 
   save(){
-    console.log("da vao day")
-    this.movieService.createOrEdit(this.movie).pipe(finalize(() => this.movie = new MstMovieManagement())).subscribe({
+    this.movieService.createOrEdit(this.movie)
+    .pipe(finalize(() => this.movie = new MstMovieManagement()))
+    .subscribe({
       next: (re) => this.toastr.success("Lưu thành công"),
-      error: (error) => this.toastr.error("Đã xảy ra lỗi")
-    }
-    );
-    console.log(this.movie);
-    this.modalSave.emit(null);
-    location.reload();
-    this.hide();
-    this.route.navigate(["/mstmovie"]);
+      error: (error) => {
+        console.log(error);
+        this.toastr.error(error.errorMessage); 
+      }
+    });
+      this.modalSave.emit(null);
+      //location.reload();
+      this.hide();
+      //this.route.navigate(["/mstmovie"]);
   }
 
 }
