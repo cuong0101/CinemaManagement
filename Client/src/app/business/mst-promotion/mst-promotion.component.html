@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <h4 style="color: brown;">
+    {{ "Thông tin Tìm kiếm" }}
+  </h4>
+  <div class="row mb-2">
+    <div class="col-4">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Nội dung CTKM:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="Name" [(ngModel)]="promotionContent">
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Từ ngày:</label>
+        <div class="col-sm-8">
+          <input class="form-control" id="fromdate" name="fromdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [(ngModel)]="fromDate"
+            bsDatepicker required>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Đến ngày:</label>
+        <div class="col-sm-8">
+          <input class="form-control" id="toDate" name="toDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [(ngModel)]="toDate"
+            bsDatepicker required>
+        </div>
+      </div>
+    </div>
+    <div class="col-2" style="text-align: center;">
+      <button class="btn btn-primary" (click)="search()">
+        <i class="fa-solid fa-magnifying-glass fa-sm"></i>{{ "Tìm kiếm" }}
+      </button>
+    </div>
+  </div>
+  <span>
+    <h4 style="color: brown;">
+        {{ "Danh sách Chương trình khuyến mại" }}
+    </h4>
+  </span>
+  <div class="panel-grid">
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [rowData]="promoData"
+      [columnDefs]="colPromoDefs" (gridReady)="onGridReady($event)" (selectionChanged)="onChangeSelection($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize" (pageChangedEvent)="changePage($event)"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-md-12" style="text-align: right;">
+        <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" (click)="createOrEdit?.show()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+        <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" [disabled]="!promotionSelected?.id" (click)="createOrEdit?.show(promotionSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+        <button type="button" class="btn btn-outline-danger" style="margin-right: 10px;" [disabled]="!promotionSelected?.id" (click)="deleted()"><i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+    </div>
+  </div>
+  <span>
+    <h4 style="color: brown;">
+        {{ "Thông tin khách hàng" }}
+    </h4>
+  </span>
+  <div class="panel-grid">
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [rowData]="promoDetailData"
+      [columnDefs]="colPromoDetailDefs" (gridReady)="onGridReady($event)" (selectionChanged)="onChangeSelectionDetail($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-md-12" style="text-align: right;">
+        <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" (click)="createOrEditDetail?.show()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+        <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" [disabled]="!promotionDetailSelected?.id" (click)="createOrEditDetail?.show(promotionDetailSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+        <button type="button" class="btn btn-outline-danger" style="margin-right: 10px;" [disabled]="!promotionDetailSelected?.id" (click)="deleted()"><i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+    </div>
+  </div>
+</div>
+
+<create-or-edit-promotion #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-promotion>
+<create-or-edit-promotion-detail #createOrEditDetail hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-promotion-detail>

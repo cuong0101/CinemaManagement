@@ -32,6 +32,22 @@ export const navbarData: INavbarData[] = [
         label: 'Media'
     },
     {
+      routeLink: 'promo',
+      icon: 'fa-solid fa-tags',
+      label: 'Discount',
+      expanded: true,
+      items: [
+          {
+              routeLink: 'promo/promotion',
+              label: 'Promotion'
+          },
+          {
+              routeLink: 'settings/voucher',
+              label: 'Voucher'
+          }
+      ]
+    },
+    {
         routeLink: 'settings',
         icon: 'fal fa-cog',
         label: 'Settings',

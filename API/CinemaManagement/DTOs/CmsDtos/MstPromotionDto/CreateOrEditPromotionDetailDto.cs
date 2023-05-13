@@ -1,9 +1,8 @@
 ﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
 
-namespace CinemaManagement.Entities
+namespace CinemaManagement.DTOs.CmsDtos.MstPromotionDto
 {
-    public class MstPromotionDetail : FullAuditedEntity<long>, IEntity<long>
+    public class CreateOrEditPromotionDetailDto : Entity<long?>
     {
         public long? PromotionId { get; set; }
         public long? CusId { get; set; }

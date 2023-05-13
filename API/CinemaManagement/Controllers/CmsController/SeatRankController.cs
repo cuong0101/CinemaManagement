@@ -89,7 +89,7 @@ namespace CinemaManagement.Controllers.CmsController
             _dataContext.MstSeatRank.Update(seatrank);
             await _dataContext.SaveChangesAsync();
         }
-        [HttpDelete("delete/{id}", Name = "deleted")]
+        [HttpDelete("deleted")]
         public async Task Delete(long Id)
         {
             var seatRank = _dataContext.MstSeatRank.FirstOrDefault(e => e.Id == Id);

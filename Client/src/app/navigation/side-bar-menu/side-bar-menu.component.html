@@ -18,13 +18,13 @@
                       {{data.label}}
                   </span>
                   <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
-                      [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"
+                      [ngClass]="!data.expanded ? 'fa-solid fa-angle-right fa-2xs' : 'fa-solid fa-angle-down fa-2xs'"
                   ></i>
               </a>
-  
-              <a class="sidenav-nav-link" 
+
+              <a class="sidenav-nav-link"
                   *ngIf="!data.items || (data.items && data.items.length === 0)"
-                  [routerLink]="[data.routeLink]" 
+                  [routerLink]="[data.routeLink]"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{exact: true}"
                   (click)="shrinkItems(data)"
