@@ -40,7 +40,7 @@ namespace CinemaManagement.Controllers.CmsController
 	                CAST(m.Time AS VARCHAR) Time,
 	                m.Name MovieName, 
 	                c.Name RoomName
-                FROM dbo.MstShowTime s
+                FROM dbo.MstShowTimes s
                 INNER JOIN dbo.MstMovie m ON s.MovieId = m.Id
                 INNER JOIN dbo.MstRooms c ON s.RoomId = c.Id
                 WHERE c.IsDeleted = 0 AND m.IsDeleted = 0
@@ -52,7 +52,8 @@ namespace CinemaManagement.Controllers.CmsController
         private async Task AddShowTime(AddShowTime showtime)
         {
             var show = _mapper.Map<MstShowTime>(showtime);
-            await _context.MstShowTimes.AddAsync(show);
+            _context.MstShowTimes.Add(show);
+            await _context.SaveChangesAsync();
         }
 
         private async Task EditShowTime(AddShowTime showtime)
@@ -76,6 +77,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
             var show = _context.MstShowTimes.FirstOrDefault(e => e.Id == id);
             _context.MstShowTimes.Remove(show);
+            await _context.SaveChangesAsync();
         }
 
     }
