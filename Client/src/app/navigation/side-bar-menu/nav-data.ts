@@ -7,6 +7,11 @@ export const navbarData: INavbarData[] = [
         label: 'Users'
     },
     {
+        routeLink: 'mstmovie',
+        icon: 'fa-light fa-camera-movie',
+        label: 'Movie',
+    },
+    {
         routeLink: 'seatrank',
         icon: 'fa-solid fa-chair',
         label: 'Seat Rank',

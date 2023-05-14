@@ -4,15 +4,18 @@ using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230513075331_fixTableShowTime")]
+    partial class fixTableShowTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.15")
@@ -386,8 +389,8 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PromotionId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PromotionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -491,6 +494,7 @@ namespace CinemaManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Column")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -525,10 +529,6 @@ namespace CinemaManagement.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Row")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("column")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -577,6 +577,7 @@ namespace CinemaManagement.Migrations
 
                     b.ToTable("MstSeatRank");
                 });
+
             modelBuilder.Entity("CinemaManagement.Entities.MstShowTime", b =>
                 {
                     b.Property<long>("Id")
@@ -596,18 +597,6 @@ namespace CinemaManagement.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("EndRime")
-                        .IsRequired()
-                        .HasColumnType("time");
-
-                    b.Property<int?>("IdMoive")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdRoom")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -617,13 +606,6 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("Release")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan?>("StartTime")
-                        .IsRequired()
-                        .HasColumnType("time");
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
@@ -637,6 +619,7 @@ namespace CinemaManagement.Migrations
 
                     b.ToTable("MstShowTimes");
                 });
+#pragma warning restore 612, 618
         }
     }
 }

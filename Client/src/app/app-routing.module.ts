@@ -14,15 +14,16 @@ const routes: Routes = [
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},
-  {path: "seatrank", component: MstSeatranksComponent},
   {path: "mstmovie", component: MstMovieComponent},
-  {path: "customer", component: MstCustomersComponent},
   {path: "room", component: MstRoomComponent},
   {path: 'promo', children: [
       { path: 'promotion', component: MstPromotionComponent },
-      //{ path: 'promotion', component: PromotionComponent },
     ]
   },
+
+  {path: "customer", component: MstCustomersComponent},
+  {path: "seatrank", component: MstSeatranksComponent},
+
 ];
 
 @NgModule({

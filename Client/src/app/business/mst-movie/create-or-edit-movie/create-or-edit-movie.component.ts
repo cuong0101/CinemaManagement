@@ -37,8 +37,6 @@ export class CreateOrEditMovieComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
     if(movie) {
-      // this.datepicker = moment(movie.publishDate).toDate();
-      // console.log(moment(movie.publishDate))
       this.movie = movie;
       this.movie.publishDate = moment(movie.publishDate).toDate();
       this.bsModalRef.content.movie = this.movie;
@@ -56,16 +54,17 @@ export class CreateOrEditMovieComponent implements OnInit {
     this.movieService.createOrEdit(this.movie)
     .pipe(finalize(() => this.movie = new MstMovieManagement()))
     .subscribe({
-      next: (re) => this.toastr.success("Lưu thành công"),
-      error: (error) => {
-        console.log(error);
-        this.toastr.error(error.errorMessage); 
-      }
+        next: () => {
+          this.toastr.success("Lưu thành công")
+        },
+        error: (error) => {
+          this.toastr.error(error.errorMessage); 
+        }
     });
       this.modalSave.emit(null);
-      //location.reload();
       this.hide();
-      //this.route.navigate(["/mstmovie"]);
+      location.reload();
+      this.route.navigate(["/mstmovie"]);
   }
 
 }

@@ -15,16 +15,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CmsController
 {
-    public class MovieController : BaseApiController
+    public class MovieController : BaseApiController_new
     {
-        private Cloudinary cloudinary;
-        public const string CLOUD_NAME = "vitcamo";
-        public const string API_KEY = "994713494841983";
-        public const string API_SECRET = "j4IFJKw-dNFx382XJgZF0JYS3IY";
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
         public MovieController(DataContext context, DapperContext dapper, IMapper mapper):base(mapper)
@@ -49,16 +46,13 @@ namespace CinemaManagement.Controllers.CmsController
                            Actor = movie.Actor,
                            PublishDate = movie.PublishDate.Value.Date,
                            Time = movie.Time.ToString(),
-                           Languages = movie.Languages,
+                           Languages = movie.Languages, 
                            Rated = movie.Rated,
                            Description = movie.Description
                        }).ToList();
             return res;
         }
-
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task Create([FromForm]CreateOrEditMovieDto input)
+        private async Task Create(CreateOrEditMovieDto input)
         {
             var name = _context.MstMovie.ToList().Where(e => e.Name == input.Name).Count();
             if (name > 0)
@@ -67,19 +61,7 @@ namespace CinemaManagement.Controllers.CmsController
             }
             string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
 
-            if (input.Image!=null)
-            {
-                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-                cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
-                    PublicId = Guid.NewGuid().ToString(),
-                    Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                imageUrl = uploadResult.Url.ToString();
-            }
+            
             var movie = new MstMovie
             {
                 Name = input.Name,
@@ -96,47 +78,29 @@ namespace CinemaManagement.Controllers.CmsController
             _context.Add(movie);
             await _context.SaveChangesAsync();
         }
-
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task Update([FromForm] CreateOrEditMovieDto input)
+        private async Task Update(CreateOrEditMovieDto input)
         {
             var movie = _context.MstMovie.Find(input.Id);
 
             string imageUrl = movie.Image;
 
-            if (input.Image != null)
-            {
-                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-                cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
-                    PublicId = Guid.NewGuid().ToString(),
-                    Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                imageUrl = uploadResult.Url.ToString();
-            }
-                movie.Name = string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrEmpty(input.Name) ? movie.Name : input.Name;
-                movie.Image = imageUrl;
-                movie.Trailer = string.IsNullOrWhiteSpace(input.Trailer) || string.IsNullOrEmpty(input.Trailer) ? movie.Trailer : input.Trailer;
-                movie.Director = string.IsNullOrWhiteSpace(input.Director) || string.IsNullOrEmpty(input.Director) ? movie.Director : input.Director;
-                movie.Actor = string.IsNullOrWhiteSpace(input.Actor) || string.IsNullOrEmpty(input.Actor) ? movie.Actor : input.Actor;
-                movie.PublishDate = string.IsNullOrEmpty(input.PublishDate.ToString())||string.IsNullOrWhiteSpace(input.PublishDate.ToString())?movie.PublishDate:input.PublishDate;
-                input.Time = input.Time ?? movie.Time.ToString();
-                movie.Time = TimeSpan.Parse(input.Time);
-                movie.Rated = string.IsNullOrWhiteSpace(input.Rated) || string.IsNullOrEmpty(input.Rated) ? movie.Rated : input.Rated;
-                movie.Description = string.IsNullOrWhiteSpace(input.Description) || string.IsNullOrEmpty(input.Description) ? movie.Description : input.Description;
-                movie.Languages = string.IsNullOrWhiteSpace(input.Languages) || string.IsNullOrEmpty(input.Languages) ? movie.Languages : input.Languages;
+            movie.Name = string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrEmpty(input.Name) ? movie.Name : input.Name;
+            movie.Image = imageUrl;
+            movie.Trailer = string.IsNullOrWhiteSpace(input.Trailer) || string.IsNullOrEmpty(input.Trailer) ? movie.Trailer : input.Trailer;
+            movie.Director = string.IsNullOrWhiteSpace(input.Director) || string.IsNullOrEmpty(input.Director) ? movie.Director : input.Director;
+            movie.Actor = string.IsNullOrWhiteSpace(input.Actor) || string.IsNullOrEmpty(input.Actor) ? movie.Actor : input.Actor;
+            movie.PublishDate = string.IsNullOrEmpty(input.PublishDate.ToString()) || string.IsNullOrWhiteSpace(input.PublishDate.ToString()) ? movie.PublishDate : input.PublishDate;
+            input.Time = input.Time ?? movie.Time.ToString();
+            movie.Time = TimeSpan.Parse(input.Time);
+            movie.Rated = string.IsNullOrWhiteSpace(input.Rated) || string.IsNullOrEmpty(input.Rated) ? movie.Rated : input.Rated;
+            movie.Description = string.IsNullOrWhiteSpace(input.Description) || string.IsNullOrEmpty(input.Description) ? movie.Description : input.Description;
+            movie.Languages = string.IsNullOrWhiteSpace(input.Languages) || string.IsNullOrEmpty(input.Languages) ? movie.Languages : input.Languages;
             _context.MstMovie.Update(movie);
             await _context.SaveChangesAsync();
         }
 
         [HttpPost("CreateOrEdit")]
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task CreateOrEdit([FromForm] CreateOrEditMovieDto input)
+        public async Task CreateOrEdit(CreateOrEditMovieDto input)
         {
             if (input.Id == null)
             {

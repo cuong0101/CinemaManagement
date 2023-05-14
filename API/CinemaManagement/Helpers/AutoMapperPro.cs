@@ -2,6 +2,7 @@
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.MstPromotionDto;
 using CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos;
+using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 
 namespace CinemaManagement.Helpers
@@ -15,6 +16,7 @@ namespace CinemaManagement.Helpers
             CreateMap<RoomDto, MstRoom>().ReverseMap();
             CreateMap<SeatDto, MstSeat>().ReverseMap();
             CreateMap<ShowTimeDto, MstShowTime>().ReverseMap();
+            CreateMap<AddShowTime, MstShowTime>().ReverseMap();
             CreateMap<CreateOrEditRankPointsDto, MstRankPoint>().ReverseMap();
             CreateMap<CreateOrEditPromotionDto, MstPromotion>().ReverseMap();
             CreateMap<CreateOrEditPromotionDetailDto, MstPromotionDetail>().ReverseMap();
