@@ -7,6 +7,7 @@ export const navbarData: INavbarData[] = [
         label: 'Users'
     },
     {
+<<<<<<< Updated upstream
         routeLink: 'products',
         icon: 'fal fa-box-open',
         label: 'Products',
@@ -40,6 +41,17 @@ export const navbarData: INavbarData[] = [
                 label: 'Level 1.2',
             }
         ]
+=======
+        routeLink: 'mstmovie',
+        icon: 'fa-light fa-camera-movie',
+        label: 'Movie',
+        
+    },
+    {
+        routeLink: 'seatrank',
+        icon: 'fa-solid fa-chair',
+        label: 'Seat Rank',
+>>>>>>> Stashed changes
     },
     {
         routeLink: 'rankpoints',

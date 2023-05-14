@@ -4,14 +4,16 @@ using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230513075331_fixTableShowTime")]
+    partial class fixTableShowTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -446,8 +448,6 @@ namespace CinemaManagement.Migrations
                     b.ToTable("MstRankPoints");
                 });
 
-<<<<<<< Updated upstream
-=======
             modelBuilder.Entity("CinemaManagement.Entities.MstRoom", b =>
                 {
                     b.Property<long>("Id")
@@ -537,7 +537,6 @@ namespace CinemaManagement.Migrations
                     b.ToTable("MstSeats");
                 });
 
->>>>>>> Stashed changes
             modelBuilder.Entity("CinemaManagement.Entities.MstSeatRank", b =>
                 {
                     b.Property<long>("Id")
@@ -578,8 +577,6 @@ namespace CinemaManagement.Migrations
 
                     b.ToTable("MstSeatRank");
                 });
-<<<<<<< Updated upstream
-=======
 
             modelBuilder.Entity("CinemaManagement.Entities.MstShowTime", b =>
                 {
@@ -622,7 +619,6 @@ namespace CinemaManagement.Migrations
 
                     b.ToTable("MstShowTimes");
                 });
->>>>>>> Stashed changes
 #pragma warning restore 612, 618
         }
     }

@@ -11,9 +11,15 @@ const routes: Routes = [
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},
-  {path: "seatrank", component: MstSeatranksComponent},
   {path: "mstmovie", component: MstMovieComponent},
+<<<<<<< Updated upstream
   {path: "customer", component: MstCustomersComponent}
+=======
+  {path: "seatrank", component: MstSeatranksComponent},
+  {path: "customer", component: MstCustomersComponent},
+  {path: "room", component: MstRoomComponent}
+
+>>>>>>> Stashed changes
 ];
 
 @NgModule({

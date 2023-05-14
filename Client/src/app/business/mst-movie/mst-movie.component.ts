@@ -5,8 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
 import { CreateOrEditMovieComponent } from './create-or-edit-movie/create-or-edit-movie.component';
-import { log } from 'console';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-mst-movie',
@@ -58,6 +56,11 @@ export class MstMovieComponent implements OnInit {
       flex: 1,
       floatingFilter: true,
     };
+  }
+
+  imageRenderer(params:any) {
+    var a = 'https://upload.wikimedia.org/wikipedia/vi/2/2d/Avengers_Endgame_bia_teaser.jpg'
+    return '<img style="max-width:100%;max-height:100%;" src="' + a + '"/>';
   }
 
 
