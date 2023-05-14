@@ -21,6 +21,7 @@ namespace CinemaManagement.Data
         public DbSet<MstRoom> MstRooms { get; set; }
         public DbSet<MstShowTime> MstShowTimes { get; set; }
         public DbSet<MstSeat> MstSeats { get; set; }
+        public DbSet<MstTicket> MstTicket { get; set; }
 
     }
 }
