@@ -13,9 +13,7 @@ import { TopBarComponent } from './navigation/top-bar/top-bar.component';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import * as agGridAngular from 'ag-grid-angular';
-import { ToastrModule } from 'ngx-toastr';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { AgGridModule } from 'ag-grid-angular';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,7 +29,6 @@ import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { ToastrModule } from 'ngx-toastr';
 import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.component';
 import { CreateOrEditPromotionComponent } from './business/mst-promotion/create-or-edit-promotion/create-or-edit-promotion.component';
 import { CreateOrEditPromotionDetailComponent } from './business/mst-promotion/create-or-edit-promotion-detail/create-or-edit-promotion-detail.component';
