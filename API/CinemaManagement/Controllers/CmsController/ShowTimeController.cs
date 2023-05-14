@@ -2,9 +2,12 @@
 using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs;
+using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.DTOs.CmsDtos.MstPromotionDto;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
+using CinemaManagement.Migrations;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +16,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using MstShowTime = CinemaManagement.Entities.MstShowTime;
+using ShowTimeDto = CinemaManagement.DTOs.CmsDtos.ShowTimeDto;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -66,7 +71,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CreateOrEdit")]
-        public async Task CreateOrEdit (AddShowTime showtime)
+        public async Task CreateOrEdit(AddShowTime showtime)
         {
             if (showtime.Id == null)
                 await AddShowTime(showtime);
@@ -76,7 +81,7 @@ namespace CinemaManagement.Controllers.CmsController
 
         [AllowAnonymous]
         [HttpDelete("{id}")]
-        public async Task Delete ([Required]long id)
+        public async Task Delete([Required] long id)
         {
             var show = _context.MstShowTimes.FirstOrDefault(e => e.Id == id);
             show.IsDeleted = true;
@@ -87,7 +92,45 @@ namespace CinemaManagement.Controllers.CmsController
         [HttpGet("GetAllMovie")]
         public async Task<List<MstMovie>> getMovieList()
         {
-            return _context.MstMovie.Where(e=>e.IsDeleted == false).ToList();
+            return _context.MstMovie.Where(e => e.IsDeleted == false).ToList();
+        }
+
+
+        [HttpGet("GetTicketByShowTime")]
+        public async Task<List<SearchTicketByShowTime>> SearchAllTicketByShowTime()
+        {
+
+            List<SearchTicketByShowTime> result = await (
+            from s in _context.MstShowTimes.AsNoTracking().Where(e => e.IsDeleted == false)
+            join m in _context.MstMovie.AsNoTracking().Where(e => e.IsDeleted == false)
+            on s.MovieId equals m.Id
+            join r in _context.MstRooms.AsNoTracking().Where(e => e.IsDeleted == false)
+            on s.RoomId equals r.Id
+            select new SearchTicketByShowTime
+            {
+                Id = s.Id,
+                StartDate = s.StartTime,
+                StartTime = s.StartTime,
+                Time = m.Time.ToString(),
+                MovieName = m.Name,
+                RoomName = r.Name,
+                listTicket = (
+                    from s in _context.MstSeats.AsNoTracking().Where(e => e.IsDeleted == false)
+                    join t in _context.MstTicket.AsNoTracking().Where(e => e.IsDeleted == false)
+                    on s.Id equals t.SeatId
+                    join sr in _context.MstSeatRank.AsNoTracking().Where(e => e.IsDeleted == false)
+                    on s.IdSeatRank equals sr.Id
+                    select new TicketByShowTime 
+                    {
+                        Id = t.Id,
+                        Row = s.Row,
+                        Column = s.Column,
+                        SeatRankName = sr.Name,
+                        Status = t.Status
+                    }).ToList(),
+            }).ToListAsync();
+
+            return result;
         }
 
     }

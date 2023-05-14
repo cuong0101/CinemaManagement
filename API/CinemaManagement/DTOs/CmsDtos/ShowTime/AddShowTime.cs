@@ -4,9 +4,8 @@ using System;
 
 namespace CinemaManagement.DTOs.CmsDtos.ShowTime
 {
-    public class AddShowTime
+    public class AddShowTime : Entity<long?>
     {
-        public long? Id { get; set; }
         public DateTime StartTime { get; set; }
         public int MovieId { get; set; }
         public int RoomId { get; set; }

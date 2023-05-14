@@ -28,7 +28,7 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
 
 
   ngOnInit() {
-    
+    this.getAllMovie();
   }
 
   openModal(show?: MstShowtimeManagement) {

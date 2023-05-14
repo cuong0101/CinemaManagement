@@ -10,7 +10,6 @@ namespace CinemaManagement.Entities
         public long ShowTimeId { get; set; }
         [Required]
         public long SeatId { get; set; }
-        [Required]
         public long? CustomerId { get; set; }
         public long? EmployeeId { get; set; }
         public int Status { get; set; }

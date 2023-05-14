@@ -76,8 +76,8 @@ namespace CinemaManagement.Controllers.CmsController
                 var seat = _mapper.Map<MstSeat>(createOrEdit);
                 seat.Row = createOrEdit.Row;
                 seat.Column = createOrEdit.Column;
-                seat.IdRoom = (int?)createOrEdit.IdRoom;
-                seat.IdSeatRank = (int?)createOrEdit.IdSeatRank;
+                seat.IdRoom = (int)createOrEdit.IdRoom;
+                seat.IdSeatRank = (int)createOrEdit.IdSeatRank;
                 _dataContext.MstSeats.Add(seat);
                 await _dataContext.SaveChangesAsync();
             }
@@ -88,8 +88,8 @@ namespace CinemaManagement.Controllers.CmsController
             var seat = _mapper.Map(SeatDto, row);
             seat.Row = SeatDto.Row;
             seat.Column = SeatDto.Column;
-            seat.IdRoom = (int?)SeatDto.IdRoom;
-            seat.IdSeatRank = (int?)SeatDto.IdSeatRank;
+            seat.IdRoom = (int)SeatDto.IdRoom;
+            seat.IdSeatRank = (int)SeatDto.IdSeatRank;
             _dataContext.MstSeats.Update(seat);
             await _dataContext.SaveChangesAsync();
         }

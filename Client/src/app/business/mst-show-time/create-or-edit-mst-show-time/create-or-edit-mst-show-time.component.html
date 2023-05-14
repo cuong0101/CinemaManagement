@@ -34,8 +34,8 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Movie</label>
               <div class="col-sm-9">
-                <select class="form-control" name="movie" [(ngModel)]="show.id">
-                  <option *ngFor="let item of listMovie" [value]="item.key">{{item.value}}</option>
+                <select class="form-control" name="movie" [(ngModel)]="show.MovieId">
+                  <option *ngFor="let item of listMovie" [ngValue]="item.key">{{item.value}}</option>
                 </select>
               </div>
             </div>
