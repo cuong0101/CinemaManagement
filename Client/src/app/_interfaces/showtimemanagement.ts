@@ -5,6 +5,8 @@ export class MstShowtimeManagement{
     StartDate?: Date;
     StartTime?:Time;
     Time?:Time;
+    MovieId?:number;
     MovieName?:string;
+    RoomId?:number;
     RoomName?:string;
-  }
+}
