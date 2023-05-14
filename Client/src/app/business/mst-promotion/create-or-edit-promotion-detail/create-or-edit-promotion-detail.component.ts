@@ -36,10 +36,11 @@ export class CreateOrEditPromotionDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getAllCus();
   }
 
   show(promo?: PromotionDetail) {
-    this.getAllCus();
+    //this.getAllCus();
     this.promoDetail = new PromotionDetail();
     const config: ModalOptions = {
       class: 'modal-dialog modal-xl',
@@ -97,8 +98,6 @@ export class CreateOrEditPromotionDetailComponent implements OnInit {
     .subscribe(res =>  {
         res.forEach(e => this.cusList.push({value: e.id, label: e.name}))
         this.cusList = [...this.cusList]
-        //this.cusList = res;
-        console.log(this.cusList)
     });
   }
 
