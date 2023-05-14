@@ -6,15 +6,17 @@ using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CmsController
 {
-    public class ShowTimeController : BaseApiController
+    public class ShowTimeController : BaseApiController_new
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
@@ -28,7 +30,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpGet("GetAll")]
-        public async Task<List<ShowTimeDto>> getAll()
+        public async Task<IActionResult> getAll()
         {
             using (var conn = _dapper.CreateConnection())
             {
@@ -45,7 +47,7 @@ namespace CinemaManagement.Controllers.CmsController
                 INNER JOIN dbo.MstRooms c ON s.RoomId = c.Id
                 WHERE c.IsDeleted = 0 AND m.IsDeleted = 0
                 AND s.IsDeleted = 0");
-                return showtimes.ToList();
+                return CustomResult(showtimes.ToList());
             }
         }
 
@@ -72,12 +74,20 @@ namespace CinemaManagement.Controllers.CmsController
                 await EditShowTime(showtime);
         }
 
-        [HttpDelete("{id}", Name ="Delete")]
-        public async Task Delete (long id)
+        [AllowAnonymous]
+        [HttpDelete("{id}")]
+        public async Task Delete ([Required]long id)
         {
             var show = _context.MstShowTimes.FirstOrDefault(e => e.Id == id);
-            _context.MstShowTimes.Remove(show);
+            show.IsDeleted = true;
+            _context.MstShowTimes.Update(show);
             await _context.SaveChangesAsync();
+        }
+
+        [HttpGet("GetAllMovie")]
+        public async Task<List<MstMovie>> getMovieList()
+        {
+            return _context.MstMovie.Where(e=>e.IsDeleted == false).ToList();
         }
 
     }

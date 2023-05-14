@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row mb-2">
       <div class="col-md-12">
-          <button type="button" class="btn btn-outline-primary" ><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
-          <button type="button" class="btn btn-outline-primary" ><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
-          <button type="button" class="btn btn-outline-danger" > <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+          <button type="button" class="btn btn-outline-primary" (click)="show?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+          <button type="button" class="btn btn-outline-primary" (click)="show?.openModal(showSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+          <button type="button" class="btn btn-outline-danger" (click)="delete()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
       </div>
       
   </div>
@@ -24,4 +24,4 @@
   </div>
 </div>
 
-<!-- <create-or-edit-movie #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-movie> -->
+<app-create-or-edit-mst-show-time #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></app-create-or-edit-mst-show-time>

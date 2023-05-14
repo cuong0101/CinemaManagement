@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
 import { MstShowtimeManagement } from 'src/app/_interfaces/showtimemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
 import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
+import { CreateOrEditMstShowTimeComponent } from './create-or-edit-mst-show-time/create-or-edit-mst-show-time.component';
 
 @Component({
   selector: 'app-mst-show-time',
@@ -13,10 +14,11 @@ import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
   styleUrls: ['./mst-show-time.component.css']
 })
 export class MstShowTimeComponent implements OnInit {
+  @ViewChild("createOrEdit") show?: CreateOrEditMstShowTimeComponent
 
   colDefs?: ColDef[];
   defaultColDef?:ColDef;
-  rowData?: MstShowtimeManagement[];
+  rowData?: [] = [];
   private gridApi!: GridApi<MstShowtimeManagement>;
   showSelected?: MstShowtimeManagement = new MstShowtimeManagement();
   params!: GridReadyEvent;
@@ -49,7 +51,7 @@ export class MstShowTimeComponent implements OnInit {
       },
       {
         headerName: "Room Name",
-        field: "movieName",
+        field: "roomName",
       },
     ];
     this.defaultColDef = {
@@ -68,9 +70,9 @@ export class MstShowTimeComponent implements OnInit {
     this.gridApi = params.api;
     this.params = params;
     this.showSelected = undefined;
-    this.showtimeService.getAll().subscribe((re: MstShowtimeManagement[] | undefined) => {
-      this.rowData = re;
-      console.log(this.rowData)
+    this.showtimeService.getAll().subscribe((re: any) => {
+      this.rowData = re.data;
+      console.log(re.data)
     })
   }
 
@@ -78,7 +80,26 @@ export class MstShowTimeComponent implements OnInit {
     const selectedRow = this.gridApi.getSelectedRows()[0];
     if(selectedRow) {
       this.showSelected = selectedRow;
+      console.log(this.showSelected.id)
     }
   }
 
+  delete(){
+    this.message = confirm("Bạn có chắc chắn muốn xóa không?");
+    if(this.message)
+    {
+      console.log(this.showSelected?.id)
+      this.showtimeService
+      .delete(this.showSelected?.id)
+      .subscribe({
+        next:() => {
+          this.toastr.success("Xóa thành công!")
+          this.onGridReady(this.params);
+        },
+        error: (ersr: any) => this.toastr.error("Xóa thất bại")
+      });
+    }
+  }
+
+  
 }
