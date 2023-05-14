@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {  } from '@angular/platform-browser/animations';
+//import {  } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,13 +22,15 @@ import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-u
 import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
-import { MatPaginator } from '@angular/material/paginator';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
 import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or-edit-customer/create-or-edit-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FileUploadModule } from 'ng2-file-upload';
+import { MstRankPointsComponent } from './business/mst-rank-points/mst-rank-points.component';
+import { CreateOrEditMstRankPointsComponent } from './business/mst-rank-points/create-or-edit-mst-rank-points/create-or-edit-mst-rank-points.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CreateOrEditCustomerComponent,
     MstRoomComponent,
     CreateOrEditRoomComponent,
+    MstRankPointsComponent,
+    CreateOrEditMstRankPointsComponent
     //GridTableComponent,
     //GridPaginationComponent,
   ],
@@ -68,7 +72,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     ToastrModule.forRoot(),
     AgGridModule,
     ModalModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    FileUploadModule,
+    //SharedModule,
   ],
   providers:  [
     {

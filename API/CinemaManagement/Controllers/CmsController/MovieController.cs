@@ -6,9 +6,12 @@ using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.Entities;
+using CinemaManagement.Interfaces;
+using CinemaManagement.Migrations;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NUglify.Helpers;
 using System;
@@ -27,10 +30,12 @@ namespace CinemaManagement.Controllers.CmsController
         public const string API_SECRET = "j4IFJKw-dNFx382XJgZF0JYS3IY";
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
-        public MovieController(DataContext context, DapperContext dapper, IMapper mapper):base(mapper)
+        private readonly IPhotoService _photoService;
+        public MovieController(DataContext context, DapperContext dapper, IMapper mapper, IPhotoService photoService) : base(mapper)
         {
             _context = context;
             _dapper = dapper;
+            _photoService=photoService;
         }
 
         [HttpGet("GetAll")]
@@ -57,9 +62,10 @@ namespace CinemaManagement.Controllers.CmsController
             return res;
         }
 
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task Create([FromForm]CreateOrEditMovieDto input)
+        //[Consumes("multipart/form-data")]
+        //[RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
+        
+        private async Task Create(CreateOrEditMovieDto input)
         {
             var name = _context.MstMovie.ToList().Where(e => e.Name == input.Name).Count();
             if (name > 0)
@@ -70,16 +76,7 @@ namespace CinemaManagement.Controllers.CmsController
 
             if (input.Image!=null)
             {
-                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-                cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(input.Image.FileName, input.Image.OpenReadStream()),
-                    PublicId = Guid.NewGuid().ToString(),
-                    Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                imageUrl = uploadResult.Url.ToString();
+                imageUrl  = _photoService.AddPhotoAsync(input.Image).Result.Url.ToString();
             }
             var movie = new MstMovie
             {
@@ -98,9 +95,8 @@ namespace CinemaManagement.Controllers.CmsController
             await _context.SaveChangesAsync();
         }
 
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task Update([FromForm] CreateOrEditMovieDto input)
+       
+        private async Task Update(CreateOrEditMovieDto input)
         {
             var movie = _context.MstMovie.Find(input.Id);
 
@@ -134,9 +130,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CreateOrEdit")]
-        [Consumes("multipart/form-data")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200 / 2)]
-        public async Task CreateOrEdit([FromForm] CreateOrEditMovieDto input)
+        public async Task CreateOrEdit(CreateOrEditMovieDto input)
         {
             if (input.Id == null)
             {
@@ -154,6 +148,13 @@ namespace CinemaManagement.Controllers.CmsController
             movie.IsDeleted = true;
             _context.MstMovie.Update(movie);
             await _context.SaveChangesAsync();
+        }
+
+        [HttpPost("add-photo")]
+        //[System.Obsolete]
+        public async Task<string> TestUpLoadFile(IFormFile file)
+        {
+           return  _photoService.AddPhotoAsync(file).Result.Url.ToString();
         }
     }
 }

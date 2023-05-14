@@ -7,6 +7,7 @@ import { MstUsersComponent } from './business/mst-users/mst-users.component';
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
+import { MstRankPointsComponent } from './business/mst-rank-points/mst-rank-points.component';
 
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "mstmovie", component: MstMovieComponent},
   {path: "customer", component: MstCustomersComponent},
-  {path: "room", component: MstRoomComponent}
+  {path: "room", component: MstRoomComponent},
+  {path: "rankpoints", component: MstRankPointsComponent}
 
 ];
 

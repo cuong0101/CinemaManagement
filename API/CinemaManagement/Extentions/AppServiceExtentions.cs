@@ -24,8 +24,10 @@ namespace CinemaManagement.Extentions
                     });
             });
             services.AddCors();
+            services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddAutoMapper(typeof(AutoMapperPro));
             return services;
         }
