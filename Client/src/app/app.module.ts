@@ -33,6 +33,8 @@ import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.co
 import { CreateOrEditPromotionComponent } from './business/mst-promotion/create-or-edit-promotion/create-or-edit-promotion.component';
 import { CreateOrEditPromotionDetailComponent } from './business/mst-promotion/create-or-edit-promotion-detail/create-or-edit-promotion-detail.component';
 import { ToastrModule } from 'ngx-toastr';
+import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
+import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/create-or-edit-mst-show-time/create-or-edit-mst-show-time.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -57,7 +59,9 @@ import { ToastrModule } from 'ngx-toastr';
     CreateOrEditRoomComponent,
     MstPromotionComponent,
     CreateOrEditPromotionComponent,
-    CreateOrEditPromotionDetailComponent
+    CreateOrEditPromotionDetailComponent,
+    MstShowTimeComponent,
+    CreateOrEditMstShowTimeComponent
     //GridTableComponent,
     //GridPaginationComponent,
   ],

@@ -12,15 +12,16 @@ export const navbarData: INavbarData[] = [
         label: 'Movie',
     },
     {
+        routeLink: 'mstshowtime',
+        icon: 'fa-solid fa-calendar-days',
+        label: 'Showtime',
+    },
+    {
         routeLink: 'seatrank',
         icon: 'fa-solid fa-chair',
         label: 'Seat Rank',
     },
-    {
-        routeLink: 'rankpoints',
-        icon: 'fa-solid fa-ranking-star',
-        label: 'Rank Point'
-    },
+    
     {
         routeLink: 'customer',
         icon: 'fa-solid fa-file-invoice',
@@ -35,6 +36,11 @@ export const navbarData: INavbarData[] = [
         routeLink: 'media',
         icon: 'fal fa-camera',
         label: 'Media'
+    },
+    {
+        routeLink: 'rankpoints',
+        icon: 'fa-solid fa-ranking-star',
+        label: 'Rank Point'
     },
     {
       routeLink: 'promo',

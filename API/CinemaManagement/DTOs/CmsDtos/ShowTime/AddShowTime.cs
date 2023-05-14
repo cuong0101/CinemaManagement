@@ -4,7 +4,7 @@ using System;
 
 namespace CinemaManagement.DTOs.CmsDtos.ShowTime
 {
-    public class AddShowTime 
+    public class AddShowTime
     {
         public long? Id { get; set; }
         public DateTime StartTime { get; set; }

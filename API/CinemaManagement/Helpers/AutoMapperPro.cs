@@ -15,7 +15,6 @@ namespace CinemaManagement.Helpers
             CreateMap<SeatRankDto, MstSeatRank>().ReverseMap();
             CreateMap<RoomDto, MstRoom>().ReverseMap();
             CreateMap<SeatDto, MstSeat>().ReverseMap();
-            CreateMap<ShowTimeDto, MstShowTime>().ReverseMap();
             CreateMap<AddShowTime, MstShowTime>().ReverseMap();
             CreateMap<CreateOrEditRankPointsDto, MstRankPoint>().ReverseMap();
             CreateMap<CreateOrEditPromotionDto, MstPromotion>().ReverseMap();
