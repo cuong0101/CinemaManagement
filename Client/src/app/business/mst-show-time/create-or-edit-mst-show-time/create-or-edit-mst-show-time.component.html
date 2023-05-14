@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="modal-header modal-lg">
+      <h4 class="modal-title pull-left">
+        <span *ngIf="show.id">Sửa thông tin suất chiếu</span>
+        <span *ngIf="!show.id">Thêm mới suất chiếu</span>
+        Suất chiếu thêm sửa
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Start Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" name="startdate" [(ngModel)]="show.StartDate">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Start Time</label>
+              <div class="col-sm-9">
+                <input type="time" class="form-control" name="starttime" [(ngModel)]="show.StartTime">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Movie</label>
+              <div class="col-sm-9">
+                <select class="form-control" name="movie" [(ngModel)]="show.MovieId">
+                  <option *ngFor="let item of listMovie" [ngValue]="item.key">{{item.value}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Room</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="room" [(ngModel)]="show.RoomName">
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Close</button>
+  </div>
+</div>

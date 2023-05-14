@@ -10,7 +10,7 @@ namespace CinemaManagement.DTOs.CmsDtos
         public DateTime Release { get; set; } //Ngày chiếu
         public TimeSpan? StartTime { get; set; } // Giờ bắt đầu
         public TimeSpan? EndRime { get; set; } //Giờ kết thúc
-        public int? IdMoive { get; set; } //Id phim
-        public int? IdRoom { get; set; } //Id Phòng chiếu
+        public int IdMoive { get; set; } //Id phim
+        public int IdRoom { get; set; } //Id Phòng chiếu
     }
 }

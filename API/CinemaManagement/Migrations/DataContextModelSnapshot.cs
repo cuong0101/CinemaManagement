@@ -387,8 +387,8 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("PromotionId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("PromotionId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -493,6 +493,10 @@ namespace CinemaManagement.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Column")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -505,13 +509,11 @@ namespace CinemaManagement.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("IdRoom")
-                        .IsRequired()
+                    b.Property<int>("IdRoom")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdSeatRank")
-                        .IsRequired()
-                        .HasColumnType("int");
+                    b.Property<long>("IdSeatRank")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -523,10 +525,6 @@ namespace CinemaManagement.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Row")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("column")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -595,17 +593,53 @@ namespace CinemaManagement.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("EndRime")
-                        .IsRequired()
-                        .HasColumnType("time");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("IdMoive")
-                        .IsRequired()
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdRoom")
-                        .IsRequired()
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MstShowTimes");
+                });
+
+            modelBuilder.Entity("CinemaManagement.Entities.MstTicket", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -616,17 +650,18 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("Release")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
+                    b.Property<long>("SeatId")
+                        .HasColumnType("bigint");
 
-                    b.Property<TimeSpan?>("StartTime")
-                        .IsRequired()
-                        .HasColumnType("time");
+                    b.Property<long>("ShowTimeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MstShowTimes");
+                    b.ToTable("MstTicket");
                 });
 #pragma warning restore 612, 618
         }

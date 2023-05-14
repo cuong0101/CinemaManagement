@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CinemaManagement.Controllers.CmsController;
 using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.WeuController
 {
-    public class MovieInfoController : BaseApiController
+    public class MovieInfoController : BaseApiController_new
     {
         private readonly DataContext _context;
         private readonly DapperContext _dapper;
@@ -20,7 +21,7 @@ namespace CinemaManagement.Controllers.WeuController
             _dapper = dapper;
         }
         [HttpGet("getListMovie")]
-        public async Task<List<MovieDto>> getListMovie()
+        public async Task<IActionResult> getListMovie()
         {
             var movies = _context.MstMovie.ToList().Where(e => e.IsDeleted == false);
             var res = (from movie in movies
@@ -38,7 +39,7 @@ namespace CinemaManagement.Controllers.WeuController
                            Rated = movie.Rated,
                            Description = movie.Description
                        }).ToList();
-            return res;
+            return CustomResult(res);
         }
     }
 }

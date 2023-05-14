@@ -7,20 +7,26 @@ import { MstUsersComponent } from './business/mst-users/mst-users.component';
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
-import { MstSeatComponent } from './business/mst-seat/mst-seat.component';
+import { MstRankPointsComponent } from './business/mst-rank-points/mst-rank-points.component';
 
+import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.component';
+import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
 
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},
-  {path: "seatrank", component: MstSeatranksComponent},
   {path: "mstmovie", component: MstMovieComponent},
-  {path: "customer", component: MstCustomersComponent},
+  {path: "mstshowtime", component: MstShowTimeComponent},
   {path: "room", component: MstRoomComponent},
-  {path: "seat", component: MstSeatComponent}
-
+  {path: 'promo', children: [
+      { path: 'promotion', component: MstPromotionComponent },
+    ]
+  },
+  {path: "customer", component: MstCustomersComponent},
+  {path: "rankpoints", component: MstRankPointsComponent},
+  {path: "seatrank", component: MstSeatranksComponent},
 
 ];
 

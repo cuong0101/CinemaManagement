@@ -1,11 +1,9 @@
 
 import { DatePipe, Time } from "@angular/common";
-import { Moment } from "moment";
-
 export class MstMovieManagement{
     id?: number;
     name?: string;
-    image?: string;
+    image?: File;
     trailer?: string;
     director?: string;
     actor?: string;
