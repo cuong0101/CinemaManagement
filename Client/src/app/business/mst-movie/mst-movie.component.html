@@ -2,13 +2,10 @@
   <div class="row mb-2">
       <div class="col-md-12">
           <button type="button" class="btn btn-outline-primary" (click)="movie?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
-          <button type="button" class="btn btn-outline-primary" (click)="movie?.openModal(movieSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
-          <button type="button" class="btn btn-outline-danger" (click)="delete()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+          <button type="button" class="btn btn-outline-primary" [disabled]="!movieSelected" (click)="movie?.openModal(movieSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+          <button type="button" class="btn btn-outline-danger" [disabled]="!movieSelected" (click)="delete()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
       </div>
       
-  </div>
-  <div>
-    <h4>Movie Management</h4>
   </div>
   <div class="panel-grid">
                       <ag-grid-angular

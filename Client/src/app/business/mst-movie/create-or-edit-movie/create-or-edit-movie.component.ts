@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output,  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FileUploader } from 'ng2-file-upload';
@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
-import { UsersService } from 'src/app/_services/users.service';
 
 @Component({
   selector: 'create-or-edit-movie',
@@ -23,7 +22,7 @@ export class CreateOrEditMovieComponent implements OnInit {
   fileBlob!: Blob
   //selectFile: File | null;
   constructor(private modalService: BsModalService,
-    //private route: Router,
+    private route: Router,
     private movieService: MstMovieService,
     private toastr: ToastrService,) { }
 
@@ -41,9 +40,9 @@ export class CreateOrEditMovieComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
-    if (movie) {
       // this.datepicker = moment(movie.publishDate).toDate();
       // console.log(moment(movie.publishDate))
+    if(movie) {
       this.movie = movie;
       this.movie.publishDate = moment(movie.publishDate).toDate();
       this.bsModalRef.content.movie = this.movie;
@@ -76,26 +75,42 @@ export class CreateOrEditMovieComponent implements OnInit {
       }
     }
   }
-
-save(){
-  console.log(this.uploader)
-  let formData = new FormData();
-  formData.append('id', this.movie.id!.toString())
-
-  formData.append('image', this.fileBlob)
-  this.movieService.createOrEdit(formData).pipe(finalize(() => this.movie = new MstMovieManagement())).subscribe({
-    next: (re) => this.toastr.success("Lưu thành công"),
-    error: (error) => {
-      this.toastr.error("Đã xảy ra lỗi")
-      console.log(error)
-    }
+  save(){
+    this.movieService.createOrEdit(this.movie)
+    .pipe(finalize(() => this.movie = new MstMovieManagement()))
+    .subscribe({
+        next: () => {
+          this.toastr.success("Lưu thành công")
+        },
+        error: (error) => {
+          this.toastr.error(error.errorMessage); 
+        }
+    });
+      this.modalSave.emit(null);
+      this.hide();
+      location.reload();
+      this.route.navigate(["/mstmovie"]);
   }
-  );
-  this.modalSave.emit(null);
-  //location.reload();
-  this.hide();
-  //this.route.navigate(["/mstmovie"]);
-}
+
+// save(){
+//   console.log(this.uploader)
+//   let formData = new FormData();
+//   formData.append('id', this.movie.id!.toString())
+
+//   formData.append('image', this.fileBlob)
+//   this.movieService.createOrEdit(formData).pipe(finalize(() => this.movie = new MstMovieManagement())).subscribe({
+//     next: (re) => this.toastr.success("Lưu thành công"),
+//     error: (error) => {
+//       this.toastr.error("Đã xảy ra lỗi")
+//       console.log(error)
+//     }
+//   }
+//   );
+//   this.modalSave.emit(null);
+//   //location.reload();
+//   this.hide();
+//   //this.route.navigate(["/mstmovie"]);
+// }
 
 }
 

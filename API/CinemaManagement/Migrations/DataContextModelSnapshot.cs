@@ -13,7 +13,6 @@ namespace CinemaManagement.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.15")
@@ -387,8 +386,8 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("PromotionId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("PromotionId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -492,6 +491,9 @@ namespace CinemaManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Column")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -575,7 +577,6 @@ namespace CinemaManagement.Migrations
 
                     b.ToTable("MstSeatRank");
                 });
-
             modelBuilder.Entity("CinemaManagement.Entities.MstShowTime", b =>
                 {
                     b.Property<long>("Id")
@@ -623,12 +624,19 @@ namespace CinemaManagement.Migrations
                     b.Property<TimeSpan?>("StartTime")
                         .IsRequired()
                         .HasColumnType("time");
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("MstShowTimes");
                 });
-#pragma warning restore 612, 618
         }
     }
 }

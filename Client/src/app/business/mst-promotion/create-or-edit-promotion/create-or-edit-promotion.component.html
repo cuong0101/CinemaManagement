@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="modal-header modal-lg">
+      <h4 class="modal-title pull-left">
+        <span *ngIf="promo.id">Sửa thông tin Chương trình Khuyến mãi</span>
+        <span *ngIf="!promo.id">Thêm mới Chương trình khuyến mãi</span>
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Nội dung CTKM</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Name" [(ngModel)]="promo.promotionContent">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Mô tả</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Name" [(ngModel)]="promo.description">
+              </div>
+              </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Từ ngày</label>
+              <div class="col-sm-9">
+                <input class="form-control" id="fromDate" name="fromDate"
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                bsDatepicker required [(ngModel)]="promo.fromDate">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Đến ngày</label>
+              <div class="col-sm-9">
+                <input class="form-control" id="toDate" name="toDate"
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                bsDatepicker required [(ngModel)]="promo.toDate">
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Hủy</button>
+  </div>
+</div>

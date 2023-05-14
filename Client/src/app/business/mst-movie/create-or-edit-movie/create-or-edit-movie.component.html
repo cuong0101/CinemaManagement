@@ -13,6 +13,13 @@
         <div class="row mt-3">
           <div class="col-6">
             <div class="form-group row">
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="Name" [(ngModel)]="movie!.name">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
               <label class="col-sm-3 col-form-label">Name</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" name="Name" [(ngModel)]="movie!.name">
@@ -91,7 +98,6 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Image</label>
               <div class="col-sm-9">
-                
                 <input type="file" name="image" ng2FileSelect [uploader]="uploader" />
                 <!-- <input type="file" class="form-control" id="movieImage" name="Image" accept="image/*"> -->
                 <div class="col-md-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
@@ -136,6 +142,7 @@
                   </div>
           
               </div>
+
               </div>
             </div>
           </div>

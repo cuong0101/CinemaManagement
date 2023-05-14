@@ -1,7 +1,6 @@
 
 import { DatePipe, Time } from "@angular/common";
 export class MstMovieManagement{
-    [x: string]: any;
     id?: number;
     name?: string;
     image?: File;
