@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using Abp.UI;
+using AutoMapper;
 using CinemaManagement.Data;
 using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IISIntegration;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -39,13 +41,35 @@ namespace CinemaManagement.Controllers.CmsController
                 if (action == 1)
                     ticket.Status = 0;
                 if (action == 2)
-                    ticket.Status = 2;
-
+                {
+                    if (!await checkStatusTicketIsBought(listIdTicket))
+                        ticket.Status = 2;
+                    else
+                        throw new UserFriendlyException("Tickets are bought by another person!");
+                }    
                 if (ticket.Status == 2)
                     ticket.CustomerId = IdCus;
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        //hàm kiểm tra xem lúc chuẩn bị bấm nút thanh toán thì vé đã đc mua chưa (check lại)
+        // nếu chưa mới mua và đổi trạng thái được
+        private async Task<bool> checkStatusTicketIsBought(List<long> listIdTicket)
+        {
+            bool check = true;
+            foreach (var idmovie in listIdTicket)
+            {
+                var ticket = await _context.MstTicket
+                    .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefaultAsync();
+                if (ticket.Status == 2)
+                {
+                    check = false;
+                    break;
+                }
+            }
+            return check;
         }
     }
 }
