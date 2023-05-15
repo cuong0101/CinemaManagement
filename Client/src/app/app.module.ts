@@ -28,7 +28,7 @@ import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FileUploadModule } from 'ng2-file-upload';
+// import { FileUploadModule } from 'ng2-file-upload';
 import { MstRankPointsComponent } from './business/mst-rank-points/mst-rank-points.component';
 import { CreateOrEditMstRankPointsComponent } from './business/mst-rank-points/create-or-edit-mst-rank-points/create-or-edit-mst-rank-points.component';
 
@@ -87,13 +87,14 @@ import { CreateBookTicketsComponent } from './business/book-tickets/create-book-
         disallowedRoutes: []
       }
     }),
-    agGridAngular.AgGridModule,
-    ModalModule.forRoot(),
-    BsDatepickerModule.forRoot(),
     AgGridModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
+<<<<<<< Updated upstream
    FileUploadModule,
+=======
+    // FileUploadModule,
+>>>>>>> Stashed changes
     //SharedModule,
     ToastrModule.forRoot()
   ],

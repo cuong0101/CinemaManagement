@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output,  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { FileUploader } from 'ng2-file-upload';
+// import { FileUploader } from 'ng2-file-upload';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -15,7 +15,7 @@ import { MstMovieService } from 'src/app/_services/mstmovie.service';
 })
 export class CreateOrEditMovieComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-  uploader!: FileUploader;
+  //uploader!: FileUploader;
   bsModalRef!: BsModalRef;
   movie: MstMovieManagement = new MstMovieManagement();
   datepicker?: Date;
@@ -27,7 +27,7 @@ export class CreateOrEditMovieComponent implements OnInit {
     private toastr: ToastrService,) { }
 
   ngOnInit() {
-    this.initializeUploader()
+    //this.initializeUploader()
   }
 
   openModal(movie?: MstMovieManagement) {
@@ -55,26 +55,26 @@ export class CreateOrEditMovieComponent implements OnInit {
   hide() {
     this.modalService.hide();
   }
-  initializeUploader (){
-    this.uploader = new FileUploader({
-      url: 'https://localhost:44389/api/Movie/add-photo',
-      authToken: localStorage.getItem("jwt")?.toString(),
-      isHTML5: true,
-      allowedFileType: ['image'],
-      removeAfterUpload: true,
-      autoUpload:false,
-      maxFileSize:10 * 1024 *1024
-    });
+  // initializeUploader (){
+  //   this.uploader = new FileUploader({
+  //     url: 'https://localhost:44389/api/Movie/add-photo',
+  //     authToken: localStorage.getItem("jwt")?.toString(),
+  //     isHTML5: true,
+  //     allowedFileType: ['image'],
+  //     removeAfterUpload: true,
+  //     autoUpload:false,
+  //     maxFileSize:10 * 1024 *1024
+  //   });
 
-    this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    }
-    this.uploader.onSuccessItem = (Item, response, status, headers) => {
-      if(response){
+  //   this.uploader.onAfterAddingFile = (file) => {
+  //     file.withCredentials = false;
+  //   }
+  //   this.uploader.onSuccessItem = (Item, response, status, headers) => {
+  //     if(response){
 
-      }
-    }
-  }
+  //     }
+  //   }
+  // }
   save(){
     this.movieService.createOrEdit(this.movie)
     .pipe(finalize(() => this.movie = new MstMovieManagement()))

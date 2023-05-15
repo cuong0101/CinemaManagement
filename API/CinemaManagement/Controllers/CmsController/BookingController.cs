@@ -29,8 +29,11 @@ namespace CinemaManagement.Controllers.CmsController
             //action 0: từ màn hình chọn vé, click vào nút đặt vé => trạng thái vé 0->1
             //action 1: từ màn thông tin đơn vé, click back => huỷ bỏ trạng thái vé 1->0
             //action 2: từ màn thông tin đơn vé, click thanh toán => trạng thái vé 1->2
+<<<<<<< Updated upstream
 
             //trong vòng 5p nếu không thanh toán -> chuyển trạng thái 1->2 thì vé sẽ quay về trạng thái 0
+=======
+>>>>>>> Stashed changes
             foreach(var idmovie in listIdTicket)
             {
                 var ticket = _context.MstTicket
