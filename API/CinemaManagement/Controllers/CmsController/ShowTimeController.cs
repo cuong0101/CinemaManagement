@@ -16,8 +16,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using MstShowTime = CinemaManagement.Entities.MstShowTime;
-using ShowTimeDto = CinemaManagement.DTOs.CmsDtos.ShowTimeDto;
+using System;
+using Abp.Linq.Extensions;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -35,15 +37,14 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> getAll()
+        public async Task<List<ShowTimeDto>> getAll()
         {
             using (var conn = _dapper.CreateConnection())
             {
                 var showtimes = await conn.QueryAsync<ShowTimeDto>(@"
                     SELECT 
 	                s.Id, 
-	                s.StartTime StartDate,
-	                CAST(CAST(s.StartTime AS TIME) AS VARCHAR) StartTime,
+	                CAST(s.StartTime as VARCHAR) StartTime,
 	                CAST(m.Time AS VARCHAR) Time,
 	                m.Name MovieName, 
 	                c.Name RoomName
@@ -52,7 +53,7 @@ namespace CinemaManagement.Controllers.CmsController
                 INNER JOIN dbo.MstRooms c ON s.RoomId = c.Id
                 WHERE c.IsDeleted = 0 AND m.IsDeleted = 0
                 AND s.IsDeleted = 0");
-                return CustomResult(showtimes.ToList());
+                return showtimes.ToList();
             }
         }
 
@@ -97,26 +98,30 @@ namespace CinemaManagement.Controllers.CmsController
 
 
         [HttpGet("GetTicketByShowTime")]
-        public async Task<List<SearchTicketByShowTime>> SearchAllTicketByShowTime()
+        public async Task<List<SearchTicketByShowTime>> SearchAllTicketByShowTime(DateTime? date, string MovieName)
         {
 
             List<SearchTicketByShowTime> result = await (
-            from sh in _context.MstShowTimes.AsNoTracking().Where(e => e.IsDeleted == false)
-            join m in _context.MstMovie.AsNoTracking().Where(e => e.IsDeleted == false)
-            on sh.MovieId equals m.Id
+            from s in _context.MstShowTimes.AsNoTracking()
+            .Where(e => e.IsDeleted == false)
+            .Where(e => !date.HasValue || date.Value.Date == e.StartTime.Date)
+            join m in _context.MstMovie.AsNoTracking()
+            .Where(e => e.IsDeleted == false)
+            .Where(e => string.IsNullOrEmpty(MovieName) || e.Name.Contains(MovieName))
+            on s.MovieId equals m.Id
             join r in _context.MstRooms.AsNoTracking().Where(e => e.IsDeleted == false)
-            on sh.RoomId equals r.Id
+            on s.RoomId equals r.Id
             select new SearchTicketByShowTime
             {
-                Id = sh.Id,
-                StartDate = sh.StartTime,
-                StartTime = sh.StartTime,
+                Id = s.Id,
+                StartDate = s.StartTime,
+                StartTime = s.StartTime,
                 Time = m.Time.ToString(),
                 MovieName = m.Name,
                 RoomName = r.Name,
                 listTicket = (
                     from s in _context.MstSeats.AsNoTracking().Where(e => e.IsDeleted == false)
-                    join t in _context.MstTicket.AsNoTracking().Where(e => e.IsDeleted == false && e.ShowTimeId == sh.Id)
+                    join t in _context.MstTicket.AsNoTracking().Where(e => e.IsDeleted == false)
                     on s.Id equals t.SeatId
                     join sr in _context.MstSeatRank.AsNoTracking().Where(e => e.IsDeleted == false)
                     on s.IdSeatRank equals sr.Id
@@ -125,10 +130,8 @@ namespace CinemaManagement.Controllers.CmsController
                         Id = t.Id,
                         Row = s.Row,
                         Column = s.Column,
-                        Location = s.Row + s.Column,
                         SeatRankName = sr.Name,
-                        Status = t.Status,
-                        Price = t.Price
+                        Status = t.Status
                     }).ToList(),
             }).ToListAsync();
 

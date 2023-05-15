@@ -82,8 +82,6 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
         }
       });
       this.listMovie = [...this.listMovie];
-      console.log(this.listMovie);
-
     })
   }
 }

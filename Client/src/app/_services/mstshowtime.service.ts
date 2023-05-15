@@ -13,8 +13,7 @@ import { MstMovieManagement } from "../_interfaces/moviemanagement";
     constructor(private httpClient: HttpClient) { }
   
     getAll(){
-      let res = this.httpClient.get(this.baseUrl + "ShowTime/GetAll");
-      return res;
+      return this.httpClient.get<MstShowtimeManagement[]>(this.baseUrl + "ShowTime/GetAll");
     }
   
     createOrEdit(movie?: MstShowtimeManagement){

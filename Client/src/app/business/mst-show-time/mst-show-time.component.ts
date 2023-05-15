@@ -71,8 +71,7 @@ export class MstShowTimeComponent implements OnInit {
     this.params = params;
     this.showSelected = undefined;
     this.showtimeService.getAll().subscribe((re: any) => {
-      this.rowData = re.data;
-      console.log(re.data)
+      this.rowData = re;
     })
   }
 
@@ -80,7 +79,6 @@ export class MstShowTimeComponent implements OnInit {
     const selectedRow = this.gridApi.getSelectedRows()[0];
     if(selectedRow) {
       this.showSelected = selectedRow;
-      console.log(this.showSelected.id)
     }
   }
 
