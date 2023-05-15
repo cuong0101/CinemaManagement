@@ -90,11 +90,7 @@ import { CreateBookTicketsComponent } from './business/book-tickets/create-book-
     AgGridModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-<<<<<<< Updated upstream
-   FileUploadModule,
-=======
     // FileUploadModule,
->>>>>>> Stashed changes
     //SharedModule,
     ToastrModule.forRoot()
   ],
