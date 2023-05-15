@@ -101,22 +101,22 @@ namespace CinemaManagement.Controllers.CmsController
         {
 
             List<SearchTicketByShowTime> result = await (
-            from s in _context.MstShowTimes.AsNoTracking().Where(e => e.IsDeleted == false)
+            from sh in _context.MstShowTimes.AsNoTracking().Where(e => e.IsDeleted == false)
             join m in _context.MstMovie.AsNoTracking().Where(e => e.IsDeleted == false)
-            on s.MovieId equals m.Id
+            on sh.MovieId equals m.Id
             join r in _context.MstRooms.AsNoTracking().Where(e => e.IsDeleted == false)
-            on s.RoomId equals r.Id
+            on sh.RoomId equals r.Id
             select new SearchTicketByShowTime
             {
-                Id = s.Id,
-                StartDate = s.StartTime,
-                StartTime = s.StartTime,
+                Id = sh.Id,
+                StartDate = sh.StartTime,
+                StartTime = sh.StartTime,
                 Time = m.Time.ToString(),
                 MovieName = m.Name,
                 RoomName = r.Name,
                 listTicket = (
                     from s in _context.MstSeats.AsNoTracking().Where(e => e.IsDeleted == false)
-                    join t in _context.MstTicket.AsNoTracking().Where(e => e.IsDeleted == false)
+                    join t in _context.MstTicket.AsNoTracking().Where(e => e.IsDeleted == false && e.ShowTimeId == sh.Id)
                     on s.Id equals t.SeatId
                     join sr in _context.MstSeatRank.AsNoTracking().Where(e => e.IsDeleted == false)
                     on s.IdSeatRank equals sr.Id
@@ -125,8 +125,10 @@ namespace CinemaManagement.Controllers.CmsController
                         Id = t.Id,
                         Row = s.Row,
                         Column = s.Column,
+                        Location = s.Row + s.Column,
                         SeatRankName = sr.Name,
-                        Status = t.Status
+                        Status = t.Status,
+                        Price = t.Price
                     }).ToList(),
             }).ToListAsync();
 
