@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <h4 style="color: brown;">
+    {{ "Thông tin Tìm kiếm" }}
+  </h4>
+  <div class="row mb-2">
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Tên phim:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="Name" [(ngModel)]="movie">
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Ngày:</label>
+        <div class="col-sm-8">
+          <input class="form-control" id="fromdate" name="fromdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [(ngModel)]="searchDate"
+            bsDatepicker required>
+        </div>
+      </div>
+    </div>
+    <div class="col-3" style="text-align: center;">
+      <button class="btn btn-primary" (click)="search()">
+        <i class="fa-solid fa-magnifying-glass fa-sm"></i>{{ "Tìm kiếm" }}
+      </button>
+    </div>
+  </div>
+  <span>
+    <h4 style="color: brown;">
+        {{ "Danh sách Suất chiếu phim:" }}
+    </h4>
+  </span>
+  <div class="panel-grid mb-4">
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine"
+      [columnDefs]="colShowTimeDefs" (gridReady)="onGridReady($event)" (selectionChanged)="onChangeSelection($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize" (pageChangedEvent)="changePage($event)"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <span>
+    <h4 style="color: brown;">
+        {{ "Thông tin vé" }}
+    </h4>
+  </span>
+  <div class="panel-grid">
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine"
+      [columnDefs]="colTicketsDefs" (selectionChanged)="onChangeSelectionDetail($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-md-12" style="text-align: right;">
+        <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" (click)="createOrEdit?.show()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Đặt vé</span></button>
+    </div>
+  </div>
+</div>
+<create-book-tickets #createOrEdit hidden="true" (modalSave)="onGridReady($event)"></create-book-tickets>

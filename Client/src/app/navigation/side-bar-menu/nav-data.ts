@@ -7,8 +7,13 @@ export const navbarData: INavbarData[] = [
         label: 'Users'
     },
     {
+        routeLink: 'bookTickets',
+        icon: 'fa-regular fa-ticket',
+        label: 'Book Tickets'
+    },
+    {
         routeLink: 'mstmovie',
-        icon: 'fa-light fa-camera-movie',
+        icon: 'fa-solid fa-film',
         label: 'Movie',
     },
     {
@@ -18,7 +23,7 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'seatrank',
-        icon: 'fa-solid fa-chair',
+        icon: 'fa-solid fa-couch',
         label: 'Seat Rank',
     },
     
@@ -60,7 +65,7 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'settings',
-        icon: 'fal fa-cog',
+        icon: 'fa-solid fa-gear',
         label: 'Settings',
         expanded: true,
         items: [

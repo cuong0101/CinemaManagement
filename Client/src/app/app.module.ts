@@ -24,7 +24,6 @@ import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-se
 import { MstMovieComponent } from './business/mst-movie/mst-movie.component';
 import { MstCustomersComponent } from './business/mst-customer/mst-customer.component';
 import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
-
 import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or-edit-customer/create-or-edit-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
@@ -39,6 +38,8 @@ import { CreateOrEditPromotionDetailComponent } from './business/mst-promotion/c
 import { ToastrModule } from 'ngx-toastr';
 import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
 import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/create-or-edit-mst-show-time/create-or-edit-mst-show-time.component';
+import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
+import { CreateBookTicketsComponent } from './business/book-tickets/create-book-tickets/create-book-tickets.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -67,7 +68,9 @@ import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/creat
     CreateOrEditPromotionComponent,
     CreateOrEditPromotionDetailComponent,
     MstShowTimeComponent,
-    CreateOrEditMstShowTimeComponent
+    CreateOrEditMstShowTimeComponent,
+    BookTicketsComponent,
+    CreateBookTicketsComponent
     //GridTableComponent,
     //GridPaginationComponent,
   ],
@@ -90,7 +93,7 @@ import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/creat
     AgGridModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    FileUploadModule,
+   FileUploadModule,
     //SharedModule,
     ToastrModule.forRoot()
   ],
