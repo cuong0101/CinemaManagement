@@ -25,7 +25,7 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpGet("getListShowTime")]
-        public async Task<List<ShowTimeDto>> getListShowTime(DateTime? date, string MovieName)
+        public async Task<IActionResult> getListShowTime(DateTime? date, string MovieName)
         {
             var res = await (from sh in _context.MstShowTimes.AsNoTracking()
                       .Where(e => e.IsDeleted == false)
@@ -46,12 +46,12 @@ namespace CinemaManagement.Controllers.WeuController
                                  RoomName = r.Name
                              }).ToListAsync();
 
-            return res;
+            return CustomResult(res);
         }
 
         [HttpGet("getListTicketByShowTime")]
 
-        public async Task<List<TicketDto>> getListSeatByShowTime(long IdShowTime)
+        public async Task<IActionResult> getListSeatByShowTime(long IdShowTime)
         {
             var ticket = (from tick in _context.MstTicket
                           .Where(e=>e.IsDeleted == false)
@@ -75,7 +75,7 @@ namespace CinemaManagement.Controllers.WeuController
                               EmpoyeeId = tick.EmployeeId,
                               SeatRankName = sr.Name
                           }).ToList();
-            return ticket;
+            return CustomResult(ticket);
         }
     }
 }
