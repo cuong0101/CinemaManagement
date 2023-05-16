@@ -56,7 +56,7 @@ namespace CinemaManagement.Controllers.WeuController
             var ticket = (from tick in _context.MstTicket
                           .Where(e=>e.IsDeleted == false)
                           join show in _context.MstShowTimes
-                          .Where(e=>e.IsDeleted == false)
+                          .Where(e=>e.IsDeleted == false && e.Id == IdShowTime)
                           on tick.ShowTimeId equals show.Id
                           join seat in _context.MstSeats 
                           .Where(e=>e.IsDeleted == false)
