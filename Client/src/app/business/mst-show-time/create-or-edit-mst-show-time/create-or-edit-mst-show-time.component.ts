@@ -19,7 +19,7 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
   datepicker?: Date;
   room: any[] = [];
   listMovie: {key: number|undefined, value: string|undefined}[] = [];
-
+  listRoom: {key: number|undefined, value: string|undefined}[] = [];
 
   constructor(private modalService: BsModalService, 
     private route: Router,
@@ -29,6 +29,7 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
 
   ngOnInit() {
     this.getAllMovie();
+    this.getAllRoom();
   }
 
   openModal(show?: MstShowtimeManagement) {
@@ -83,6 +84,18 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
       });
       this.listMovie = [...this.listMovie];
     })
+  }
+
+  getAllRoom(){
+    this.showtimeService.getAllRoom().subscribe((res) => {
+      this.listRoom = res.map((item) => {
+        return {
+          key: item.id,
+          value: item.name
+        }
+      })
+    });
+    this.listRoom = [...this.listRoom];
   }
 }
 

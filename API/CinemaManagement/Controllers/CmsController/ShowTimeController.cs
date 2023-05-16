@@ -20,6 +20,7 @@ using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using MstShowTime = CinemaManagement.Entities.MstShowTime;
 using System;
 using Abp.Linq.Extensions;
+using MstRoom = CinemaManagement.Entities.MstRoom;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -91,9 +92,15 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpGet("GetAllMovie")]
-        public async Task<List<MstMovie>> getMovieList()
+        public async Task<List<MstMovie>> getRoomList()
         {
             return _context.MstMovie.Where(e => e.IsDeleted == false).ToList();
+        }
+
+        [HttpGet("GetAllRoom")]
+        public async Task<List<MstRoom>> getMovieList()
+        {
+            return _context.MstRooms.Where(e => e.IsDeleted == false).ToList();
         }
 
 

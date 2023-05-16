@@ -44,7 +44,9 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Room</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="room" [(ngModel)]="show.RoomName">
+                <select class="form-control" name="movie" [(ngModel)]="show.RoomName">
+                  <option *ngFor="let item of listRoom" [ngValue]="item.key">{{item.value}}</option>
+                </select>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { MstShowtimeManagement } from "../_interfaces/showtimemanagement";
 import { MstShowTimeComponent } from "../business/mst-show-time/mst-show-time.component";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { MstMovieManagement } from "../_interfaces/moviemanagement";
+import { Room } from "../_interfaces/room";
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,11 @@ import { MstMovieManagement } from "../_interfaces/moviemanagement";
     getAllMovie()
     {
       return this.httpClient.get<MstMovieManagement[]>(this.baseUrl + "ShowTime/GetAllMovie");
+    }
+
+    getAllRoom()
+    {
+      return this.httpClient.get<Room[]>(this.baseUrl + "ShowTime/GetAllRoom");
     }
   
   }
