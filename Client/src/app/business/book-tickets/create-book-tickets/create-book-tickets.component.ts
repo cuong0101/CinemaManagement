@@ -4,6 +4,11 @@ import { CreateOrEditPromotionComponent } from '../../mst-promotion/create-or-ed
 import { TicketByShowTime } from 'src/app/_interfaces/listTickets';
 import { BookTickets } from 'src/app/_interfaces/booktickets';
 import { tick } from '@angular/core/testing';
+import * as moment from 'moment';
+import { Promotion } from 'src/app/_interfaces/_iMstPromotion/promotion';
+import { PromotionDetail } from 'src/app/_interfaces/_iMstPromotion/promotionDetail';
+import { BookticketService } from 'src/app/_services/bookticket.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'create-book-tickets',
@@ -15,16 +20,22 @@ export class CreateBookTicketsComponent implements OnInit {
   bsModalRef!: BsModalRef;
   showtime: BookTickets = new BookTickets();
   ticket: TicketByShowTime = new TicketByShowTime();
-  listchair: string = '';
+  chair?: string = "";
+  phone?: string;
+  total?: number = 0;
+  promotions?: Promotion
+  promoDetail?: PromotionDetail
+  tickets: number[]=[]
   constructor(
     private _modalService: BsModalService,
-
+    private _bookTicketService: BookticketService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
   }
 
-  show(showtimes: BookTickets, ticket: any) {
+  show(showtimes: BookTickets, tickets: any[]) {
     const config: ModalOptions = {
       class: 'modal-dialog modal-xl',
       backdrop: 'static',
@@ -32,17 +43,30 @@ export class CreateBookTicketsComponent implements OnInit {
     };
 
     this.bsModalRef = this._modalService.show(CreateBookTicketsComponent, config);
+    showtimes.startDate = moment(showtimes.startDate).toDate()
     this.bsModalRef.content.showtime = showtimes;
-    this.bsModalRef.content.ticket = ticket;
-
-    this.listchair = ticket?.length > 0 ? ticket?.location.join(',') : '';
+    tickets.forEach(e => {
+      this.chair += e.chair + ", ";
+      this.total += e.price;
+      this.tickets.push(e.id)
+    })
+    this.chair = this.chair?.substring(0, this.chair.length-2);
+    this.bsModalRef.content.chair = this.chair;
+    this.bsModalRef.content.total = this.total
+    this.bsModalRef.content.tickets = this.tickets
+    this.chair = "";
+    this.total = 0;
   }
 
   close() {
+    this.tickets = [];
     this._modalService.hide();
   }
 
   save() {
-
+    console.log(this.tickets)
+    this._bookTicketService.updateTicketStatus(this.tickets).subscribe({
+      complete: () => this.toastr.success("Đặt vé thành công!")
+    })
   }
 }

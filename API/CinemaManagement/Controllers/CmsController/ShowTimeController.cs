@@ -21,6 +21,7 @@ using MstShowTime = CinemaManagement.Entities.MstShowTime;
 using System;
 using Abp.Linq.Extensions;
 using MstRoom = CinemaManagement.Entities.MstRoom;
+using NUglify.Helpers;
 
 namespace CinemaManagement.Controllers.CmsController
 {
@@ -122,7 +123,7 @@ namespace CinemaManagement.Controllers.CmsController
             {
                 Id = sh.Id,
                 StartDate = sh.StartTime,
-                StartTime = sh.StartTime,
+                StartTime = sh.StartTime.ToString("hh:mm"),
                 Time = m.Time.ToString(),
                 MovieName = m.Name,
                 RoomName = r.Name,
@@ -145,6 +146,16 @@ namespace CinemaManagement.Controllers.CmsController
             }).ToListAsync();
 
             return result;
+        }
+
+        [HttpPost("UpdateTicketStatus")]
+        public async Task UpdateTicketStatus(List<long?> tickets)
+        {
+            var ticketRepo = _context.MstTicket.ToList();
+            var ticketForUpdate = ticketRepo.Where(e => tickets.Any(p => p == e.Id));
+            ticketForUpdate.ForEach(e => e.Status = 1);
+            _context.MstTicket.UpdateRange(ticketForUpdate);
+            await _context.SaveChangesAsync();
         }
 
     }

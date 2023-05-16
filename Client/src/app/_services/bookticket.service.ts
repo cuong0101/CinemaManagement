@@ -13,4 +13,8 @@ export class BookticketService {
     {
       return this.httpClient.get(this.baseUrl + "ShowTime/GetTicketByShowTime");
     }
+
+    updateTicketStatus(tickets: number[]){
+      return this.httpClient.post(this.baseUrl + "ShowTime/UpdateTicketStatus", tickets);
+    }
 }
