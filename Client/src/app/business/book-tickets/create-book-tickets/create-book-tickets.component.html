@@ -18,18 +18,38 @@
               </div>
             </div>
           </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Số điện thoại KH</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="phone" [(ngModel)]="phone">
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="row mt-3">
           <div class="col-6">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Suất chiếu</label>
               <div class="col-sm-9">
-                <input class="form-control" id="toDate" name="startTime"
+                <input class="form-control" id="toDate" name="startDate"
                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
-                bsDatepicker required [(ngModel)]="showtime.startTime">
+                bsDatepicker required [(ngModel)]="showtime.startDate">
               </div>
             </div>
           </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Tổng tiền</label>
+              <div class="col-sm-9">
+                <input type="number" disabled="true" class="form-control" name="amount" [(ngModel)]="total">
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="row mt-3">
           <div class="col-6">
@@ -40,13 +60,31 @@
               </div>
             </div>
           </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Chương trình khuyến mãi:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="room" >
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row mt-3">
           <div class="col-6">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Ghế</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="listchair" [(ngModel)]="listchair">
+                <input type="text" class="form-control" name="chair" [(ngModel)]="chair">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Thành tiền</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="chair" >
               </div>
             </div>
           </div>

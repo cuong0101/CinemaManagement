@@ -5,6 +5,7 @@ import { BookTickets } from 'src/app/_interfaces/booktickets';
 import { TicketByShowTime } from 'src/app/_interfaces/listTickets';
 import { BookticketService } from 'src/app/_services/bookticket.service';
 import * as moment from 'moment';
+import { FormatService } from 'src/app/_services/format-service.service';
 
 @Component({
   selector: 'app-book-tickets',
@@ -29,6 +30,7 @@ export class BookTicketsComponent implements OnInit {
   movie: any;
   searchDate: any;
 
+  listTicketSelected: string[] = [];
   public paginationPageSize = 5;
   public paginationNumberFormatter: (
     params: PaginationNumberFormatterParams
@@ -43,7 +45,8 @@ export class BookTicketsComponent implements OnInit {
   };
 
   constructor(
-    private _bookTicketService: BookticketService
+    private _bookTicketService: BookticketService,
+    private _format: FormatService
 
   ) {
 
@@ -64,20 +67,20 @@ export class BookTicketsComponent implements OnInit {
       {
         headerName: 'Ngày chiếu',
         field: 'startDate',
+        valueFormatter: (params) => this._format.formatMyDate(params.value),
         cellClass: ['text-center'],
         flex: 1,
       },
       {
         headerName: 'Thời gian bắt đầu chiếu phim',
         field: 'startTime',
-        valueFormatter: (params) => formatMyDate(params.value),
         cellClass: ['text-center'],
         flex: 1,
       },
       {
         headerName: 'Thời lượng phim',
         field: 'time',
-        valueFormatter: (params) => timeFormat(params.value),
+        valueFormatter: (params) => this._format.formatHour(params.value),
         cellClass: ['text-center'],
         flex: 1,
       },
@@ -127,6 +130,7 @@ export class BookTicketsComponent implements OnInit {
   }
 
   onGridReady(params: any) {
+    this.gridTicketApi = params.api
      this.search();
   }
 
@@ -140,12 +144,15 @@ export class BookTicketsComponent implements OnInit {
     this.ticketSelected = new TicketByShowTime();
     if (this.showTimeSelected) {
       this.ticketData = this.showTimeSelected?.listTicket;
+      
+      //this.ticketData?.forEach(e => e.checked = false)
       //params.api.setRowData(this.ticketData)
     }
   }
 
   onChangeSelectionTicket(params: any) {
     this.ticketSelected = params.api?.getSelectedRows()[0] ?? new TicketByShowTime();
+    
   }
 
   changePage(params: any) {
@@ -158,19 +165,14 @@ export class BookTicketsComponent implements OnInit {
     });
   }
 
-}
-
-
-function formatMyDate(date: any): string {
-  if (date == null) return '';
-  const dateFormat = 'dd/MM/yyyy';
-  return new Date(date).toLocaleDateString('vi-VN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-}
-
-function timeFormat(val: string | moment.Moment | Date) {
-  return val ? moment(val).format('HH:mm') : ''
+  modalShow(){
+    let listTicket: any[] = []
+    this.gridTicketApi.forEachNode(e => {
+      if(e.isSelected()){
+        listTicket.push({id: e.data?.id, chair: e.data?.location, price: e.data?.price})
+      }
+        
+    })
+    this.modal?.show(this.showTimeSelected, listTicket)
+  }
 }
