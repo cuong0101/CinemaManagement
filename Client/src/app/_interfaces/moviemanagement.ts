@@ -1,5 +1,4 @@
 
-import { DatePipe, Time } from "@angular/common";
 export class MstMovieManagement{
     id?: number;
     name?: string;
@@ -8,7 +7,7 @@ export class MstMovieManagement{
     director?: string;
     actor?: string;
     publishDate!: Date;
-    time?: Time;
+    time?: number;
     languages?: string;
     rated?: string;
     description?: string;

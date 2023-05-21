@@ -41,7 +41,8 @@ namespace CinemaManagement.Controllers.WeuController
                              {
                                  Id = sh.Id,
                                  StartDate = sh.StartTime.Date,
-                                 StartTime = sh.StartTime.ToString("HH:mm"),
+                                 IdMovie = m.Id,
+                                 IdRoom = r.Id,
                                  MovieName = m.Name,
                                  RoomName = r.Name
                              }).ToListAsync();

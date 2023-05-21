@@ -40,8 +40,6 @@ export class CreateOrEditMovieComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CreateOrEditMovieComponent, config);
-      // this.datepicker = moment(movie.publishDate).toDate();
-      // console.log(moment(movie.publishDate))
     if(movie) {
       this.movie = movie;
       this.movie.publishDate = moment(movie.publishDate).toDate();

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
-import { MstShowtimeManagement } from 'src/app/_interfaces/showtimemanagement';
+import { finalize, pipe } from 'rxjs';
+import { CreateOrEditShowTime } from 'src/app/_interfaces/ShowTime/CreateOrEditShowTime';
+import { MstShowtimeManagement } from 'src/app/_interfaces/ShowTime/showtimemanagement';
 import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
 
 @Component({
@@ -15,11 +16,14 @@ import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
 export class CreateOrEditMstShowTimeComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   bsModalRef!: BsModalRef;
-  show: MstShowtimeManagement = new MstShowtimeManagement();
+  show: CreateOrEditShowTime = new CreateOrEditShowTime();
   datepicker?: Date;
   room: any[] = [];
   listMovie: {key: number|undefined, value: string|undefined}[] = [];
   listRoom: {key: number|undefined, value: string|undefined}[] = [];
+
+  IdMovie?: number;
+  IdRoom?: number;
 
   constructor(private modalService: BsModalService, 
     private route: Router,
@@ -32,9 +36,9 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
     this.getAllRoom();
   }
 
-  openModal(show?: MstShowtimeManagement) {
+  openModal(showtime?: MstShowtimeManagement) {
     
-    this.show = new MstShowtimeManagement();
+    this.show = new CreateOrEditShowTime();
     const config: ModalOptions = {
       class: 'modal-dialog modal-xl',
       backdrop: 'static',
@@ -42,13 +46,17 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CreateOrEditMstShowTimeComponent, config);
-    this.getAllMovie();
-    if(show) {
-      this.show = show;
+    if(showtime) {
+      this.show = showtime;
+      this.show.id = showtime.id;
+      this.show.movieId = showtime.idMovie;
+      this.show.roomId = showtime.idRoom;
+      this.show.startTime = showtime.startDate;
       this.bsModalRef.content.show = this.show;
+
     }
     else{
-      this.bsModalRef.content.show = new MstShowtimeManagement();
+      this.bsModalRef.content.show = new CreateOrEditShowTime();
     } 
   }
 
@@ -57,20 +65,21 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
   }
 
   save(){
-    this.modalService.hide();this.showtimeService.createOrEdit(this.show)
-    .pipe(finalize(() => this.show = new MstShowtimeManagement()))
+    this.showtimeService.createOrEdit(this.show)
+    .pipe(finalize(() => this.show = new CreateOrEditShowTime()))
     .subscribe({
-        next: () => {
-          this.toastr.success("Lưu thành công")
-        },
-        error: (error) => {
-          this.toastr.error(error.errorMessage); 
-        }
-    });
-      this.modalSave.emit(null);
-      this.hide();
-      location.reload();
-      this.route.navigate(["/mstshowtime"]);
+      next: () => {
+        this.toastr.success("Lưu thành công")
+      },
+      error: (error) => {
+        this.toastr.error(error.errorMessage);
+      }
+    })
+
+    this.modalSave.emit(null);
+    this.hide();
+    location.reload();
+    this.route.navigate(["/mstshowtime"]);
   }
 
   getAllMovie()

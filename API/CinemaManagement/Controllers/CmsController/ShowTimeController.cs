@@ -46,10 +46,12 @@ namespace CinemaManagement.Controllers.CmsController
                 var showtimes = await conn.QueryAsync<ShowTimeDto>(@"
                     SELECT 
 	                s.Id, 
-	                CAST(s.StartTime as VARCHAR) StartTime,
-	                CAST(m.Time AS VARCHAR) Time,
-	                m.Name MovieName, 
-	                c.Name RoomName
+	                s.StartTime StartDate,
+	                --CAST(m.Time AS VARCHAR) Time,
+                    m.Id IdMovie,
+                    c.Id IdRoom,
+                    m.Name MovieName,
+                    c.Name RoomName
                 FROM dbo.MstShowTimes s
                 INNER JOIN dbo.MstMovie m ON s.MovieId = m.Id
                 INNER JOIN dbo.MstRooms c ON s.RoomId = c.Id
@@ -124,7 +126,6 @@ namespace CinemaManagement.Controllers.CmsController
                 Id = sh.Id,
                 StartDate = sh.StartTime,
                 StartTime = sh.StartTime.ToString("hh:mm"),
-                Time = m.Time.ToString(),
                 MovieName = m.Name,
                 RoomName = r.Name,
                 listTicket = (

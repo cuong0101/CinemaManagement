@@ -18,7 +18,7 @@ namespace CinemaManagement.Entities
         public string Actor { get; set; }
         [Required]
         public DateTime? PublishDate { get; set; }
-        public TimeSpan? Time { get; set; }
+        //public int? Time { get; set; }
         public string Languages { get; set; }
         public string Rated { get; set; }
         public string Description { get; set; }

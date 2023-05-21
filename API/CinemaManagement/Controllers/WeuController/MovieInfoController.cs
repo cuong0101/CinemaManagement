@@ -34,7 +34,6 @@ namespace CinemaManagement.Controllers.WeuController
                            Director = movie.Director,
                            Actor = movie.Actor,
                            PublishDate = movie.PublishDate.Value.Date,
-                           Time = movie.Time.ToString(),
                            Languages = movie.Languages,
                            Rated = movie.Rated,
                            Description = movie.Description

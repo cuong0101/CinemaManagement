@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { MstShowtimeManagement } from "../_interfaces/showtimemanagement";
+import { MstShowtimeManagement } from "../_interfaces/ShowTime/showtimemanagement";
 import { MstShowTimeComponent } from "../business/mst-show-time/mst-show-time.component";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { MstMovieManagement } from "../_interfaces/moviemanagement";
 import { Room } from "../_interfaces/room";
+import { CreateOrEditShowTime } from "../_interfaces/ShowTime/CreateOrEditShowTime";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,7 @@ import { Room } from "../_interfaces/room";
       return this.httpClient.get<MstShowtimeManagement[]>(this.baseUrl + "ShowTime/GetAll");
     }
   
-    createOrEdit(movie?: MstShowtimeManagement){
+    createOrEdit(movie?: CreateOrEditShowTime){
       return this.httpClient.post(this.baseUrl + "ShowTime/CreateOrEdit", movie);
     }
 

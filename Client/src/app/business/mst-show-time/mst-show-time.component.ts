@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
-import { MstShowtimeManagement } from 'src/app/_interfaces/showtimemanagement';
+import { MstShowtimeManagement } from 'src/app/_interfaces/ShowTime/showtimemanagement';
 import { MstMovieService } from 'src/app/_services/mstmovie.service';
 import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
 import { CreateOrEditMstShowTimeComponent } from './create-or-edit-mst-show-time/create-or-edit-mst-show-time.component';
@@ -34,16 +34,13 @@ export class MstShowTimeComponent implements OnInit {
   constructor(private showtimeService: MstShowTimeService, private toastr: ToastrService,private http: HttpClient) { 
     this.colDefs=[
       {
-        headerName: "Start Date",
-        field: "startDate",
-      },
-      {
         headerName: "Start Time",
-        field: "startTime",
+        field: "startDate",
+        valueFormatter: (params) => formatMyDate(params.value)
       },
       {
-        headerName: "Time",
-        field: "time",
+        headerName: "End Time Planning",
+        field: "endTimePlanning",
       },
       {
         headerName: "Movie Name",
@@ -98,6 +95,10 @@ export class MstShowTimeComponent implements OnInit {
       });
     }
   }
+}
 
-  
+function formatMyDate(date:any): string {
+  if (date == null) return '';
+  const dateFormat = 'dd-MM-yyyy HH:mm';
+  return new Date(date).toLocaleDateString('vi-VN',{year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
 }
