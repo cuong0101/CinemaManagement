@@ -46,8 +46,8 @@ namespace CinemaManagement.Controllers.CmsController
                 var showtimes = await conn.QueryAsync<ShowTimeDto>(@"
                     SELECT 
 	                s.Id, 
-	                s.StartTime StartDate,
-	                --CAST(m.Time AS VARCHAR) Time,
+	                s.StartTime StartTime,
+	                DATEADD(MINUTE,m.Time,s.StartTime) EndTime,
                     m.Id IdMovie,
                     c.Id IdRoom,
                     m.Name MovieName,

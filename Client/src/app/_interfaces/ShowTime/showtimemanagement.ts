@@ -2,8 +2,8 @@ import { Time } from "@angular/common";
 
 export class MstShowtimeManagement{
     id?: number;
-    startDate?: Date;
     startTime?:Date;
+    endTime?:Date;
     time?:Time;
     idMovie?:number;
     movieName?:string;

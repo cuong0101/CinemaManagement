@@ -6,7 +6,7 @@ export class MstMovieManagement{
     trailer?: string;
     director?: string;
     actor?: string;
-    publishDate!: Date;
+    publishDate?: Date;
     time?: number;
     languages?: string;
     rated?: string;

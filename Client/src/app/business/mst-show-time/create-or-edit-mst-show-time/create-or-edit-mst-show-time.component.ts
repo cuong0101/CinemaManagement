@@ -51,7 +51,7 @@ export class CreateOrEditMstShowTimeComponent implements OnInit {
       this.show.id = showtime.id;
       this.show.movieId = showtime.idMovie;
       this.show.roomId = showtime.idRoom;
-      this.show.startTime = showtime.startDate;
+      this.show.startTime = showtime.startTime;
       this.bsModalRef.content.show = this.show;
 
     }

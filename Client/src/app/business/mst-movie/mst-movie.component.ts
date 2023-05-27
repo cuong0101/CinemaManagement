@@ -41,7 +41,7 @@ export class MstMovieComponent implements OnInit {
         valueFormatter: (params) => formatMyDate(params.value)
       },
       {
-        headerName: "Time",
+        headerName: "Time (minute)",
         field: "time",
       },
       {

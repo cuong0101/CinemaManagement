@@ -16,7 +16,8 @@ export class MstMovieService {
   }
 
   createOrEdit(movie?: MstMovieManagement){
-    return this.httpClient.post(this.baseUrl + "Movie/CreateOrEdit", movie, {headers: new HttpHeaders({ "Content-Type": "application/json"})});
+    return this.httpClient.post(this.baseUrl + "Movie/CreateOrEdit", movie//, {headers: new HttpHeaders({ "Content-Type": "multipart/form-data"})}
+    );
   }
   
   delete(id?: number){

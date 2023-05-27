@@ -11,6 +11,7 @@ import { MstRankPointsComponent } from './business/mst-rank-points/mst-rank-poin
 import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.component';
 import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
+import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: "customer", component: MstCustomersComponent},
   {path: "rankpoints", component: MstRankPointsComponent},
   {path: "seatrank", component: MstSeatranksComponent},
+  {path: "showtime-customer", component: ShowTimeCustomerComponent},
 
 ];
 

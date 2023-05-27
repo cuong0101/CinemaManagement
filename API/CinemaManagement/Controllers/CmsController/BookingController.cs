@@ -1,12 +1,18 @@
 ﻿using Abp.UI;
 using AutoMapper;
 using CinemaManagement.Data;
+using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,6 +76,43 @@ namespace CinemaManagement.Controllers.CmsController
                 }
             }
             return check;
+        }
+
+        //tìm các phim theo ngày chiếu (chọn ngày chiếu)
+        [HttpGet("GetMovieByStartTime")]
+        public async Task<List<MovieDto>> getMovieByStartTime(string startTime)
+        {
+            var movies = await (
+                from movie in _context.MstMovie
+                .Where(e => e.IsDeleted == false)
+                join shows in _context.MstShowTimes
+                .Where(e => e.IsDeleted == false && e.StartTime.Date == DateTime.ParseExact(startTime, "dd/M/yyyy", CultureInfo.InvariantCulture).Date)
+                on movie.Id equals shows.MovieId
+
+                select new MovieDto
+                {
+                    Id = movie.Id,
+                    Name = movie.Name
+                }
+           ).Distinct().ToListAsync();
+
+            return movies;
+        }
+        [HttpGet("GetShowTimeByMovieAndDate")]
+
+        public async Task<List<MstShowTime>> GetShowTimeByMovieAndDate(string startTime, long idmovie)
+        {
+            var shows = await (from showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.MovieId == idmovie
+                        && e.StartTime.Date == DateTime.ParseExact(startTime, "dd/M/yyyy", CultureInfo.InvariantCulture).Date)
+
+                         select new MstShowTime
+                         {
+                             Id = showtime.Id,
+                             StartTime = showtime.StartTime,
+                             MovieId = showtime.MovieId,
+                             RoomId = showtime.RoomId
+                         }).ToListAsync();
+            return shows;
         }
     }
 }

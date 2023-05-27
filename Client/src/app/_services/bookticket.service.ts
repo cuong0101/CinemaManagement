@@ -11,10 +11,17 @@ export class BookticketService {
 
    getTicketByShowTime()
     {
-      return this.httpClient.get(this.baseUrl + "ShowTime/GetTicketByShowTime");
+      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowTime");
     }
 
     updateTicketStatus(tickets: number[]){
-      return this.httpClient.post(this.baseUrl + "ShowTime/UpdateTicketStatus", tickets);
+      return this.httpClient.post(this.baseUrl + "Booking/UpdateTicketStatus", tickets);
+    }
+
+    getMovieByStartTime(startTime:string){
+      return this.httpClient.get(this.baseUrl + "Booking/GetMovieByStartTime?startTime=" + startTime.replace(/\//g, "%2F"));
+    }
+    getShowTimeByMovieAndDate(startTime:string, movieId:number){
+      return this.httpClient.get(this.baseUrl + "Booking/GetShowTimeByMovieAndDate?startTime=" + startTime.replace(/\//g, "%2F") + "&idmovie=" + movieId);
     }
 }

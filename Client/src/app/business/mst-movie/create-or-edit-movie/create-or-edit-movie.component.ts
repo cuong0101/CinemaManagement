@@ -77,17 +77,14 @@ export class CreateOrEditMovieComponent implements OnInit {
     this.movieService.createOrEdit(this.movie)
     .pipe(finalize(() => this.movie = new MstMovieManagement()))
     .subscribe({
-        next: () => {
-          this.toastr.success("Lưu thành công")
-        },
-        error: (error) => {
-          this.toastr.error(error.errorMessage); 
-        }
+      next: (re) => this.toastr.success("Lưu thành công"),
+      error: (error) => {
+        console.log(error);
+        this.toastr.error(error.errorMessage);
+      }
     });
       this.modalSave.emit(null);
       this.hide();
-      location.reload();
-      this.route.navigate(["/mstmovie"]);
   }
 
 // save(){

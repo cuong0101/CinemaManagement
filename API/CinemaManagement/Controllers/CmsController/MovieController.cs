@@ -40,6 +40,7 @@ namespace CinemaManagement.Controllers.CmsController
                            Director = movie.Director,
                            Actor = movie.Actor,
                            PublishDate = movie.PublishDate.Value.Date,
+                           Time = movie.Time,
                            Languages = movie.Languages,
                            Rated = movie.Rated,
                            Description = movie.Description
@@ -59,10 +60,10 @@ namespace CinemaManagement.Controllers.CmsController
             }
             string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
 
-            if (input.Image!=null)
-            {
-                imageUrl  = _photoService.AddPhotoAsync(input.Image).Result.Url.ToString();
-            }
+            //if (input.Image != null)
+            //{
+            //    imageUrl = _photoService.AddPhotoAsync(input.Image).Result.Url.ToString();
+            //}
             var movie = new MstMovie
             {
                 Name = input.Name,
@@ -71,6 +72,7 @@ namespace CinemaManagement.Controllers.CmsController
                 Director = input.Director,
                 Actor = input.Actor,
                 PublishDate = input.PublishDate,
+                Time = input.Time ?? 0,
                 Rated = input.Rated,
                 Description = input.Description,
                 Languages = input.Languages
@@ -90,6 +92,7 @@ namespace CinemaManagement.Controllers.CmsController
             movie.Director = string.IsNullOrWhiteSpace(input.Director) || string.IsNullOrEmpty(input.Director) ? movie.Director : input.Director;
             movie.Actor = string.IsNullOrWhiteSpace(input.Actor) || string.IsNullOrEmpty(input.Actor) ? movie.Actor : input.Actor;
             movie.PublishDate = string.IsNullOrEmpty(input.PublishDate.ToString()) || string.IsNullOrWhiteSpace(input.PublishDate.ToString()) ? movie.PublishDate : input.PublishDate;
+            movie.Time = input.Time ?? movie.Time;
             movie.Rated = string.IsNullOrWhiteSpace(input.Rated) || string.IsNullOrEmpty(input.Rated) ? movie.Rated : input.Rated;
             movie.Description = string.IsNullOrWhiteSpace(input.Description) || string.IsNullOrEmpty(input.Description) ? movie.Description : input.Description;
             movie.Languages = string.IsNullOrWhiteSpace(input.Languages) || string.IsNullOrEmpty(input.Languages) ? movie.Languages : input.Languages;

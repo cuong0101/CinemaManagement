@@ -6,8 +6,8 @@ namespace CinemaManagement.DTOs.CmsDtos.ShowTime
 {
     public class ShowTimeDto : Entity<long?>
     {
-        public DateTime StartDate { get; set; }
-        //public string Time { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public long IdMovie { get; set; }
         public long IdRoom { get; set; }
         public string MovieName { get; set; }
