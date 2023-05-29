@@ -24,4 +24,7 @@ export class BookticketService {
     getShowTimeByMovieAndDate(startTime:string, movieId:number){
       return this.httpClient.get(this.baseUrl + "Booking/GetShowTimeByMovieAndDate?startTime=" + startTime.replace(/\//g, "%2F") + "&idmovie=" + movieId);
     }
+    GetTicketByShowtimeAdmin(idshow: number){
+      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowtimeAdmin?idshow=" + idshow);
+    }
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -100,19 +101,42 @@ namespace CinemaManagement.Controllers.CmsController
         }
         [HttpGet("GetShowTimeByMovieAndDate")]
 
-        public async Task<List<MstShowTime>> GetShowTimeByMovieAndDate(string startTime, long idmovie)
+        public async Task<List<InfoShowtimeDto>> GetShowTimeByMovieAndDate(string startTime, long idmovie)
         {
             var shows = await (from showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.MovieId == idmovie
                         && e.StartTime.Date == DateTime.ParseExact(startTime, "dd/M/yyyy", CultureInfo.InvariantCulture).Date)
 
-                         select new MstShowTime
+                         select new InfoShowtimeDto
                          {
                              Id = showtime.Id,
-                             StartTime = showtime.StartTime,
-                             MovieId = showtime.MovieId,
-                             RoomId = showtime.RoomId
+                             StartTime = showtime.StartTime.ToString("HH:mm"),
+                             IdMovie = showtime.MovieId,
+                             IdRoom = showtime.RoomId
                          }).ToListAsync();
             return shows;
+        }
+
+        [HttpGet("GetTicketByShowtimeAdmin")]
+        public async Task<List<InfoTicketDto>> GetTicketByShowtimeAdmin(long idshow)
+        {
+            var tickets = await (from ticket in _context.MstTicket.Where(e => e.IsDeleted == false)
+                           join showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.Id == idshow)
+                           on ticket.ShowTimeId equals showtime.Id
+                           join seat in _context.MstSeats.Where(e => e.IsDeleted == false)
+                           on ticket.SeatId equals seat.Id
+                           join seatrank in _context.MstSeatRank.Where(e => e.IsDeleted == false)
+                           on seat.IdSeatRank equals seatrank.Id
+
+                           select new InfoTicketDto
+                           {
+                               id = ticket.Id,
+                               location = seat.Row + seat.Column + "",
+                               seatrank = seatrank.Name,
+                               price = ticket.Price,
+                               idShowtime = showtime.Id,
+                               status = ticket.Status
+                           }).ToListAsync();
+            return tickets;
         }
     }
 }
