@@ -40,7 +40,7 @@ namespace CinemaManagement.Controllers.WeuController
                              select new ShowTimeDto
                              {
                                  Id = sh.Id,
-                                 StartTime = sh.StartTime.Date,
+                                 StartTime = sh.StartTime,
                                  IdMovie = m.Id,
                                  IdRoom = r.Id,
                                  MovieName = m.Name,

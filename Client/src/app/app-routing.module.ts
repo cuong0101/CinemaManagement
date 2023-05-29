@@ -12,6 +12,7 @@ import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.co
 import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
+import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: "rankpoints", component: MstRankPointsComponent},
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "showtime-customer", component: ShowTimeCustomerComponent},
+  {path: "report", component: ReportRevenueComponent}
 
 ];
 

@@ -41,6 +41,7 @@ import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/creat
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
 import { CreateBookTicketsComponent } from './business/book-tickets/create-book-tickets/create-book-tickets.component';
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
+import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 
@@ -73,6 +74,7 @@ import { ShowTimeCustomerComponent } from './business/show-time-customer/show-ti
     BookTicketsComponent,
     CreateBookTicketsComponent,
     ShowTimeCustomerComponent,
+    ReportRevenueComponent,
     //GridTableComponent,
     //GridPaginationComponent,
   ],

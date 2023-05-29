@@ -53,6 +53,11 @@ export const navbarData: INavbarData[] = [
         label: 'Rank Point'
     },
     {
+        routeLink: 'report',
+        icon: 'fa-solid fa-chart-line',
+        label: 'Report'
+    },
+    {
       routeLink: 'promo',
       icon: 'fa-solid fa-tags',
       label: 'Discount',
