@@ -81,13 +81,13 @@ namespace CinemaManagement.Controllers.CmsController
 
         //tìm các phim theo ngày chiếu (chọn ngày chiếu)
         [HttpGet("GetMovieByStartTime")]
-        public async Task<List<MovieDto>> getMovieByStartTime(string startTime)
+        public async Task<List<MovieDto>> getMovieByStartTime(DateTime startTime)
         {
             var movies = await (
                 from movie in _context.MstMovie
                 .Where(e => e.IsDeleted == false)
                 join shows in _context.MstShowTimes
-                .Where(e => e.IsDeleted == false && e.StartTime.Date == DateTime.ParseExact(startTime, "dd/M/yyyy", CultureInfo.InvariantCulture).Date)
+                .Where(e => e.IsDeleted == false && e.StartTime.Date == startTime.Date)
                 on movie.Id equals shows.MovieId
 
                 select new MovieDto
@@ -101,10 +101,10 @@ namespace CinemaManagement.Controllers.CmsController
         }
         [HttpGet("GetShowTimeByMovieAndDate")]
 
-        public async Task<List<InfoShowtimeDto>> GetShowTimeByMovieAndDate(string startTime, long idmovie)
+        public async Task<List<InfoShowtimeDto>> GetShowTimeByMovieAndDate(DateTime startTime, long idmovie)
         {
             var shows = await (from showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.MovieId == idmovie
-                        && e.StartTime.Date == DateTime.ParseExact(startTime, "dd/M/yyyy", CultureInfo.InvariantCulture).Date)
+                        && e.StartTime.Date == startTime.Date)
 
                          select new InfoShowtimeDto
                          {

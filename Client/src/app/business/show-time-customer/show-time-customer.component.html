@@ -1,66 +1,83 @@
-<h2>Booking Ticket</h2>
-<div class="modal-body">
-  <div class="row mt-3">
-    <div class="col-3">
-      <div class="form-group row">
-        <label class="col-sm-3" >StartTime</label>
-        <div class="col-sm-9">
-          <select class="form-control" name="movie" [(ngModel)]="startTimeSelected" (change)="ChangeStartTime()" id="cbStartTime">
-            <option *ngFor="let item of listday">{{item}}</option>
-          </select>
+<div class="container-fluid">
+  <h2>Booking Ticket</h2>
+  <div class="modal-body">
+    <div class="row mt-3">
+      <div class="col-3 ml-3">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">StartTime</label>
+          <div class="col-sm-9">
+            <input class="form-control" id="fromdate" name="fromdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [minDate]="minDate" [maxDate]="maxDate"
+             (ngModelChange)="changeStartTime($event)"  [(ngModel)]="startTime" bsDatepicker required >
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Movie</label>
+          <div class="col-sm-10">
+            <select class="form-control" name="movie" [(ngModel)]="movieName" (ngModelChange)="changeMovie($event)">
+              <option *ngFor="let item of listmovie" [value]="item.key">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Showtime</label>
+          <div class="col-sm-9">
+            <select class="form-control" name="showtime" [(ngModel)]="showtime" (ngModelChange)="changeShowtime($event)">
+              <option *ngFor="let item of listshowtime" [value]="item.key">{{item.value}}</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-3">
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Movie</label>
-        <div class="col-sm-9">
-          <select class="form-control" name="movie" [(ngModel)]="movieName" (change)="ChangeMovie()">
-            <option>Choose Movie</option>
-            <option *ngFor="let item of listmovie">{{item.value}}</option>
-          </select>
+
+    <div class="row mt-3" *ngIf="listseat.length > 0">
+      <div class="col-3">
+        <div class="form-group row">
+          <div>
+            <hr size="25px">
+            <h4 class="row">Screen</h4>
+          </div>
+          <div class="row" style="margin-top: 10%;">
+            <button *ngFor="let seat of listseat" class="seat-label" class="col-sm-4 text-center description-text p-0"
+              [ngStyle]="{'border-color': seat.value!.seatRankName === 'SweetBox' ? '#ff4081' : seat.value!.seatRankName === 'Vip' ? '#ffc107' : 'green'}"
+              (click)="chooseSeat($event)" [disabled]="seat.value!.status === 1" [ngClass]="seat.value!.status === 1 ? 'btn-seat-choose' : ''"
+              > {{ seat.value!.location }}
+              </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-3">
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Showtime</label>
-        <div class="col-sm-9">
-          <select class="form-control" name="showtime" (change)="ChangeShowtime($event)">
-            <option>Choose Showtime</option>
-            <option *ngFor="let item of listshowtime" [value]="item.key">{{item.value}}</option>
-          </select>
+    <div class="seat-ticket" style="margin-top: 5%;" *ngIf="listseat.length > 0">
+      <div class="seat-info">
+        <div class="icon">
+          <button class="btn-seat-checked"></button>Checked
+        </div>
+        <div class="icon">
+          <button class="btn-seat-choose"></button>Đã chọn
+        </div>
+        <div class="icon unavailable">
+          <button class="btn-seat-destroy"></button>Ko thể chọn
+        </div>
+      </div>
+      <div class="seat-info" style="margin-left: 120px;">
+        <div class="icon">
+          <button class="btn-seat-normal"></button>Thường
+        </div>
+        <div class="icon">
+          <button class="btn-seat-vip"></button>Vip
+        </div>
+        <div class="icon">
+          <button class="btn-seat-sweetbox"></button>SweetBox
         </div>
       </div>
     </div>
-    <div class="col-1">
-      <div class="form-group row">
-        <button class="btn btn-primary" (click)="getAllSeat()">Get Seat</button>
-      </div>
-    </div>
-    <div class="col-2">
+    <!-- <div class="col-2">
       <div class="form-group row">
         <button (click)="submitSelection()" class="btn btn-primary">Submit</button>
       </div>
-    </div>
-  </div>
-
-  <div class="row mt-3">
-    <div class="col-3">
-      <div class="form-group row">
-        <div>
-          <hr size="25px">
-          <h4 class="row">Screen</h4>
-        </div>
-        <div class="row" style="margin-top: 10%;">
-          <label *ngFor="let seat of listseat" class="seat-label">
-            <input type="checkbox" [value]="seat" name="selectedSeats" style="width: 50px;height: 50px;" 
-            [ngClass]="{'sweetbox': seat.value!.seatrankName === 'sweetbox'}"
-            (click)="ChooseSeat($event)">
-            {{ seat.value!.location }}
-          </label>
-        </div>
-      </div>
-    </div>
+    </div> -->
   </div>
 </div>

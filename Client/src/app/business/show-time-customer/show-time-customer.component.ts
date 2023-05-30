@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { addDays, format } from 'date-fns';
+import { addDays, format, getDate } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { MstShowtimeManagement } from 'src/app/_interfaces/ShowTime/showtimemanagement';
 import { TicketByShowTime } from 'src/app/_interfaces/listTickets';
 import { MstMovieManagement } from 'src/app/_interfaces/moviemanagement';
@@ -14,7 +15,7 @@ import { MstShowTimeService } from 'src/app/_services/mstshowtime.service';
 })
 export class ShowTimeCustomerComponent implements OnInit {
 
-  listseat: {key: number|undefined, value: {id: number, status: number, seatrankName: string, location: string}|undefined}[] = [];
+  listseat: {key: number|undefined, value: {id: number, status: number, seatRankName: string, location: string}|undefined}[] = [];
   listmovie: {key: number|undefined, value: string|undefined}[] = [];
   listshowtime: {key: number|undefined, value: string|undefined}[] = [];
   listday: any[] = [];
@@ -22,10 +23,13 @@ export class ShowTimeCustomerComponent implements OnInit {
   movie: MstMovieManagement = new MstMovieManagement();
   startTimeSelected!: string;
   movieName!: string;
-  movieId: number = 0;
-  event:any;
+  movieId: any;
   showtimeId:number = 0;
   listChooseTicket: any[] = [];
+  minDate = new Date();
+  maxDate = new Date();
+  startTime: any;
+  showtime: any
 
   constructor(
     private movieService: MstMovieService,
@@ -34,14 +38,13 @@ export class ShowTimeCustomerComponent implements OnInit {
     private toastr: ToastrService,) { }
 
   ngOnInit() {
-    this.startTimeSelected = this.curDate.toLocaleDateString();
-    this.getStartTime();
-    this.getAllMovie(this.startTimeSelected);
-    this.getAllShowTime(this.startTimeSelected,this.movieId);
+    let today = new Date();
+    this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5);
   }
-  getAllMovie(startdate:string)
-  {
 
+  changeStartTime(params:any) {
+    this.listmovie.length = 0;
+    let startdate = format(new Date(params), 'yyyy-MM-dd');
     this.bookingService.getMovieByStartTime(startdate).subscribe((res:any) => {
       this.listmovie = res.map((item:any) => {
         return {
@@ -50,46 +53,18 @@ export class ShowTimeCustomerComponent implements OnInit {
         }
       });
       this.listmovie = [...this.listmovie];
+      this.listmovie.unshift({key: undefined, value: ""});
     });
+
+
   }
 
-  getAllShowTime(startTimeSelected: string,movieId:number)
+  changeMovie(params: any)
   {
-    this.bookingService.getShowTimeByMovieAndDate(startTimeSelected,movieId).subscribe((res:any) => {
-      this.listshowtime = res.map((item:any) => {
-        return {
-          key: item.id,
-          value: format(new Date(item.startTime), 'HH:mm')
-        }
-      });
-      this.listshowtime = [...this.listshowtime];
-    });
-  }
-
-  submitSelection(){
-    console.log(this.listChooseTicket);
-    this.toastr.success('Đặt vé thành công');
-  }
-
-  getStartTime()
-  {
-    this.listday.push(format(this.curDate, 'dd/MM/yyyy'));
-    for (let i = -7; i <= 7; i++) {
-      const nextDate = addDays(this.curDate, i);
-      this.listday.push(format(nextDate, 'dd/MM/yyyy'));
-    }
-  }
-  ChangeStartTime():void
-  {
-    this.getAllMovie(this.startTimeSelected);
-  }
-  ChangeMovie():void
-  {
-    for (let i = 0; i < this.listmovie.length; i++) {
-      if(this.listmovie[i].value == this.movieName)
-      {
-        this.movieId = this.listmovie[i].key!;
-        this.bookingService.getShowTimeByMovieAndDate(this.startTimeSelected,this.listmovie[i].key!).subscribe((res:any) => {
+    if (params != "") {
+      let startdate = format(new Date(this.startTime), 'yyyy-MM-dd');
+      this.bookingService.getShowTimeByMovieAndDate(startdate, params)
+        .subscribe((res:any) => {
           this.listshowtime = res.map((item:any) => {
             return {
               key: item.id,
@@ -97,37 +72,38 @@ export class ShowTimeCustomerComponent implements OnInit {
             }
           });
           this.listshowtime = [...this.listshowtime];
+          this.listshowtime.unshift({key: undefined, value: ""});
         })
-      }
     }
   }
 
-  ChangeShowtime(event:any):void
+  changeShowtime(params: any)
   {
-    const selectedOption: HTMLOptionElement = event.target['options'][event.target['selectedIndex']];
-    this.showtimeId = Number.parseInt(selectedOption.value);
+    if (params)
+    {
+      this.bookingService.GetTicketByShowtimeAdmin(params).subscribe((res:any) => {
+        this.listseat = res.map((item:any) => {
+          return {
+            key: item.id,
+            value: {
+              id: item.id,
+              status: item.status,
+              seatRankName: item.seatrank,
+              location: item.location,
+            }
+          }
+        });
+        this.listseat = [...this.listseat];
+      })
+    }
   }
 
-  getAllSeat()
+  chooseSeat(event:any)
   {
-    this.bookingService.GetTicketByShowtimeAdmin(this.showtimeId).subscribe((res:any) => {
-      this.listseat = res.map((item:any) => {
-        return {
-          key: item.id,
-          value: {
-            id: item.id,
-            status: item.status,
-            seatRankName: item.seatrank,
-            location: item.location,
-          }
-        }
-      });
-      this.listseat = [...this.listseat];
-    })
+    if (event) {}
   }
-  ChooseSeat(event:any)
-  {
-    const selectedOption: HTMLOptionElement = event.target['options'][event.target['selectedIndex']];
-    this.listChooseTicket.push(selectedOption.value);
+
+  submitSelection(){
   }
+
 }

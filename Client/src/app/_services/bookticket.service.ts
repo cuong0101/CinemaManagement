@@ -18,11 +18,11 @@ export class BookticketService {
       return this.httpClient.post(this.baseUrl + "Booking/UpdateTicketStatus", tickets);
     }
 
-    getMovieByStartTime(startTime:string){
-      return this.httpClient.get(this.baseUrl + "Booking/GetMovieByStartTime?startTime=" + startTime.replace(/\//g, "%2F"));
+    getMovieByStartTime(startTime: any){
+      return this.httpClient.get(this.baseUrl + "Booking/GetMovieByStartTime?startTime=" + startTime);
     }
-    getShowTimeByMovieAndDate(startTime:string, movieId:number){
-      return this.httpClient.get(this.baseUrl + "Booking/GetShowTimeByMovieAndDate?startTime=" + startTime.replace(/\//g, "%2F") + "&idmovie=" + movieId);
+    getShowTimeByMovieAndDate(startTime:any, movieId:number){
+      return this.httpClient.get(this.baseUrl + "Booking/GetShowTimeByMovieAndDate?startTime=" + startTime + "&idmovie=" + movieId);
     }
     GetTicketByShowtimeAdmin(idshow: number){
       return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowtimeAdmin?idshow=" + idshow);
