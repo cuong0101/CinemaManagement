@@ -37,9 +37,9 @@ namespace CinemaManagement.Controllers.CmsController
         // nếu chưa đổi trạng thái vé sang 2
         //Hoàn cảnh: khi đang bấm chọn ghế -> bấm đặt vé -> thay đổi trạng thái các vé đc chọm
         // để người khác k chọn được
-        public async Task<bool> AdminCheckTicket(List<long> listIdTicket, long? empId)
+        public async Task<bool> AdminCheckTicket(ListTicketInputDto input)
         {
-            foreach(var idmovie in listIdTicket)
+            foreach(var idmovie in input.listticket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
@@ -50,30 +50,30 @@ namespace CinemaManagement.Controllers.CmsController
                 }
 
                 ticket.Status = 2;
-                ticket.EmployeeId = empId;
+                ticket.EmployeeId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
             }
             return true;
         }
 
         [HttpPost("AdminBooking")]
-        public async Task AdminBooking(List<long> listIdTicket, long? empId)
+        public async Task AdminBooking(ListTicketInputDto input)
         {
             try
             {
-                foreach (var idmovie in listIdTicket)
+                foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.EmployeeId = empId;
+                    ticket.EmployeeId = input.PersonId;
                     ticket.LastModificationTime = DateTime.Now;
                 }
             }
             catch(Exception ex)
             {
-                foreach (var idmovie in listIdTicket)
+                foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
@@ -89,9 +89,9 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CustomerCheckTicket")]
-        public async Task<bool> CustomerCheckTicket(List<long> listIdTicket, long? cusid)
+        public async Task<bool> CustomerCheckTicket(ListTicketInputDto input)
         {
-            foreach (var idmovie in listIdTicket)
+            foreach (var idmovie in input.listticket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
@@ -102,30 +102,30 @@ namespace CinemaManagement.Controllers.CmsController
                 }
 
                 ticket.Status = 2;
-                ticket.CustomerId = cusid;
+                ticket.CustomerId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
             }
             return true;
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task CustomerBooking(List<long> listIdTicket, long? cusId)
+        public async Task CustomerBooking(ListTicketInputDto input)
         {
             try
             {
-                foreach (var idmovie in listIdTicket)
+                foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.CustomerId = cusId;
+                    ticket.CustomerId = input.PersonId;
                     ticket.LastModificationTime = DateTime.Now;
                 }
             }
             catch (Exception ex)
             {
-                foreach (var idmovie in listIdTicket)
+                foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
@@ -140,9 +140,9 @@ namespace CinemaManagement.Controllers.CmsController
 
         }
         [HttpPost("CancelBooking")]
-        public async Task CancelBooking(List<long> listIdTicket)
+        public async Task CancelBooking(ListTicketInputDto input)
         {
-            foreach (var idmovie in listIdTicket)
+            foreach (var idmovie in input.listticket)
             {
                 var ticket = _context.MstTicket
                    .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
