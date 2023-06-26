@@ -32,51 +32,42 @@ namespace CinemaManagement.Controllers.CmsController
             _dapper = dapper;
         }
 
-        [HttpPost("BookingTicket")]
-        public async Task AdminBookingTicket(List<long> listIdTicket, int action, long? IdCus)
+        [HttpPost("AdminBookingTicket")]
+        public async Task<bool> AdminBookingTicket(List<long> listIdTicket, long? IdCus)
         {
-            //action 0: từ màn hình chọn vé, click vào nút đặt vé => trạng thái vé 0->1
-            //action 1: từ màn thông tin đơn vé, click back => huỷ bỏ trạng thái vé 1->0
-            //action 2: từ màn thông tin đơn vé, click thanh toán => trạng thái vé 1->2
-            //trong vòng 5p nếu không thanh toán -> chuyển trạng thái 1->2 thì vé sẽ quay về trạng thái 0
             foreach(var idmovie in listIdTicket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
-                if(action == 0)
-                    ticket.Status = 1;
-                if (action == 1)
-                    ticket.Status = 0;
-                if (action == 2)
+
+                if(ticket.Status == 1)
                 {
-                    if (!await checkStatusTicketIsBought(listIdTicket))
-                        ticket.Status = 2;
-                    else
-                        throw new UserFriendlyException("Tickets are bought by another person!");
-                }    
-                if (ticket.Status == 2)
-                    ticket.CustomerId = IdCus;
-                _context.MstTicket.Update(ticket);
-                await _context.SaveChangesAsync();
+                    return false;
+                }
+
+                ticket.Status = 1;
+                ticket.EmployeeId = IdCus;
             }
+            return true;
         }
 
-        //hàm kiểm tra xem lúc chuẩn bị bấm nút thanh toán thì vé đã đc mua chưa (check lại)
-        // nếu chưa mới mua và đổi trạng thái được
-        private async Task<bool> checkStatusTicketIsBought(List<long> listIdTicket)
+        [HttpPost("CustomerBookingTicket")]
+        public async Task<bool> CustomerBookingTicket(List<long> listIdTicket, long? IdCus)
         {
-            bool check = true;
             foreach (var idmovie in listIdTicket)
             {
-                var ticket = await _context.MstTicket
-                    .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefaultAsync();
-                if (ticket.Status == 2)
+                var ticket = _context.MstTicket
+                    .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                if (ticket.Status == 1)
                 {
-                    check = false;
-                    break;
+                    return false;
                 }
+
+                ticket.Status = 1;
+                ticket.CustomerId = IdCus;
             }
-            return check;
+            return true;
         }
 
         //tìm các phim theo ngày chiếu (chọn ngày chiếu)
