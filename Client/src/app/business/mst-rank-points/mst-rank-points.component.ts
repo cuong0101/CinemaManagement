@@ -27,28 +27,32 @@ export class MstRankPointsComponent implements OnInit {
   ) => string = (params: PaginationNumberFormatterParams) => {
     return '' + params.value.toLocaleString() + '';
   };
-  
-  constructor(private rankpoints: RankpointsService, private toastr: ToastrService,private http: HttpClient, ) { 
+
+  constructor(private rankpoints: RankpointsService, private toastr: ToastrService,private http: HttpClient, ) {
     this.colDefs=[
       {
-        headerName: "Grade",
+        headerName: "Thứ Hạng",
         field: "grade",
       },
       {
-        headerName: "Operation Date",
-        field: "operationDate",
+        headerName: "Hoạt động",
+        field: "isActive",
         //valueFormatter: (params) => formatMyDate(params.value)
       },
       {
-        headerName: "Expiration Date",
+        headerName: "Ngày hoạt động",
+        field: "operationDate",
+      },
+      {
+        headerName: "Ngày hết hạn",
         field: "expirationDate",
       },
       {
-        headerName: "Point",
-        field: "point",
+        headerName: "Số lần mua vé cần đạt được",
+        field: "numberOfVisit",
       },
       {
-        headerName: "Description",
+        headerName: "Mô tả",
         field: "description",
       },
     ];

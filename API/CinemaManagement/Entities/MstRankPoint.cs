@@ -10,7 +10,7 @@ namespace CinemaManagement.Entities
         public bool IsActive { get; set; } //Trạng thái hoạt động
         public DateTime? OperationDate { get; set; } //Ngày hoạt động
         public DateTime? ExpirationDate { get; set; } //Ngày hết hạn
-        public int Point { get; set; } //Điểm cần đạt
+        public int NumberOfVisit { get; set; } //Số lần ghé rạp trong 12 tháng (kể từ ngày mở tk)
         public string Description { get; set; }
 
     }

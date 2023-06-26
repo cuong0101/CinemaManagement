@@ -18,13 +18,8 @@ export class ShowTimeCustomerComponent implements OnInit {
   listseat: {key: number|undefined, value: {id: number, status: number, seatRankName: string, location: string}|undefined}[] = [];
   listmovie: {key: number|undefined, value: string|undefined}[] = [];
   listshowtime: {key: number|undefined, value: string|undefined}[] = [];
-  listday: any[] = [];
-  curDate = new Date();
   movie: MstMovieManagement = new MstMovieManagement();
-  startTimeSelected!: string;
   movieName!: string;
-  movieId: any;
-  showtimeId:number = 0;
   listChooseTicket: any[] = [];
   minDate = new Date();
   maxDate = new Date();
@@ -61,6 +56,7 @@ export class ShowTimeCustomerComponent implements OnInit {
 
   changeMovie(params: any)
   {
+    this.listshowtime = [];
     if (params != "") {
       let startdate = format(new Date(this.startTime), 'yyyy-MM-dd');
       this.bookingService.getShowTimeByMovieAndDate(startdate, params)
@@ -79,6 +75,7 @@ export class ShowTimeCustomerComponent implements OnInit {
 
   changeShowtime(params: any)
   {
+    this.listseat.length = 0;
     if (params)
     {
       this.bookingService.GetTicketByShowtimeAdmin(params).subscribe((res:any) => {
@@ -100,7 +97,11 @@ export class ShowTimeCustomerComponent implements OnInit {
 
   chooseSeat(event:any)
   {
-    if (event) {}
+    if (event) {
+      const selectedOption: HTMLOptionElement = event.target['seat'][event.target['selectedIndex']];
+      this.listChooseTicket.push(selectedOption.value);
+      console.log(this.listChooseTicket);
+    }
   }
 
   submitSelection(){

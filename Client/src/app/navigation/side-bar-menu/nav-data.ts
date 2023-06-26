@@ -31,7 +31,7 @@ export const navbarData: INavbarData[] = [
         icon: 'fa-solid fa-couch',
         label: 'Seat Rank',
     },
-    
+
     {
         routeLink: 'customer',
         icon: 'fa-solid fa-file-invoice',
@@ -69,7 +69,7 @@ export const navbarData: INavbarData[] = [
           },
           {
               routeLink: 'settings/voucher',
-              label: 'Voucher'
+              label: 'Voucher - Đổi điểm'
           }
       ]
     },

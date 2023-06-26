@@ -41,11 +41,11 @@
             <h4 class="row">Screen</h4>
           </div>
           <div class="row" style="margin-top: 10%;">
-            <button *ngFor="let seat of listseat" class="seat-label" class="col-sm-4 text-center description-text p-0"
+            <button id="seat" *ngFor="let seat of listseat" class="seat-label" class="col-sm-4 text-center description-text p-0"
               [ngStyle]="{'border-color': seat.value!.seatRankName === 'SweetBox' ? '#ff4081' : seat.value!.seatRankName === 'Vip' ? '#ffc107' : 'green'}"
-              (click)="chooseSeat($event)" [disabled]="seat.value!.status === 1" [ngClass]="seat.value!.status === 1 ? 'btn-seat-choose' : ''"
+              (click)="chooseSeat($event)" [disabled]="seat.value!.status === 1"
               > {{ seat.value!.location }}
-              </button>
+            </button>
           </div>
         </div>
       </div>

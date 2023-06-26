@@ -7,6 +7,6 @@ export class RankPoints {
     isActive?: boolean  //Trạng thái hoạt động
     operationDate?: Moment  //Ngày hoạt động
     expirationDate?: Moment  //Ngày hết hạn
-    point?: number  //Điểm cần đạt
+    numberOfVisit?: number  //Điểm cần đạt
     description?: string
 }

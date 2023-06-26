@@ -23,6 +23,8 @@ namespace CinemaManagement.Data
         public DbSet<MstSeat> MstSeats { get; set; }
         public DbSet<MstTicket> MstTicket { get; set; }
         public DbSet<TicketPrice> TicketPrice { get; set; }
+        public DbSet<HistoryChangeGift> HistoryChangeGift { get; set; }
+        public DbSet<PolicyGifts> PolicyGift { get; set; }
 
     }
 }

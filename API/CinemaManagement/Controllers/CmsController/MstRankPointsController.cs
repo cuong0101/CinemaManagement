@@ -38,13 +38,6 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<List<MstRankPointsForView>> GetAll([FromQuery] MstRankPointsForInput filter)
         {
             var result = new List<MstRankPointsForView>();
-            //var parameters = new DynamicParameters();
-            //parameters.Add("@TotalCount", value: 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            //parameters.Add("@TotalPage", value: 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            //parameters.Add("@PageNumber", value: filter.PageNumber);
-            //parameters.Add("@PageSize", value: filter.PageSize);
-            //parameters.Add("@IsSoftDeleted", value: 0);
-
             try
             {
                 var rankpoints = _context.MstRankPoints.ToList();
@@ -57,24 +50,9 @@ namespace CinemaManagement.Controllers.CmsController
                                  ExpirationDate = rankpoint.ExpirationDate,
                                  IsActive = rankpoint.IsActive,
                                  Description = rankpoint.Description,
-                                 Point = rankpoint.Point
+                                 NumberOfVisit = rankpoint.NumberOfVisit
                              }).ToList();
                 result = query;
-                //result.Code = 200;
-                //result.Data = query;
-                //using (var conn = _dapper.CreateConnection())
-                //{
-                //    conn.Open();
-                //    var results = conn.QueryMultiple("GetAllRankPoints", parameters,
-                //        commandType: System.Data.CommandType.StoredProcedure);
-                //    var resultPagination = new ResultPagination<List<MstRankPointsForView>>();
-                //    resultPagination.Value = results.Read<MstRankPointsForView>(true).ToList();
-                //    resultPagination.TotalCount = (long)parameters.Get<decimal>("@TotalCount");
-                //    resultPagination.TotalPage = (long)parameters.Get<decimal>("@TotalPage");
-                //    result.Code = 200;
-                //    result.Data = resultPagination;
-                //    conn.Close();
-                //}
             }
             catch (Exception e)
             {
