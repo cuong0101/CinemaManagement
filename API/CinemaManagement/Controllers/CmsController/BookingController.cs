@@ -59,7 +59,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("AdminBooking")]
-        public async Task AdminBooking(ListTicketInputDto input)
+        public async Task<bool> AdminBooking(ListTicketInputDto input)
         {
             try
             {
@@ -74,6 +74,7 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
+                return true;
             }
             catch(Exception ex)
             {
@@ -89,7 +90,7 @@ namespace CinemaManagement.Controllers.CmsController
                     await _context.SaveChangesAsync();
                 }
 
-                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+                return false;
             }
            
         }
@@ -117,7 +118,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task CustomerBooking(ListTicketInputDto input)
+        public async Task<bool> CustomerBooking(ListTicketInputDto input)
         {
             try
             {
@@ -132,6 +133,7 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
+                return true;
             }
             catch (Exception ex)
             {
@@ -146,7 +148,7 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
-                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+                return false;
             }
 
         }
