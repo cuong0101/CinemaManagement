@@ -139,6 +139,20 @@ namespace CinemaManagement.Controllers.CmsController
             }
 
         }
+        [HttpPost("CancelBooking")]
+        public async Task CancelBooking(List<long> listIdTicket)
+        {
+            foreach (var idmovie in listIdTicket)
+            {
+                var ticket = _context.MstTicket
+                   .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                ticket.Status = 0; // 1 là đã được mua
+                ticket.CustomerId = null;
+                ticket.EmployeeId = null;
+                ticket.LastModificationTime = DateTime.Now;
+            }
+        }
 
 
         //tìm các phim theo ngày chiếu (chọn ngày chiếu)
