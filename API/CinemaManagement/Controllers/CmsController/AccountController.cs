@@ -78,6 +78,7 @@ namespace CinemaManagement.Controllers
             await _context.SaveChangesAsync();
             return new UserDto
             {
+                Id  = user.Id,
                 Username = user.UserName,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
