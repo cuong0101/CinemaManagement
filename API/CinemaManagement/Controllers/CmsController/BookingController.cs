@@ -32,43 +32,114 @@ namespace CinemaManagement.Controllers.CmsController
             _dapper = dapper;
         }
 
-        [HttpPost("AdminBookingTicket")]
-        public async Task<bool> AdminBookingTicket(List<long> listIdTicket, long? IdCus)
+        [HttpPost("AdminCheckTicket")]
+        //Kiểm tra vé đã được chọn bởi người khác chưa?
+        // nếu chưa đổi trạng thái vé sang 2
+        //Hoàn cảnh: khi đang bấm chọn ghế -> bấm đặt vé -> thay đổi trạng thái các vé đc chọm
+        // để người khác k chọn được
+        public async Task<bool> AdminCheckTicket(List<long> listIdTicket, long? empId)
         {
             foreach(var idmovie in listIdTicket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
-                if(ticket.Status == 1)
+                if(ticket.Status != 0)
                 {
                     return false;
                 }
 
-                ticket.Status = 1;
-                ticket.EmployeeId = IdCus;
+                ticket.Status = 2;
+                ticket.EmployeeId = empId;
+                ticket.LastModificationTime = DateTime.Now;
             }
             return true;
         }
 
-        [HttpPost("CustomerBookingTicket")]
-        public async Task<bool> CustomerBookingTicket(List<long> listIdTicket, long? IdCus)
+        [HttpPost("AdminBooking")]
+        public async Task AdminBooking(List<long> listIdTicket, long? empId)
+        {
+            try
+            {
+                foreach (var idmovie in listIdTicket)
+                {
+                    var ticket = _context.MstTicket
+                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                    ticket.Status = 1; // 1 là đã được mua
+                    ticket.EmployeeId = empId;
+                    ticket.LastModificationTime = DateTime.Now;
+                }
+            }
+            catch(Exception ex)
+            {
+                foreach (var idmovie in listIdTicket)
+                {
+                    var ticket = _context.MstTicket
+                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                    ticket.Status = 0; // 1 là đã được mua
+                    ticket.EmployeeId = null;
+                    ticket.LastModificationTime = DateTime.Now;
+                }
+
+                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+            }
+           
+        }
+
+        [HttpPost("CustomerCheckTicket")]
+        public async Task<bool> CustomerCheckTicket(List<long> listIdTicket, long? cusid)
         {
             foreach (var idmovie in listIdTicket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
-                if (ticket.Status == 1)
+                if (ticket.Status != 0)
                 {
                     return false;
                 }
 
-                ticket.Status = 1;
-                ticket.CustomerId = IdCus;
+                ticket.Status = 2;
+                ticket.CustomerId = cusid;
+                ticket.LastModificationTime = DateTime.Now;
             }
             return true;
         }
+
+        [HttpPost("CustomerBooking")]
+        public async Task CustomerBooking(List<long> listIdTicket, long? cusId)
+        {
+            try
+            {
+                foreach (var idmovie in listIdTicket)
+                {
+                    var ticket = _context.MstTicket
+                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                    ticket.Status = 1; // 1 là đã được mua
+                    ticket.CustomerId = cusId;
+                    ticket.LastModificationTime = DateTime.Now;
+                }
+            }
+            catch (Exception ex)
+            {
+                foreach (var idmovie in listIdTicket)
+                {
+                    var ticket = _context.MstTicket
+                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+
+                    ticket.Status = 0; // 1 là đã được mua
+                    ticket.CustomerId = null;
+                    ticket.LastModificationTime = DateTime.Now;
+                }
+
+                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+            }
+
+        }
+
 
         //tìm các phim theo ngày chiếu (chọn ngày chiếu)
         [HttpGet("GetMovieByStartTime")]
