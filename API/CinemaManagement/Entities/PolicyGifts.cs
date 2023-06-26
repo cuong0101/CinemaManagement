@@ -6,7 +6,7 @@ namespace CinemaManagement.Entities
 {
     public class PolicyGifts : FullAuditedEntity<long>, IEntity<long>
     {
-        public int GiftName { get; set; }
+        public string GiftName { get; set; }
         public int Point { get; set; } // Điểm quy đổi
         public bool IsStatus { get; set; } // trạng thái hoạt động
         public DateTime? FromDate { get; set; }

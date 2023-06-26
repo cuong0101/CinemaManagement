@@ -47,7 +47,7 @@ namespace CinemaManagement.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GiftName = table.Column<int>(type: "int", nullable: false),
+                    GiftName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Point = table.Column<int>(type: "int", nullable: false),
                     IsStatus = table.Column<bool>(type: "bit", nullable: false),
                     FromDate = table.Column<DateTime>(type: "datetime2", nullable: true),

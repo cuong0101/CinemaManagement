@@ -3,17 +3,11 @@ using AutoMapper;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
-using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +19,7 @@ namespace CinemaManagement.Controllers.CmsController
         private readonly ITokenService _tokenService;
         private readonly DapperContext _dapper;
 
-        public BookingController(DataContext context, ITokenService tokenService, DapperContext dapper, IMapper mapper):base(mapper)
+        public BookingController(DataContext context, ITokenService tokenService, DapperContext dapper, IMapper mapper) : base(mapper)
         {
             _context = context;
             _tokenService = tokenService;
@@ -39,12 +33,12 @@ namespace CinemaManagement.Controllers.CmsController
         // để người khác k chọn được
         public async Task<bool> AdminCheckTicket(ListTicketInputDto input)
         {
-            foreach(var idmovie in input.listticket)
+            foreach (var idmovie in input.listticket)
             {
                 var ticket = _context.MstTicket
                     .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
-                if(ticket.Status != 0)
+                if (ticket.Status != 0)
                 {
                     return false;
                 }
@@ -71,7 +65,7 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.LastModificationTime = DateTime.Now;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 foreach (var idmovie in input.listticket)
                 {
@@ -85,7 +79,7 @@ namespace CinemaManagement.Controllers.CmsController
 
                 throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
             }
-           
+
         }
 
         [HttpPost("CustomerCheckTicket")]
@@ -179,16 +173,16 @@ namespace CinemaManagement.Controllers.CmsController
 
         public async Task<List<InfoShowtimeDto>> GetShowTimeByMovieAndDate(DateTime startTime, long idmovie)
         {
-            var shows = await (from showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.MovieId == idmovie
-                        && e.StartTime.Date == startTime.Date)
+            var shows = await (from showtime in _context.MstShowTimes
+                               .Where(e => e.IsDeleted == false && e.MovieId == idmovie && e.StartTime.Date == startTime.Date)
 
-                         select new InfoShowtimeDto
-                         {
-                             Id = showtime.Id,
-                             StartTime = showtime.StartTime.ToString("HH:mm"),
-                             IdMovie = showtime.MovieId,
-                             IdRoom = showtime.RoomId
-                         }).ToListAsync();
+                               select new InfoShowtimeDto
+                               {
+                                   Id = showtime.Id,
+                                   StartTime = showtime.StartTime.ToString("HH:mm"),
+                                   IdMovie = showtime.MovieId,
+                                   IdRoom = showtime.RoomId
+                               }).ToListAsync();
             return shows;
         }
 
@@ -196,22 +190,22 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<List<InfoTicketDto>> GetTicketByShowtimeAdmin(long idshow)
         {
             var tickets = await (from ticket in _context.MstTicket.Where(e => e.IsDeleted == false)
-                           join showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.Id == idshow)
-                           on ticket.ShowTimeId equals showtime.Id
-                           join seat in _context.MstSeats.Where(e => e.IsDeleted == false)
-                           on ticket.SeatId equals seat.Id
-                           join seatrank in _context.MstSeatRank.Where(e => e.IsDeleted == false)
-                           on seat.IdSeatRank equals seatrank.Id
+                                 join showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.Id == idshow)
+                                 on ticket.ShowTimeId equals showtime.Id
+                                 join seat in _context.MstSeats.Where(e => e.IsDeleted == false)
+                                 on ticket.SeatId equals seat.Id
+                                 join seatrank in _context.MstSeatRank.Where(e => e.IsDeleted == false)
+                                 on seat.IdSeatRank equals seatrank.Id
 
-                           select new InfoTicketDto
-                           {
-                               id = ticket.Id,
-                               location = seat.Row + seat.Column + "",
-                               seatrank = seatrank.Name,
-                               price = ticket.Price,
-                               idShowtime = showtime.Id,
-                               status = ticket.Status
-                           }).ToListAsync();
+                                 select new InfoTicketDto
+                                 {
+                                     id = ticket.Id,
+                                     location = seat.Row + seat.Column + "",
+                                     seatrank = seatrank.Name,
+                                     price = ticket.Price,
+                                     idShowtime = showtime.Id,
+                                     status = ticket.Status
+                                 }).ToListAsync();
             return tickets;
         }
     }
