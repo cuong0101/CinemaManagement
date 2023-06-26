@@ -46,12 +46,14 @@ namespace CinemaManagement.Controllers.CmsController
                 ticket.Status = 2;
                 ticket.EmployeeId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
+                _context.MstTicket.Update(ticket);
+                await _context.SaveChangesAsync();
             }
             return true;
         }
 
         [HttpPost("AdminBooking")]
-        public async Task AdminBooking(ListTicketInputDto input)
+        public async Task<bool> AdminBooking(ListTicketInputDto input)
         {
             try
             {
@@ -63,7 +65,10 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 1; // 1 là đã được mua
                     ticket.EmployeeId = input.PersonId;
                     ticket.LastModificationTime = DateTime.Now;
+                    _context.MstTicket.Update(ticket);
+                    await _context.SaveChangesAsync();
                 }
+                return true;
             }
             catch (Exception ex)
             {
@@ -75,9 +80,11 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 0; // 1 là đã được mua
                     ticket.EmployeeId = null;
                     ticket.LastModificationTime = DateTime.Now;
+                    _context.MstTicket.Update(ticket);
+                    await _context.SaveChangesAsync();
                 }
 
-                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+                return false;
             }
 
         }
@@ -98,12 +105,14 @@ namespace CinemaManagement.Controllers.CmsController
                 ticket.Status = 2;
                 ticket.CustomerId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
+                _context.MstTicket.Update(ticket);
+                await _context.SaveChangesAsync();
             }
             return true;
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task CustomerBooking(ListTicketInputDto input)
+        public async Task<bool> CustomerBooking(ListTicketInputDto input)
         {
             try
             {
@@ -115,7 +124,10 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 1; // 1 là đã được mua
                     ticket.CustomerId = input.PersonId;
                     ticket.LastModificationTime = DateTime.Now;
+                    _context.MstTicket.Update(ticket);
+                    await _context.SaveChangesAsync();
                 }
+                return true;
             }
             catch (Exception ex)
             {
@@ -127,9 +139,10 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 0; // 1 là đã được mua
                     ticket.CustomerId = null;
                     ticket.LastModificationTime = DateTime.Now;
+                    _context.MstTicket.Update(ticket);
+                    await _context.SaveChangesAsync();
                 }
-
-                throw new UserFriendlyException("Có lỗi trong quá trình đặt vé");
+                return false;
             }
 
         }
@@ -145,6 +158,8 @@ namespace CinemaManagement.Controllers.CmsController
                 ticket.CustomerId = null;
                 ticket.EmployeeId = null;
                 ticket.LastModificationTime = DateTime.Now;
+                _context.MstTicket.Update(ticket);
+                await _context.SaveChangesAsync();
             }
         }
 
