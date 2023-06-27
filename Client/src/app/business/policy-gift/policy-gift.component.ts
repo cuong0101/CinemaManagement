@@ -55,6 +55,10 @@ export class PolicyGiftComponent implements OnInit {
         field: "toDate",
       },
       {
+        headerName: " Ảnh",
+        field: "image",
+      },
+      {
         headerName: "Mô tả",
         field: "description",
       }
@@ -66,6 +70,11 @@ export class PolicyGiftComponent implements OnInit {
       flex: 1,
       floatingFilter: true,
     };
+  }
+
+  imageRenderer(params:any) {
+    var a = 'https://upload.wikimedia.org/wikipedia/vi/2/2d/Avengers_Endgame_bia_teaser.jpg'
+    return '<img style="max-width:100%;max-height:100%;" src="' + a + '"/>';
   }
 
   ngOnInit() {

@@ -16,10 +16,12 @@ import * as moment from 'moment';
 export class CreateOrEditPolicyGiftComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   bsModalRef!: BsModalRef;
+  pathFile?: string;
    policygift:  PolicyGift = new  PolicyGift();
   constructor(private modalService: BsModalService, 
     private  policygiftService:  PolicyGiftsService,
     private route: Router,
+ 
     private toastr: ToastrService,
     ) { 
     }
@@ -53,9 +55,12 @@ export class CreateOrEditPolicyGiftComponent implements OnInit {
   hide(){
     this.modalService.hide();
   }
-
+  uploadFinished(event: any)
+  {
+    this.pathFile = event.dbPath;
+  }
   save(){
-   
+    this.policygift.image = this.pathFile;
     if(this.policygift.giftName == null)
     {
       this.toastr.warning("cần nhập GiftName")
