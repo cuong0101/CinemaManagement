@@ -50,13 +50,12 @@ namespace CinemaManagement.Controllers.CmsController
             else
             {
                 var food = _mapper.Map<MstFood>(input);
-                food.Name = input.Name;
-                food.Description = input.Description;
-                food.Price = input.Price;
                 _context.MstFood.Add(food);
                 await _context.SaveChangesAsync();
             }
         }
+
+
 
         private async Task Edit(FoodDto input)
         {
