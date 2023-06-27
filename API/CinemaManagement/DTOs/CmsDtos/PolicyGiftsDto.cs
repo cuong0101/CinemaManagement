@@ -6,6 +6,8 @@ namespace CinemaManagement.DTOs.CmsDtos
     {
         public long? Id { get; set; }
         public string GiftName { get; set; }
+
+        public string Image { get; set; }
         public int Point { get; set; } // Điểm quy đổi
         public bool IsStatus { get; set; } // trạng thái hoạt động
         public DateTime? FromDate { get; set; }

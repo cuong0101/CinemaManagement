@@ -62,7 +62,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
            
             var PolicyGift = _dataContext.PolicyGift.FirstOrDefault(e => e.Id == createOrEdit.Id);
-
+            string imageUrl = "https://res.cloudinary.com/vitcamo/image/upload/v1681699791/no_avatar_flmg5r.png";
             if (PolicyGift != null )
             {
                 throw new UserFriendlyException("Đã tồn tại PolicyGift");
@@ -79,6 +79,7 @@ namespace CinemaManagement.Controllers.CmsController
             var GiftName = _dataContext.PolicyGift.FirstOrDefault(e => e.Id == PolicyGift.Id);
             var policyGift = _mapper.Map(PolicyGift, GiftName);
             policyGift.GiftName = PolicyGift.GiftName;
+            policyGift.Image = PolicyGift.Image;
             policyGift.Point = (int)PolicyGift.Point;
             policyGift.IsStatus = (bool)PolicyGift.IsStatus;
             policyGift.FromDate = (DateTime)PolicyGift.FromDate;
