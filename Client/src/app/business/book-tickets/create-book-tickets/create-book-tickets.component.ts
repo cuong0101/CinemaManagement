@@ -82,5 +82,6 @@ export class CreateBookTicketsComponent implements OnInit {
     {
       this.giftsCb = this.giftChoose.filter(e => e.phoneCus == this.phone);
     }
+    else this.giftsCb.length = 0;
   }
 }
