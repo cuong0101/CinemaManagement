@@ -32,7 +32,7 @@ namespace CinemaManagement.Controllers.CmsController
         // nếu chưa đổi trạng thái vé sang 2
         //Hoàn cảnh: khi đang bấm chọn ghế -> bấm đặt vé -> thay đổi trạng thái các vé đc chọm
         // để người khác k chọn được
-        public async Task<bool> AdminCheckTicket(ListTicketInputDto input)
+        public async Task<IActionResult> AdminCheckTicket(ListTicketInputDto input)
         {
             foreach (var idmovie in input.listticket)
             {
@@ -41,7 +41,7 @@ namespace CinemaManagement.Controllers.CmsController
 
                 if (ticket.Status != 0)
                 {
-                    return false;
+                    return CustomResult(false);
                 }
 
                 ticket.Status = 2;
@@ -50,11 +50,11 @@ namespace CinemaManagement.Controllers.CmsController
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
             }
-            return true;
+            return CustomResult(true);
         }
 
         [HttpPost("AdminBooking")]
-        public async Task<bool> AdminBooking(ListTicketInputDto input)
+        public async Task<IActionResult> AdminBooking(ListTicketInputDto input)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
-                return true;
+                return CustomResult(true);
             }
             catch (Exception ex)
             {
@@ -85,13 +85,13 @@ namespace CinemaManagement.Controllers.CmsController
                     await _context.SaveChangesAsync();
                 }
 
-                return false;
+                return CustomResult(false);
             }
 
         }
 
         [HttpPost("CustomerCheckTicket")]
-        public async Task<bool> CustomerCheckTicket(ListTicketInputDto input)
+        public async Task<IActionResult> CustomerCheckTicket(ListTicketInputDto input)
         {
             foreach (var idmovie in input.listticket)
             {
@@ -100,7 +100,7 @@ namespace CinemaManagement.Controllers.CmsController
 
                 if (ticket.Status != 0)
                 {
-                    return false;
+                    return CustomResult(false);
                 }
 
                 ticket.Status = 2;
@@ -109,11 +109,11 @@ namespace CinemaManagement.Controllers.CmsController
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
             }
-            return true;
+            return CustomResult(true);
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task<bool> CustomerBooking(ListTicketInputDto input)
+        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
-                return true;
+                return CustomResult(true);
             }
             catch (Exception ex)
             {
@@ -143,12 +143,12 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
-                return false;
+                return CustomResult(false);
             }
 
         }
         [HttpPost("CancelBooking")]
-        public async Task CancelBooking(ListTicketInputDto input)
+        public async Task<IActionResult> CancelBooking(ListTicketInputDto input)
         {
             foreach (var idmovie in input.listticket)
             {
@@ -162,6 +162,7 @@ namespace CinemaManagement.Controllers.CmsController
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
             }
+            return CustomResult(true);
         }
 
 

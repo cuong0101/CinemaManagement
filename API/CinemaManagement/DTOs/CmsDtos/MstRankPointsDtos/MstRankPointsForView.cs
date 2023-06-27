@@ -12,5 +12,6 @@ namespace CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos
         public DateTime? ExpirationDate { get; set; } //Ngày hết hạn
         public int NumberOfVisit { get; set; } //Số lần xem phim
         public string Description { get; set; }
+        public List<MstBenefits> Benefits { get; set; }
     }
 }

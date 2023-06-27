@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
-import { RankPoints } from 'src/app/_interfaces/rankpoints';
 import { RankpointsService } from 'src/app/_services/rankpoints.service';
 import { CreateOrEditMstRankPointsComponent } from './create-or-edit-mst-rank-points/create-or-edit-mst-rank-points.component';
+import { RankPoints } from 'src/app/_interfaces/RankPoint/rankpoints';
+import { Benefits } from 'src/app/_interfaces/RankPoint/benefits';
+import { CreateOrEditBenefitsComponent } from './create-or-edit-benefits/create-or-edit-benefits.component';
 
 @Component({
   selector: 'app-mst-rank-points',
@@ -13,11 +15,15 @@ import { CreateOrEditMstRankPointsComponent } from './create-or-edit-mst-rank-po
 })
 export class MstRankPointsComponent implements OnInit {
   @ViewChild("createOrEdit") rankpoint?: CreateOrEditMstRankPointsComponent
+  @ViewChild("createOrEditBenefits") benefits?: CreateOrEditBenefitsComponent
   colDefs?: ColDef[];
+  benefitsColDefs?: ColDef[];
   defaultColDef?:ColDef;
   rowData?: RankPoints[];
+  benefitsData?: Benefits[];
   private gridApi!: GridApi<RankPoints>;
-  rankpointSelected?: RankPoints = new RankPoints();
+  rankpointSelected: RankPoints = new RankPoints();
+  benefitsSelected: Benefits = new Benefits();
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
   message:any;
@@ -37,7 +43,6 @@ export class MstRankPointsComponent implements OnInit {
       {
         headerName: "Hoạt động",
         field: "isActive",
-        //valueFormatter: (params) => formatMyDate(params.value)
       },
       {
         headerName: "Ngày hoạt động",
@@ -56,6 +61,18 @@ export class MstRankPointsComponent implements OnInit {
         field: "description",
       },
     ];
+
+    this.benefitsColDefs=[
+      {
+        headerName: "Quyền lợi",
+        field: "name",
+      },
+      {
+        headerName: "Mô tả",
+        field: "description",
+      },
+    ];
+
     this.defaultColDef = {
       sortable: true,
       filter: true,
@@ -68,13 +85,13 @@ export class MstRankPointsComponent implements OnInit {
 
   ngOnInit() {
     this.rowData = [];
-    this.rankpointSelected = undefined;
+    this.rankpointSelected = new RankPoints();
   }
 
   onGridReady(params: GridReadyEvent<RankPoints>){
     this.gridApi = params.api;
     this.params = params;
-    this.rankpointSelected = undefined;
+    this.rankpointSelected = new RankPoints();
     this.rankpoints.getAll().subscribe((re) => {
       this.rowData = re;
     })
@@ -85,6 +102,14 @@ export class MstRankPointsComponent implements OnInit {
     if(selectedRow) {
       this.rankpointSelected = selectedRow;
     }
+    this.benefitsSelected = new Benefits();
+    if (this.rankpointSelected) {
+      this.benefitsData = this.rankpointSelected?.benefits;
+    }
+  }
+
+  onSelectionBenefitsChanged(event: any) {
+    this.benefitsSelected = event.api?.getSelectedRows()[0] ?? new Benefits();
   }
 
   delete(){
@@ -93,6 +118,21 @@ export class MstRankPointsComponent implements OnInit {
     {
       this.rankpoints
       .delete(this.rankpointSelected?.id)
+      .subscribe({
+        next:() => {
+          this.toastr.success("Xóa thành công!")
+          this.onGridReady(this.params);
+        },
+        error: (ersr: any) => this.toastr.error("Xóa thất bại")
+      });
+    }
+  }
+
+  deleteBenefit(){
+    this.message = confirm("Bạn có chắc chắn muốn xóa không?");
+    if(this.message)
+    {
+      this.rankpoints.deleteBenefits(this.benefitsSelected?.id)
       .subscribe({
         next:() => {
           this.toastr.success("Xóa thành công!")
