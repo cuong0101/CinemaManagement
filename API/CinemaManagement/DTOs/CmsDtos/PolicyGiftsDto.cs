@@ -1,10 +1,8 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using System;
+﻿using System;
 
-namespace CinemaManagement.Entities
+namespace CinemaManagement.DTOs.CmsDtos
 {
-    public class PolicyGifts : FullAuditedEntity<long>, IEntity<long>
+    public class PolicyGiftsDto
     {
         public long? Id { get; set; }
         public string GiftName { get; set; }
@@ -12,6 +10,6 @@ namespace CinemaManagement.Entities
         public bool IsStatus { get; set; } // trạng thái hoạt động
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public string Description { get; set; }   
+        public string Description { get; set; }
     }
 }
