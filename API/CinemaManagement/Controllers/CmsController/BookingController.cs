@@ -45,7 +45,6 @@ namespace CinemaManagement.Controllers.CmsController
                 }
 
                 ticket.Status = 2;
-                ticket.EmployeeId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
@@ -54,7 +53,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("AdminBooking")]
-        public async Task<IActionResult> AdminBooking(ListTicketInputDto input)
+        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId)
         {
             try
             {
@@ -64,7 +63,7 @@ namespace CinemaManagement.Controllers.CmsController
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.EmployeeId = input.PersonId;
+                    ticket.EmployeeId = empId;
                     ticket.LastModificationTime = DateTime.Now;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
@@ -104,7 +103,6 @@ namespace CinemaManagement.Controllers.CmsController
                 }
 
                 ticket.Status = 2;
-                ticket.CustomerId = input.PersonId;
                 ticket.LastModificationTime = DateTime.Now;
                 _context.MstTicket.Update(ticket);
                 await _context.SaveChangesAsync();
@@ -113,7 +111,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input)
+        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, long? cusId)
         {
             try
             {
@@ -123,7 +121,7 @@ namespace CinemaManagement.Controllers.CmsController
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.CustomerId = input.PersonId;
+                    ticket.CustomerId = cusId;
                     ticket.LastModificationTime = DateTime.Now;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
