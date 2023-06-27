@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -183,9 +184,9 @@ namespace CinemaManagement.Controllers.WeuController
             try
             {
                 var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, input.email)
-            };
+                {
+                    new Claim(JwtRegisteredClaimNames.NameId, customer.Id.ToString())
+                };
                 var accessToken = _tokenService.GenerateAccessToken(claims);
                 var refreshToken = _tokenService.GenerateRefreshToken();
                 customer.RefreshToken = refreshToken;
