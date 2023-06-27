@@ -21,8 +21,12 @@ namespace CinemaManagement.Helpers
             CreateMap<CreateOrEditPromotionDto, MstPromotion>().ReverseMap();
             CreateMap<CreateOrEditPromotionDetailDto, MstPromotionDetail>().ReverseMap();
             CreateMap<TicketByShowTime, MstTicket>().ReverseMap();
+<<<<<<< HEAD
             CreateMap<PolicyGiftsDto, PolicyGifts>().ReverseMap();
 
+=======
+            CreateMap<CreateOrEditBenefitDto, MstBenefitsCus>().ReverseMap();
+>>>>>>> 393aadd1f38e946af84b18f46ad381c1b05e9f55
             //map nhưng gì thì khai báo vào đâu
         }
     }

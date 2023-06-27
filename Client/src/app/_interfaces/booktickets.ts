@@ -8,4 +8,6 @@ export class BookTickets{
   movieName?: string;
   roomName?: string;
   listTicket?: TicketByShowTime[];
+  name?: string;
+
 }

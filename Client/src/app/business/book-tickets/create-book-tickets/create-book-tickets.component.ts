@@ -9,6 +9,7 @@ import { Promotion } from 'src/app/_interfaces/_iMstPromotion/promotion';
 import { PromotionDetail } from 'src/app/_interfaces/_iMstPromotion/promotionDetail';
 import { BookticketService } from 'src/app/_services/bookticket.service';
 import { ToastrService } from 'ngx-toastr';
+import { GiftChoose } from 'src/app/_interfaces/_IBookTickets/GiftChoose';
 
 @Component({
   selector: 'create-book-tickets',
@@ -25,7 +26,10 @@ export class CreateBookTicketsComponent implements OnInit {
   total?: number = 0;
   promotions?: Promotion
   promoDetail?: PromotionDetail
-  tickets: number[]=[]
+  tickets: number[]=[];
+  cusId?: number;
+  giftChoose: GiftChoose[]=[];
+  giftsCb: GiftChoose[]=[];;
   constructor(
     private _modalService: BsModalService,
     private _bookTicketService: BookticketService,
@@ -33,6 +37,9 @@ export class CreateBookTicketsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._bookTicketService.getChangeGift().subscribe((re) => {
+      this.giftChoose = re;
+    })
   }
 
   show(showtimes: BookTickets, tickets: any[]) {
@@ -64,9 +71,13 @@ export class CreateBookTicketsComponent implements OnInit {
   }
 
   save() {
-    console.log(this.tickets)
     this._bookTicketService.updateTicketStatus(this.tickets).subscribe({
       complete: () => this.toastr.success("Đặt vé thành công!")
     })
+  }
+
+  changeGiftChoose(event: any)
+  {
+    console.log(event)
   }
 }

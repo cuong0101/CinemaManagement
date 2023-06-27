@@ -1,0 +1,16 @@
+.upload {
+    font-weight: bold;
+    color: #28a745;
+    margin-left: 15px;
+    line-height: 36px;
+}
+
+.btn.btn-success {
+    width: max-content;
+    margin-left: -24px;
+}
+
+.img {
+    height: 80px;
+    width: fit-content;
+}

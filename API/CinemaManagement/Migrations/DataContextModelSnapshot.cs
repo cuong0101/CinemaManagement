@@ -90,6 +90,48 @@ namespace CinemaManagement.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CinemaManagement.Entities.CumulativePoint", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Money")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Point")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RankId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CumulativePoints");
+                });
+
             modelBuilder.Entity("CinemaManagement.Entities.HistoryChangeGift", b =>
                 {
                     b.Property<long>("Id")
@@ -112,8 +154,8 @@ namespace CinemaManagement.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("GiftId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("GiftId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -737,8 +779,8 @@ namespace CinemaManagement.Migrations
                     b.Property<DateTime?>("FromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GiftName")
-                        .HasColumnType("int");
+                    b.Property<string>("GiftName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

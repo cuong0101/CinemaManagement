@@ -5,6 +5,7 @@ using CinemaManagement.Controllers.CMSController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs;
 using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.DTOs.CmsDtos.MstPromotionDto;
 using CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos;
 using CinemaManagement.Entities;
 using CinemaManagement.Migrations;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing.Printing;
 using System.Linq;
@@ -41,6 +43,7 @@ namespace CinemaManagement.Controllers.CmsController
             try
             {
                 var rankpoints = _context.MstRankPoints.ToList();
+                var benefits = _context.MstBenefitsCus.ToList();
                 var query = (from rankpoint in rankpoints
                              select new MstRankPointsForView
                              {
@@ -50,7 +53,15 @@ namespace CinemaManagement.Controllers.CmsController
                                  ExpirationDate = rankpoint.ExpirationDate,
                                  IsActive = rankpoint.IsActive,
                                  Description = rankpoint.Description,
-                                 NumberOfVisit = rankpoint.NumberOfVisit
+                                 NumberOfVisit = rankpoint.NumberOfVisit,
+                                 Benefits = (from benefit in benefits.Where(e => e.RankPointId == rankpoint.Id && e.IsDeleted == false)
+                                            select new MstBenefits
+                                            {
+                                                    Id = benefit.Id,
+                                                    RankPointId = benefit.RankPointId,
+                                                    Name = benefit.Name,
+                                                    Description = benefit.Description,
+                                                }).ToList(),
                              }).ToList();
                 result = query;
             }
@@ -96,5 +107,54 @@ namespace CinemaManagement.Controllers.CmsController
             _context.MstRankPoints.Update(rankpoints);
             await _context.SaveChangesAsync();
         }
+
+        #region --- Thêm sửa xóa quyền lợi
+        [HttpPost("createOrEditBenefit")]
+        public async Task createOrEditBenefit(CreateOrEditBenefitDto createOrEditBenefit)
+        {
+            if (createOrEditBenefit.Id == null)
+            {
+                await CreateBenefit(createOrEditBenefit);
+            }
+            else await EditBenefit(createOrEditBenefit);
+        }
+        private async Task CreateBenefit(CreateOrEditBenefitDto input)
+        {
+            var benefit = _context.MstBenefitsCus.FirstOrDefault(e => e.RankPointId == input.RankPointId && e.Name == input.Name);
+            if (benefit != null)
+            {
+                throw new UserFriendlyException("Quyền lợi đã tồn tại");
+            }
+            else
+            {
+                var cusBenefit = _mapper.Map<MstBenefitsCus>(input);
+                _context.MstBenefitsCus.Add(cusBenefit);
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task EditBenefit(CreateOrEditBenefitDto input)
+        {
+            var benefit = _context.MstBenefitsCus.FirstOrDefault(e => e.RankPointId == input.RankPointId && e.Name == input.Name);
+            if (benefit != null)
+            {
+                throw new UserFriendlyException("Quyền lợi đã tồn tại");
+            }
+            else
+            {
+                var cusBenefit = _context.MstBenefitsCus.FirstOrDefault(e => e.Id == input.Id);
+                var saves = _mapper.Map(input, cusBenefit);
+                _context.MstBenefitsCus.Update(saves);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        [HttpPost("deletedBenefit")]
+        public async Task DeleteBenefits([Required] long Id)
+        {
+            var benefit = _context.MstBenefitsCus.FirstOrDefault(e => e.Id == Id);
+            _context.MstBenefitsCus.Remove(benefit);
+            await _context.SaveChangesAsync();
+        }
+        #endregion
     }
 }

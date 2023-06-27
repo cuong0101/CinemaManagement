@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { RankPoints } from 'src/app/_interfaces/rankpoints';
+import { RankPoints } from 'src/app/_interfaces/RankPoint/rankpoints';
 import { RankpointsService } from 'src/app/_services/rankpoints.service';
 
 @Component({
@@ -37,10 +38,9 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(CreateOrEditMstRankPointsComponent, config);
     if (movie) {
-      // this.datepicker = moment(movie.publishDate).toDate();
-      // console.log(moment(movie.publishDate))
       this.rankpoints = movie;
-      //this.rankpoints.publishDate = moment(movie.publishDate).toDate();
+      this.rankpoints.operationDate = moment(movie.operationDate).toDate() ?? undefined;
+      this.rankpoints.expirationDate = moment(movie.expirationDate).toDate() ?? undefined;
       this.bsModalRef.content.rankpoints = this.rankpoints;
     }
     else {
@@ -51,7 +51,7 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
   hide() {
     this.modalService.hide();
   }
-  
+
 
 save(){
   // console.log(this.uploader)

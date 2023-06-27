@@ -60,7 +60,7 @@ export class BookTicketsComponent implements OnInit {
       },
       {
         headerName: 'Tên phim',
-        field: 'movieName',
+        field: 'name',
         cellClass: ['text-center'],
         flex: 1,
       },
@@ -80,7 +80,7 @@ export class BookTicketsComponent implements OnInit {
       {
         headerName: 'Thời lượng phim',
         field: 'time',
-        valueFormatter: (params) => this._format.formatHour(params.value),
+        //valueFormatter: (params) => this._format.formatHour(params.value),
         cellClass: ['text-center'],
         flex: 1,
       },
@@ -112,7 +112,14 @@ export class BookTicketsComponent implements OnInit {
       },
       {
         headerName: 'Hạng ghế',
-        field: 'seatRankName',
+        field: 'seatrank',
+        cellClass: ['text-center'],
+        flex: 1,
+      },
+      {
+        headerName: 'Giá vé',
+        field: 'price',
+        valueFormatter: (params) => this._format.moneyFormat(params.value),
         cellClass: ['text-center'],
         flex: 1,
       },
@@ -130,7 +137,7 @@ export class BookTicketsComponent implements OnInit {
   }
 
   onGridReady(params: any) {
-    this.gridTicketApi = params.api
+    this.gridApi = params.api
      this.search();
   }
 
@@ -139,14 +146,7 @@ export class BookTicketsComponent implements OnInit {
     const selectedRow = params.api?.getSelectedRows()[0];
     if(selectedRow) {
       this.showTimeSelected = selectedRow;
-    }
-
-    this.ticketSelected = new TicketByShowTime();
-    if (this.showTimeSelected) {
-      this.ticketData = this.showTimeSelected?.listTicket;
-      
-      //this.ticketData?.forEach(e => e.checked = false)
-      //params.api.setRowData(this.ticketData)
+      this.onGridReadyTicket(this.paramsTicket);
     }
   }
 
@@ -160,10 +160,19 @@ export class BookTicketsComponent implements OnInit {
   }
 
   search() {
-    this._bookTicketService.getTicketByShowTime().subscribe((res: any) => {
+    this._bookTicketService.getMovieInfor(this.searchDate, this.movie).subscribe((res: any) => {
       this.showTimeData = res;
     });
   }
+
+  onGridReadyTicket(params: any) {
+    this.paramsTicket = params;
+    this.gridTicketApi = params.api;
+    this._bookTicketService.GetTicketByShowtimeAdmin(this.showTimeSelected.id).subscribe((re:any)=> {
+      this.ticketData = re;
+    })
+  }
+
 
   modalShow(){
     let listTicket: any[] = []
