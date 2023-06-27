@@ -61,7 +61,15 @@
                   </div>
                 </div>
               </div>
-           
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Upload file</label>
+                  <div class="col-sm-9">
+                    <upload-file (onUploadFinished)="uploadFinished($event)"></upload-file>
+                  </div>
+                </div>
+              </div>
+
           </div>
     </div>
 

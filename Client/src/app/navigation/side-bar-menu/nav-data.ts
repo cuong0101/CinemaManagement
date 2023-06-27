@@ -68,7 +68,7 @@ export const navbarData: INavbarData[] = [
               label: 'Promotion'
           },
           {
-              routeLink: 'settings/voucher',
+              routeLink: 'policygift',
               label: 'Voucher - Đổi điểm'
           }
       ]
