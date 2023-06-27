@@ -1,0 +1,30 @@
+<p>mst-rooms works works!</p>
+<div class="container-fluid">
+    
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-outline-primary" (click)="policygift?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
+            <button type="button" class="btn btn-outline-primary" [disabled]="!checked" (click)="policygift?.openModal(policygiftSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+            <button type="button" class="btn btn-outline-danger" [disabled]="!checked" (click)="deleted()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
+        </div>
+        <!-- [disabled]="!seatrankSelected" -->
+        
+  </div>
+<div class="panel-grid">
+                        <ag-grid-angular
+                        style="width: 100%; height: 400px;"
+                        class="ag-theme-alpine"
+                        [rowData]="rowData"
+                        [columnDefs]="colDefs"
+                        (gridReady)="onGridReady($event)"
+                        (selectionChanged)="onSelectionChanged($event)"
+                        [defaultColDef]="defaultColDef"
+                        [rowSelection]="rowSelection"
+                        [pagination]="true"
+                        [paginationPageSize]="paginationPageSize"
+                        [paginationNumberFormatter]="paginationNumberFormatter"
+
+                        ></ag-grid-angular>
+                    </div>
+</div>
+<app-create-or-edit-policy-gift #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></app-create-or-edit-policy-gift>

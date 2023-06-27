@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title pull-left">Thêm mới Policy Gift</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">GiftName <p style="color: red">*</p></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="giftName" [(ngModel)]="policygift!.giftName" >
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Point<p style="color: red">*</p></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="point" [(ngModel)]="policygift!.point" >
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">IsStatus<p style="color: red">*</p></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="isStatus" [(ngModel)]="policygift!.isStatus" >
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">FromDate <p style="color: red">*</p></label>
+                  <div class="col-sm-9">
+                    <input type="date" class="form-control" name="FromDate:" [(ngModel)]="policygift!.fromDate" >
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">ToDate<p style="color: red">*</p></label>
+                  <div class="col-sm-9">
+                    <input class="form-control" name="ToDate" [(ngModel)]="policygift!.toDate" >
+                  </div>
+                </div>
+              </div>
+            <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Description </label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Description" [(ngModel)]="policygift!.description" >
+                  </div>
+                </div>
+            </div>
+          </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Close</button>
+    </div>
+  </div>
