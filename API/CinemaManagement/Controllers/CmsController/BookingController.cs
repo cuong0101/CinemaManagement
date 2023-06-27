@@ -257,9 +257,12 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<List<ChangeGiftDto>> getChangeGift()
         {
             var query = (from change in _context.HistoryChangeGift
+                         .Where(e => e.UsedStatus == false && e.IsDeleted == false)
                          join cus in _context.MstCustomer
+                         .Where(e => e.IsDeleted == false)
                          on change.CusId equals cus.Id
                          join gift in _context.PolicyGift
+                         .Where(e => e.IsDeleted == false)
                          on change.GiftId equals gift.Id
                          select new ChangeGiftDto
                          {
