@@ -78,6 +78,9 @@ export class CreateBookTicketsComponent implements OnInit {
 
   changeGiftChoose(event: any)
   {
-    console.log(event)
+    if(this.phone?.length == 10)
+    {
+      this.giftsCb = this.giftChoose.filter(e => e.phoneCus == this.phone);
+    }
   }
 }
