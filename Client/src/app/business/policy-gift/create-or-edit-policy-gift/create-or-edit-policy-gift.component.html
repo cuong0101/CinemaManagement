@@ -6,7 +6,7 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
           <div class="row">
             <div class="col-6">
               <div class="form-group row">
@@ -28,7 +28,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label">IsStatus<p style="color: red">*</p></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="isStatus" [(ngModel)]="policygift!.isStatus" >
+                    <input type="checkbox" value="isActive" class="form-check-input" name="isActive" [(ngModel)]="policygift.isStatus">
                   </div>
                 </div>
               </div>
@@ -36,7 +36,9 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label">FromDate <p style="color: red">*</p></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control" name="FromDate:" [(ngModel)]="policygift!.fromDate" >
+                    <input class="form-control" id="fromDate" name="fromDate"
+                      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                      bsDatepicker required [(ngModel)]="policygift.fromDate">
                   </div>
                 </div>
               </div>
@@ -44,7 +46,9 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label">ToDate<p style="color: red">*</p></label>
                   <div class="col-sm-9">
-                    <input class="form-control" name="ToDate" [(ngModel)]="policygift!.toDate" >
+                    <input class="form-control" id="toDate" name="toDate"
+                      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                      bsDatepicker required [(ngModel)]="policygift.toDate">
                   </div>
                 </div>
               </div>
@@ -58,7 +62,7 @@
             </div>
           </div>
     </div>
-    
+
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" (click)="save()">Save</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hide()">Close</button>
