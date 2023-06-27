@@ -19,7 +19,8 @@ export class CreateOrEditMovieComponent implements OnInit {
   bsModalRef!: BsModalRef;
   movie: MstMovieManagement = new MstMovieManagement();
   datepicker?: Date;
-  fileBlob!: Blob
+  fileBlob!: Blob;
+  pathFile?: string;
   //selectFile: File | null;
   constructor(private modalService: BsModalService,
     private route: Router,
@@ -53,27 +54,14 @@ export class CreateOrEditMovieComponent implements OnInit {
   hide() {
     this.modalService.hide();
   }
-  // initializeUploader (){
-  //   this.uploader = new FileUploader({
-  //     url: 'https://localhost:44389/api/Movie/add-photo',
-  //     authToken: localStorage.getItem("jwt")?.toString(),
-  //     isHTML5: true,
-  //     allowedFileType: ['image'],
-  //     removeAfterUpload: true,
-  //     autoUpload:false,
-  //     maxFileSize:10 * 1024 *1024
-  //   });
 
-  //   this.uploader.onAfterAddingFile = (file) => {
-  //     file.withCredentials = false;
-  //   }
-  //   this.uploader.onSuccessItem = (Item, response, status, headers) => {
-  //     if(response){
+  uploadFinished(event: any)
+  {
+    this.pathFile = event.dbPath;
+  }
 
-  //     }
-  //   }
-  // }
   save(){
+    this.movie.image = this.pathFile;
     this.movieService.createOrEdit(this.movie)
     .pipe(finalize(() => this.movie = new MstMovieManagement()))
     .subscribe({
@@ -109,7 +97,5 @@ export class CreateOrEditMovieComponent implements OnInit {
 
 }
 
-function b64Blob(arg0: unknown[], type: any): any {
-  throw new Error('Function not implemented.');
-}
+
 

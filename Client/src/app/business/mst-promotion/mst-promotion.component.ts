@@ -18,7 +18,7 @@ import { CreateOrEditPromotionDetailComponent } from './create-or-edit-promotion
 @Component({
   selector: 'app-mst-promotion',
   templateUrl: './mst-promotion.component.html',
-  styleUrls: ['./mst-promotion.component.css'],
+  styleUrls: ['./mst-promotion.component.less'],
 })
 export class MstPromotionComponent implements OnInit {
   @ViewChild("createOrEdit") modal?: CreateOrEditPromotionComponent;
@@ -39,7 +39,7 @@ export class MstPromotionComponent implements OnInit {
   promotionContent: any;
   fromDate: any;
   toDate: any;
-  message:any;
+  message: any;
 
 
   public paginationPageSize = 5;
@@ -119,6 +119,7 @@ export class MstPromotionComponent implements OnInit {
     ];
   }
   ngOnInit() {
+    this.insertDiv();
   }
 
   onGridReady(params: GridReadyEvent<Promotion>) {
@@ -129,8 +130,7 @@ export class MstPromotionComponent implements OnInit {
   }
 
   search() {
-    if (this.fromDate && this.toDate && this.subtractDate(this.fromDate, this.toDate) > 0)
-    {
+    if (this.fromDate && this.toDate && this.subtractDate(this.fromDate, this.toDate) > 0) {
       this._toastr.warning("Ngày tìm kiếm không hợp lệ");
       return;
     }
@@ -149,7 +149,7 @@ export class MstPromotionComponent implements OnInit {
 
   onChangeSelection(event: any) {
     const selectedRow = event.api?.getSelectedRows()[0];
-    if(selectedRow) {
+    if (selectedRow) {
       this.promotionSelected = selectedRow;
     }
 
@@ -171,36 +171,47 @@ export class MstPromotionComponent implements OnInit {
     return Math.floor((Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) - Date.UTC(toDate.getFullYear(), toDate.getMonth(), toDate.getDate())) / (1000 * 60 * 60 * 24));
   }
 
-  deleted(){
+  deleted() {
     this.message = confirm("Bạn có chắc chắn muốn xóa CTKM này không?");
-    if(this.message)
-    {
+    if (this.message) {
       this._promotionService
-      .delete(this.promotionSelected?.id)
-      .subscribe({
-        next:() => {
-          this._toastr.success("Xóa thành công!")
-          this.onGridReady(this.params);
-        },
-        error: (ersr: any) => this._toastr.error("Xóa thất bại")
-      });
+        .delete(this.promotionSelected?.id)
+        .subscribe({
+          next: () => {
+            this._toastr.success("Xóa thành công!")
+            this.onGridReady(this.params);
+          },
+          error: (ersr: any) => this._toastr.error("Xóa thất bại")
+        });
     }
   }
 
-  deletedDetail(){
+  deletedDetail() {
     this.message = confirm("Bạn có chắc chắn muốn xóa Khách hàng này không?");
-    if(this.message)
-    {
+    if (this.message) {
       this._promotionService
-      .deleteDetail(this.promotionDetailSelected?.id)
-      .subscribe({
-        next:() => {
-          this._toastr.success("Xóa thành công!")
-          this.onGridReady(this.params);
-        },
-        error: (ersr: any) => this._toastr.error("Xóa thất bại")
-      });
+        .deleteDetail(this.promotionDetailSelected?.id)
+        .subscribe({
+          next: () => {
+            this._toastr.success("Xóa thành công!")
+            this.onGridReady(this.params);
+          },
+          error: (ersr: any) => this._toastr.error("Xóa thất bại")
+        });
     }
+  }
+  insertDiv() {
+    const parentDiv = document.querySelector<HTMLDivElement>('#ag-90');
+    const prevDiv = document.querySelector<HTMLDivElement>('.ag-paging-row-summary-panel');
+    const nextDiv = document.querySelector<HTMLDivElement>('.ag-paging-page-summary-panel');
+    
+    if (parentDiv && prevDiv && nextDiv) {
+      const newDiv = document.createElement('div');
+      newDiv.innerText = 'Hello, world!';
+    
+      parentDiv.insertBefore(newDiv, nextDiv);
+    }
+    
   }
 
 }
@@ -214,3 +225,5 @@ function formatMyDate(date: any): string {
     day: '2-digit',
   });
 }
+
+

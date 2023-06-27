@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using CinemaManagement.Helpers;
+using Microsoft.AspNetCore.Http.Features;
+
 namespace CinemaManagement.Extentions
 {
     public static class AppServiceExtentions
@@ -29,6 +31,12 @@ namespace CinemaManagement.Extentions
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddAutoMapper(typeof(AutoMapperPro));
+            services.Configure<FormOptions>(o =>
+             {
+                 o.ValueLengthLimit = int.MaxValue;
+                 o.MultipartBodyLengthLimit = int.MaxValue;
+                 o.MemoryBufferThreshold = int.MaxValue;
+             });
             return services;
         }
     }
