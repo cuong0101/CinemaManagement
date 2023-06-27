@@ -68,13 +68,13 @@
       [paginationPageSize]="paginationPageSize"
       [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
   </div>
-  <div class="row mt-2 mb-2">
+  <!-- <div class="row mt-2 mb-2">
     <div class="col-md-12" style="text-align: right;">
         <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" (click)="createOrEditDetail?.show()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
         <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" [disabled]="!promotionDetailSelected?.id" (click)="createOrEditDetail?.show(promotionDetailSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
         <button type="button" class="btn btn-outline-danger" style="margin-right: 10px;" [disabled]="!promotionDetailSelected?.id" (click)="deleted()"><i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <create-or-edit-promotion #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-promotion>

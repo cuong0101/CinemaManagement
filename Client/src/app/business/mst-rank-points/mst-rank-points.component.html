@@ -1,30 +1,45 @@
 <div class="container-fluid">
-  <div class="row mb-2">
-      <div class="col-md-12">
-          <button type="button" class="btn btn-outline-primary" (click)="rankpoint?.openModal()"><i class="fa-sharp fa-solid fa-plus" ></i> <span>Thêm mới</span></button>
-          <button type="button" class="btn btn-outline-primary" (click)="rankpoint?.openModal(rankpointSelected)"><i class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
-          <button type="button" class="btn btn-outline-danger" (click)="delete()"> <i class="fa-solid fa-trash"></i> <span>Xóa</span> </button>
-      </div>
-      
-  </div>
   <div>
-    <h4>Movie Management</h4>
+    <h4 style="color: brown;">Danh mục hạng thành viên</h4>
   </div>
   <div class="panel-grid">
-                      <ag-grid-angular
-                      style="width: 100%; height: 400px;"
-                      class="ag-theme-alpine"
-                      [rowData]="rowData"
-                      [columnDefs]="colDefs"
-                      (gridReady)="onGridReady($event)"
-                      (selectionChanged)="onSelectionChanged($event)"
-                      [defaultColDef]="defaultColDef"
-                      [rowSelection]="rowSelection"
-                      [pagination]="true"
-                      [paginationPageSize]="paginationPageSize"
-                      [paginationNumberFormatter]="paginationNumberFormatter"
-                      ></ag-grid-angular>
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [rowData]="rowData"
+      [columnDefs]="colDefs" (gridReady)="onGridReady($event)" (selectionChanged)="onSelectionChanged($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-outline-primary" (click)="rankpoint?.openModal()"><i
+          class="fa-sharp fa-solid fa-plus"></i> <span>Thêm mới</span></button>
+      <button type="button" class="btn btn-outline-primary" [disabled]="!rankpointSelected.id" (click)="rankpoint?.openModal(rankpointSelected)"><i
+          class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+      <button type="button" class="btn btn-outline-danger" [disabled]="!rankpointSelected.id" (click)="delete()"> <i class="fa-solid fa-trash"></i>
+        <span>Xóa</span> </button>
+    </div>
+  </div>
+  <div>
+    <h4 style="color: brown;">Danh mục Quyền lợi</h4>
+  </div>
+  <div class="panel-grid">
+    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [rowData]="benefitsData"
+      [columnDefs]="benefitsColDefs" (selectionChanged)="onSelectionBenefitsChanged($event)"
+      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-outline-primary" (click)="benefits?.openModal(rankpointSelected, null)"><i
+          class="fa-sharp fa-solid fa-plus"></i> <span>Thêm mới</span></button>
+      <button type="button" class="btn btn-outline-primary" [disabled]="!benefitsSelected.id" (click)="benefits?.openModal(rankpointSelected, benefitsSelected)"><i
+          class="fa-regular fa-pen-to-square"></i> <span>Sửa</span> </button>
+      <button type="button" class="btn btn-outline-danger" [disabled]="!benefitsSelected.id" (click)="deleteBenefit()"> <i class="fa-solid fa-trash"></i>
+        <span>Xóa</span> </button>
+    </div>
   </div>
 </div>
 
 <create-or-edit-mst-rank-points #createOrEdit hidden="true" (modalSave)="onGridReady(params)"></create-or-edit-mst-rank-points>
+<create-or-edit-benefits #createOrEditBenefits hidden="true"></create-or-edit-benefits>
