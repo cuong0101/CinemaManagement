@@ -26,6 +26,7 @@ import { MstCustomersComponent } from './business/mst-customer/mst-customer.comp
 import { CreateOrEditMovieComponent } from './business/mst-movie/create-or-edit-movie/create-or-edit-movie.component';
 import { CreateOrEditCustomerComponent } from './business/mst-customer/create-or-edit-customer/create-or-edit-customer.component';
 import { MstRoomComponent } from './business/mst-room/mst-room.component';
+import { PolicyGiftComponent } from './business/policy-gift/policy-gift.component';
 import { CreateOrEditRoomComponent } from './business/mst-room/create-or-edit-room/create-or-edit-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 // import { FileUploadModule } from 'ng2-file-upload';
@@ -46,6 +47,7 @@ import { CreateOrEditBenefitsComponent } from './business/mst-rank-points/create
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 import { UploadComponent } from './upload/upload.component';
+import { CreateOrEditPolicyGiftComponent } from './business/policy-gift/create-or-edit-policy-gift/create-or-edit-policy-gift.component';
 
 @NgModule({
   declarations: [
@@ -78,9 +80,13 @@ import { UploadComponent } from './upload/upload.component';
     ShowTimeCustomerComponent,
     ReportRevenueComponent,
     CreateOrEditBenefitsComponent,
+    PolicyGiftComponent,
+
     //GridTableComponent,
     //GridPaginationComponent,
-      UploadComponent
+      UploadComponent,
+    PolicyGiftComponent,
+    CreateOrEditPolicyGiftComponent
    ],
   imports: [
     BrowserModule,

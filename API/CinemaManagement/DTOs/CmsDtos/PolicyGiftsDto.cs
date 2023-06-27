@@ -1,10 +1,8 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using System;
+﻿using System;
 
-namespace CinemaManagement.Entities
+namespace CinemaManagement.DTOs.CmsDtos
 {
-    public class PolicyGifts : FullAuditedEntity<long>, IEntity<long>
+    public class PolicyGiftsDto
     {
         public long? Id { get; set; }
         public string GiftName { get; set; }
