@@ -67,7 +67,7 @@ namespace CinemaManagement.Controllers.CmsController
             var movie = new MstMovie
             {
                 Name = input.Name,
-                Image = imageUrl,
+                Image = input.Image,
                 Trailer = input.Trailer,
                 Director = input.Director,
                 Actor = input.Actor,
@@ -84,7 +84,7 @@ namespace CinemaManagement.Controllers.CmsController
         {
             var movie = _context.MstMovie.Find(input.Id);
 
-            string imageUrl = movie.Image;
+            string imageUrl = input.Image;
 
             movie.Name = string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrEmpty(input.Name) ? movie.Name : input.Name;
             movie.Image = imageUrl;

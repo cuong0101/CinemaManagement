@@ -2,7 +2,7 @@
 export class MstMovieManagement{
     id?: number;
     name?: string;
-    image?: File;
+    image?: string;
     trailer?: string;
     director?: string;
     actor?: string;

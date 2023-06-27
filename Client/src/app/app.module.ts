@@ -44,9 +44,10 @@ import { ShowTimeCustomerComponent } from './business/show-time-customer/show-ti
 import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
+import { UploadComponent } from './upload/upload.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     LoginComponent,
     SideBarMenuComponent,
@@ -77,7 +78,8 @@ import { ReportRevenueComponent } from './business/report-revenue/report-revenue
     ReportRevenueComponent,
     //GridTableComponent,
     //GridPaginationComponent,
-  ],
+      UploadComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
