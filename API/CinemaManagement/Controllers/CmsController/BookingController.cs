@@ -2,6 +2,7 @@
 using AutoMapper;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
+using CinemaManagement.DTOs.CmsDtos.BookingDtos;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -222,6 +223,54 @@ namespace CinemaManagement.Controllers.CmsController
                                      status = ticket.Status
                                  }).ToListAsync();
             return tickets;
+        }
+
+        [HttpGet("getMovieInfor")]
+        public async Task<List<MovieDto>> getMovieInfor(DateTime? startTime, string namemovie)
+        {
+            var movies = await (
+                from movie in _context.MstMovie
+                .Where(e => e.IsDeleted == false)
+                .Where(e => string.IsNullOrWhiteSpace(namemovie) || e.Name.Contains(namemovie))
+
+                join show in _context.MstShowTimes
+                .Where(e =>  !startTime.HasValue || e.StartTime.Date == startTime.Value.Date)
+                on movie.Id equals show.MovieId
+               
+                join room in _context.MstRooms
+                on show.RoomId equals room.Id
+                
+                select new MovieDto
+                {
+                    Id = show.Id,
+                    Name = movie.Name,
+                    StartDate = show.StartTime,
+                    StartTime = show.StartTime.ToShortTimeString(),
+                    Time = movie.Time,
+                    RoomName = room.Name
+                }).ToListAsync();
+
+            return movies;
+        }
+
+
+        [HttpGet("getChangeGift")]
+        public async Task<List<ChangeGiftDto>> getChangeGift()
+        {
+            var query = (from change in _context.HistoryChangeGift
+                         join cus in _context.MstCustomer
+                         on change.CusId equals cus.Id
+                         join gift in _context.PolicyGift
+                         on change.GiftId equals gift.Id
+                         select new ChangeGiftDto
+                         {
+                             Id = change.Id,
+                             cusId = cus.Id,
+                             giftId = gift.Id,
+                             phoneCus = cus.Phone,
+                             giftName = gift.GiftName
+                         }).ToList();
+            return query;
         }
     }
 }

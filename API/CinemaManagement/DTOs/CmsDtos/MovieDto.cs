@@ -17,6 +17,9 @@ namespace CinemaManagement.DTOs.CmsDtos
         public int? Time { get; set; }
         public string Languages { get; set; }
         public string Rated { get; set; }
+        public DateTime? StartDate { get; set; }
         public string Description { get; set; }
+        public string StartTime { get; set; }
+        public string RoomName { get; set; }
     }
 }

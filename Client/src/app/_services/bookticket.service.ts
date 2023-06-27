@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { format } from 'date-fns';
+import { GiftChoose } from '../_interfaces/_IBookTickets/GiftChoose';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class BookticketService {
 
    getTicketByShowTime()
     {
-      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowTime");
+      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowtimeAdmin");
     }
 
     updateTicketStatus(tickets: number[]){
@@ -24,7 +26,18 @@ export class BookticketService {
     getShowTimeByMovieAndDate(startTime:any, movieId:number){
       return this.httpClient.get(this.baseUrl + "Booking/GetShowTimeByMovieAndDate?startTime=" + startTime + "&idmovie=" + movieId);
     }
-    GetTicketByShowtimeAdmin(idshow: number){
-      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowtimeAdmin?idshow=" + idshow);
+    GetTicketByShowtimeAdmin(idshow?: number){
+      let id = idshow == undefined ? null: idshow
+      return this.httpClient.get(this.baseUrl + "Booking/GetTicketByShowtimeAdmin?idshow=" + id );
+    }
+
+    getMovieInfor(startTime: any, movieName: string | null){
+      let startdate = startTime == null || startTime == undefined ? '' : format(new Date(startTime), 'yyyy-MM-dd');
+      let name = movieName == null || movieName == undefined ? '':movieName
+      return this.httpClient.get(this.baseUrl + "Booking/getMovieInfor?startTime=" + startdate + "&namemovie="+name??"");
+    }
+
+    getChangeGift(){
+      return this.httpClient.get<GiftChoose[]>(this.baseUrl + "Booking/getChangeGift");
     }
 }

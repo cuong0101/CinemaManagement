@@ -14,7 +14,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Tên Phim</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="movie" [(ngModel)]="showtime.movieName">
+                <input type="text" class="form-control" name="movie" [(ngModel)]="showtime.name">
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Số điện thoại KH</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="phone" [(ngModel)]="phone">
+                <input type="text" (keypress)="changeGiftChoose($event)" class="form-control" maxlength="10" name="phone" [(ngModel)]="phone">
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Tổng tiền</label>
               <div class="col-sm-9">
-                <input type="number" disabled="true" class="form-control" name="amount" [(ngModel)]="total">
+                <input disabled="true" class="form-control" name="amount" [(ngModel)]="total">
               </div>
             </div>
           </div>
@@ -61,11 +61,21 @@
             </div>
           </div>
 
-          <div class="col-6">
+          <!-- <div class="col-6">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Chương trình khuyến mãi:</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" name="room" >
+              </div>
+            </div>
+          </div> -->
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">DS quà</label>
+              <div class="col-sm-9">
+                <select class="form-control" name="cusId" [(ngModel)]="cusId">
+                  <option *ngFor="let item of giftsCb" [ngValue]="item.id">{{item.giftName}}</option>
+                </select>
               </div>
             </div>
           </div>
