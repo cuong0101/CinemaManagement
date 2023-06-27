@@ -12,6 +12,6 @@ namespace CinemaManagement.Entities
         public bool IsStatus { get; set; } // trạng thái hoạt động
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public string Description { get; set; }   
+        public string Description { get; set; }
     }
 }

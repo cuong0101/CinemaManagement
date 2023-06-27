@@ -55,6 +55,7 @@ export class CreateOrEditPolicyGiftComponent implements OnInit {
   }
 
   save(){
+   
     if(this.policygift.giftName == null)
     {
       this.toastr.warning("cần nhập GiftName")

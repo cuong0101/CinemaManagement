@@ -10,23 +10,16 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">GiftName <p style="color: red">*</p></label>
+                <label class="col-sm-3 col-form-label">Tên quà <p style="color: red">*</p></label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" name="giftName" [(ngModel)]="policygift!.giftName" >
                 </div>
               </div>
             </div>
-            <div class="col-6">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">Point<p style="color: red">*</p></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="point" [(ngModel)]="policygift!.point" >
-                  </div>
-                </div>
-              </div>
+            
               <div class="col-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">IsStatus<p style="color: red">*</p></label>
+                  <label class="col-sm-3 col-form-label">Trạng thái<p style="color: red">*</p></label>
                   <div class="col-sm-9">
                     <input type="checkbox" value="isActive" class="form-check-input" name="isActive" [(ngModel)]="policygift.isStatus">
                   </div>
@@ -34,7 +27,15 @@
               </div>
               <div class="col-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">FromDate <p style="color: red">*</p></label>
+                  <label class="col-sm-3 col-form-label">Điểm đổi<p style="color: red">*</p></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="point" [(ngModel)]="policygift!.point" >
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Từ ngày <p style="color: red">*</p></label>
                   <div class="col-sm-9">
                     <input class="form-control" id="fromDate" name="fromDate"
                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
@@ -44,7 +45,15 @@
               </div>
               <div class="col-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">ToDate<p style="color: red">*</p></label>
+                  <label class="col-sm-3 col-form-label">Mô tả </label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Description" [(ngModel)]="policygift!.description" >
+                  </div>
+                </div>
+            </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Đến ngày<p style="color: red">*</p></label>
                   <div class="col-sm-9">
                     <input class="form-control" id="toDate" name="toDate"
                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
@@ -52,14 +61,7 @@
                   </div>
                 </div>
               </div>
-            <div class="col-6">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">Description </label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Description" [(ngModel)]="policygift!.description" >
-                  </div>
-                </div>
-            </div>
+           
           </div>
     </div>
 

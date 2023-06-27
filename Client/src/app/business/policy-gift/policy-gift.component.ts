@@ -33,29 +33,29 @@ export class PolicyGiftComponent implements OnInit {
      private toastr: ToastrService,) { 
     this.colDefs=[
       {
-        headerName: "GiftName",
+        headerName: "Tên quà",
         field: "giftName",
 
       },
       {
-        headerName: "Point",
+        headerName: "Điểm để đổi",
         field: "point",
       },
       {
-        headerName: "IsStatus",
+        headerName: "Trạng thái",
         field: "isStatus",
       },
     
       {
-        headerName: "FromDate",
+        headerName: "Từ ngày",
         field: "fromDate",
       },
       {
-        headerName: "ToDate",
+        headerName: "Đến ngày",
         field: "toDate",
       },
       {
-        headerName: "Description",
+        headerName: "Mô tả",
         field: "description",
       }
     ];
