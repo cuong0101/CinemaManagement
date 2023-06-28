@@ -1,4 +1,7 @@
-﻿using CinemaManagement.Data;
+﻿using Abp.Json;
+using AutoMapper;
+using CinemaManagement.Controllers.CmsController;
+using CinemaManagement.Data;
 using CinemaManagement.DTOs;
 using CinemaManagement.DTOs.WeuDtos;
 using CinemaManagement.Entities;
@@ -19,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.WeuController
 {
-    public class CustomerController : BaseApiCusController
+    public class CustomerController : BaseApiController_new
     {
         private Cloudinary cloudinary;
         public const string CLOUD_NAME = "vitcamo";
@@ -29,55 +32,47 @@ namespace CinemaManagement.Controllers.WeuController
         private readonly DapperContext _dapper;
         private readonly ITokenService _tokenService;
 
-        public CustomerController(DataContext context, DapperContext dapper, ITokenService tokenService)
+        public CustomerController(DataContext context, ITokenService tokenService, DapperContext dapper, IMapper mapper) : base(mapper)
         {
             _context = context;
-            _dapper = dapper;
             _tokenService = tokenService;
+            _dapper = dapper;
         }
 
         [HttpGet("GetAll")]
-        public async Task<List<CustomerDto>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
                 Select * from MstCustomer where isDeleted = 0");
-                return cus.ToList();
+                return CustomResult(cus.ToList());
             }
         }
 
-        [HttpGet("TestDeploy")]
-        public async Task<string> TestDeploy()
-        {
-            return "Success";
-        }
-
         [HttpGet("GetMyInfo")]
-        public async Task<WebEndUserDto<CustomerDto>> GetMyInfo()
+        public async Task<IActionResult> GetMyInfo()
         {
-            var response = new WebEndUserDto<CustomerDto>(false, null, 500, "");
             var mail = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
                 Select * from MstCustomer where isDeleted = 0 and Email = @mail", new { mail = mail });
-                response = new WebEndUserDto<CustomerDto>(true, cus.FirstOrDefault(), 200, "Success");
+                return CustomResult(cus.FirstOrDefault());
             }
-            return response;
         }
 
         [HttpPost("EditMyInfo")]
-        public async Task<WebEndUserDto<object>> EditMyInfo([FromForm] CustomerEditDto input)
+        public async Task<IActionResult> EditMyInfo([FromForm] CustomerEditDto input)
         {
             var response = new WebEndUserDto<object>(false, null, 500, "");
-            var cus = _context.MstCustomer.Find(GetMyInfo().Result.Data.Id);
+            var cus = _context.MstCustomer.Find(GetMyInfo().Result);
             if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
 
             try
             {
-                var imageUrl = GetMyInfo().Result.Data.Image;
+                var imageUrl = cus.Image;
                 if (input.image != null)
                 {
                     Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
@@ -91,20 +86,18 @@ namespace CinemaManagement.Controllers.WeuController
                     var uploadResult = await cloudinary.UploadAsync(uploadParams);
                     imageUrl = uploadResult.Url.ToString();
                 }
-                cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? GetMyInfo().Result.Data.Name : input.name;
+                cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? cus.Name : input.name;
                 cus.Image = imageUrl;
-                cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? GetMyInfo().Result.Data.Address : input.address;
-                cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Data.Phone : input.phone;
+                cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? cus.Address : input.address;
+                cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? cus.Phone : input.phone;
                 _context.MstCustomer.Update(cus);
                 await _context.SaveChangesAsync();
-                response.Status = true; response.Data = cus;
-                response.Code = 200; response.Message = "Success";
+                return CustomResult(true);
             }
             catch (Exception e)
             {
-                response.Message = e.Message;
+                return CustomResult(e.Message);
             }
-            return response;
         }
 
         [HttpPost("Register")]
@@ -170,16 +163,14 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpPost("Login")]
-        public async Task<WebEndUserDto<UserDto>> Login(CustomerLoginDto input)
+        public async Task<IActionResult> Login(CustomerLoginDto input)
         {
-            var response = new WebEndUserDto<UserDto>(false, null, 500, "Email or Password is invalid");
-            var customer = await _context.MstCustomer.SingleOrDefaultAsync(e => e.Email == input.email);
-            if (customer == null) return response;
+            var customer = await _context.MstCustomer.FirstOrDefaultAsync(e => e.Email == input.email);
             var hmac = new HMACSHA512(customer.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password));
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != customer.PasswordHash[i]) return response;
+                if (computedHash[i] != customer.PasswordHash[i]) return CustomResult(false);
             }
             try
             {
@@ -192,22 +183,13 @@ namespace CinemaManagement.Controllers.WeuController
                 customer.RefreshToken = refreshToken;
                 customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
                 await _context.SaveChangesAsync();
-                response.Status = true;
-                response.Data = new UserDto()
-                {
-                    Username = customer.Name,
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken
-                };
-                response.Code = 200;
-                response.Message = "Success";
+               
+                return CustomResult(customer);
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                return CustomResult(ex.Message);
             }
-
-            return response;
         }
     }
 }

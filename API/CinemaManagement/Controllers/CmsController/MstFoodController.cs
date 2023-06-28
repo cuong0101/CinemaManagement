@@ -59,11 +59,8 @@ namespace CinemaManagement.Controllers.CmsController
 
         private async Task Edit(FoodDto input)
         {
-            var id = _context.MstFood.FirstOrDefault(e => e.Id == input.Id);
-            var food = _mapper.Map(input, id);
-            food.Name =input.Name;
-            food.Description = input.Description;
-            food.Price = input.Price;
+            var item = _context.MstFood.FirstOrDefault(e => e.Id == input.Id);
+            var food = _mapper.Map(input, item);
             _context.MstFood.Update(food);
             await _context.SaveChangesAsync();
         }
@@ -77,10 +74,10 @@ namespace CinemaManagement.Controllers.CmsController
             else await Edit(createOrEdit);
         }
 
-        [HttpDelete("delete/{id}", Name = "Delete")]
+        [HttpDelete("Delete")]
         public async Task Delete(long Id)
         {
-            var food = _context.MstFood .FirstOrDefault(e => e.Id == Id);
+            var food = _context.MstFood.FirstOrDefault(e => e.Id == Id);
             _context.MstFood.Remove(food);
             await _context.SaveChangesAsync();
         }

@@ -14,12 +14,14 @@ import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.com
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
 import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
+import { MstFoodComponent } from './business/mst-food/mst-food.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
   {path: "nav", component:BodyComponent},
   {path: "user", component: MstUsersComponent},
   {path: "mstmovie", component: MstMovieComponent},
+  {path: "mstfood", component: MstFoodComponent},
   {path: "mstshowtime", component: MstShowTimeComponent},
   {path: "room", component: MstRoomComponent},
   {path: 'promo', children: [
@@ -28,7 +30,7 @@ const routes: Routes = [
   },
   {path: "bookTickets", component: BookTicketsComponent},
   {path: "customer", component: MstCustomersComponent},
-  {path: "rankpoints", component: MstRankPointsComponent},
+  //{path: "rankpoints", component: MstRankPointsComponent},
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "showtime-customer", component: ShowTimeCustomerComponent},
   {path: "report", component: ReportRevenueComponent},
