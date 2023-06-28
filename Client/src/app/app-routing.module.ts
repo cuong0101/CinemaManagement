@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {path: "bookTickets", component: BookTicketsComponent},
   {path: "customer", component: MstCustomersComponent},
-  {path: "rankpoints", component: MstRankPointsComponent},
+  //{path: "rankpoints", component: MstRankPointsComponent},
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "showtime-customer", component: ShowTimeCustomerComponent},
   {path: "report", component: ReportRevenueComponent},
