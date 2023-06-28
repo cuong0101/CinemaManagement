@@ -48,6 +48,9 @@ import { CreateOrEditBenefitsComponent } from './business/mst-rank-points/create
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
 import { UploadComponent } from './upload/upload.component';
 import { CreateOrEditPolicyGiftComponent } from './business/policy-gift/create-or-edit-policy-gift/create-or-edit-policy-gift.component';
+import { MstFoodComponent } from './business/mst-food/mst-food.component';
+import { CreateOrEditFoodComponent } from './business/mst-food/create-or-edit-food/create-or-edit-food.component';
+import { ImageFormatterComponent } from './business/mst-food/ImageFormater.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +84,9 @@ import { CreateOrEditPolicyGiftComponent } from './business/policy-gift/create-o
     ReportRevenueComponent,
     CreateOrEditBenefitsComponent,
     PolicyGiftComponent,
-
+    MstFoodComponent,
+    CreateOrEditFoodComponent,
+    ImageFormatterComponent,
     //GridTableComponent,
     //GridPaginationComponent,
       UploadComponent,

@@ -27,6 +27,11 @@ export const navbarData: INavbarData[] = [
         label: 'Showtime Customer',
     },
     {
+        routeLink: 'mstfood',
+        icon: 'fa-solid fa-burger',
+        label: 'Food',
+    },
+    {
         routeLink: 'seatrank',
         icon: 'fa-solid fa-couch',
         label: 'Seat Rank',
