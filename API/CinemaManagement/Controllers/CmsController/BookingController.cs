@@ -28,6 +28,7 @@ namespace CinemaManagement.Controllers.CmsController
             _dapper = dapper;
         }
         //Khi người dùng bấm xác nhận đặt vé (có thể có đồ ăn) thì chốt tạo ra 1 giao dịch chính thức
+        [HttpPost("CreateTransaction")]
         public async Task<long> CreateTransaction(long? cusId, long? empId)
         {
             HistoryTransaction giaodich = new HistoryTransaction();
