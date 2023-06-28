@@ -182,9 +182,10 @@ namespace CinemaManagement.Controllers.WeuController
                 var refreshToken = _tokenService.GenerateRefreshToken();
                 customer.RefreshToken = refreshToken;
                 customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+                var result = new CustomerResultLogin(customer.Email, accessToken, refreshToken);
                 await _context.SaveChangesAsync();
                
-                return CustomResult(customer);
+                return CustomResult(result);
             }
             catch (Exception ex)
             {
