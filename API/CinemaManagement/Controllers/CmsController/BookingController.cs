@@ -53,7 +53,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("AdminBooking")]
-        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId)
+        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId, decimal money)
         {
             try
             {
@@ -68,6 +68,11 @@ namespace CinemaManagement.Controllers.CmsController
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
+                // update điểm cho khách hàng
+                var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
+                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
+                cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+
                 return CustomResult(true);
             }
             catch (Exception ex)
@@ -125,17 +130,11 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.LastModificationTime = DateTime.Now;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
-
-
                 }
                 // update điểm cho khách hàng
-                var cus = from c in _context.MstCustomer.Where(e => e.Id == cusId && e.IsDeleted == false)
-                            join cl in _context.CumulativePoints.Where(e => e.IsDeleted == false) on c.RankId equals cl.RankId
-                            select new
-                            {
-                                Money = cl.Money,
-                                Point = cl.Point
-                            }.Point;
+                var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
+                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
+                cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
 
                 return CustomResult(true);
             }
