@@ -43,13 +43,14 @@ namespace CinemaManagement.Controllers.CmsController
                              ChangeGiftCode = change.ChangeGiftCode,
                              CusId = cus.Id,
                              GiftId = gift.Id,
+                             GiftPoint = gift.Point,
                              PhoneCus = cus.Phone,
                              GiftName = gift.GiftName
                          }).ToList();
             return query;
         }
         [HttpPost("CreateRedeemVoucher")]
-        public async Task CreateVoucher(long giftId, long cusId)
+        public async Task CreateVoucher(long giftId, long cusId, int giftPoint)
         {
             var voucher = new HistoryChangeGift();
             var checkGiftCode = "DQ_" + GiftCodeRandom();
@@ -64,6 +65,11 @@ namespace CinemaManagement.Controllers.CmsController
             voucher.CusId = cusId;
             voucher.GiftId = giftId;
             _context.HistoryChangeGift.Add(voucher);
+
+            //trừ điểm tiêu dùng của KH
+            var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId);
+            cus.CusPoint -= giftPoint;
+
             await _context.SaveChangesAsync();
         }
 
