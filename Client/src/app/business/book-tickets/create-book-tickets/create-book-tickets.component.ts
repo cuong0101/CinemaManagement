@@ -10,6 +10,7 @@ import { PromotionDetail } from 'src/app/_interfaces/_iMstPromotion/promotionDet
 import { BookticketService } from 'src/app/_services/bookticket.service';
 import { ToastrService } from 'ngx-toastr';
 import { GiftChoose } from 'src/app/_interfaces/_IBookTickets/GiftChoose';
+import { filter, iif, map, takeWhile, timer } from 'rxjs';
 
 @Component({
   selector: 'create-book-tickets',
@@ -29,7 +30,13 @@ export class CreateBookTicketsComponent implements OnInit {
   tickets: number[]=[];
   cusId?: number;
   giftChoose: GiftChoose[]=[];
-  giftsCb: GiftChoose[]=[];;
+  giftsCb: GiftChoose[]=[];
+
+  timeRemaining$ = timer(0, 1000).pipe(
+    map(n => (300 - n) * 1000),
+    takeWhile(n => n >= 0),
+  );
+
   constructor(
     private _modalService: BsModalService,
     private _bookTicketService: BookticketService,
@@ -63,6 +70,10 @@ export class CreateBookTicketsComponent implements OnInit {
     this.bsModalRef.content.tickets = this.tickets
     this.chair = "";
     this.total = 0;
+
+    setTimeout(() => {
+      this.close();
+    }, 300000); // Thời gian đóng modal sau 5 phút
   }
 
   close() {

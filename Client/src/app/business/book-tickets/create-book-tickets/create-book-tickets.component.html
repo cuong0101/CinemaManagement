@@ -3,6 +3,7 @@
       <h4 class="modal-title pull-left">
         <!-- <span *ngIf="promo.id">Sửa thông tin Chương trình Khuyến mãi</span> -->
         <span>Thông tin vé đã chọn</span>
+        
       </h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
@@ -21,22 +22,41 @@
 
           <div class="col-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Số điện thoại KH</label>
-              <div class="col-sm-9">
-                <input type="text" (keypress)="changeGiftChoose($event)" class="form-control" maxlength="10" name="phone" [(ngModel)]="phone">
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group row">
               <label class="col-sm-3 col-form-label">Suất chiếu</label>
               <div class="col-sm-9">
                 <input class="form-control" id="toDate" name="startDate"
                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
                 bsDatepicker required [(ngModel)]="showtime.startDate">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Phòng chiếu</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="room" [(ngModel)]="showtime.roomName">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Ghế</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="chair" [(ngModel)]="chair">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Số điện thoại KH</label>
+              <div class="col-sm-9">
+                <input type="text" (keypress)="changeGiftChoose($event)" class="form-control" maxlength="10" name="phone" [(ngModel)]="phone">
               </div>
             </div>
           </div>
@@ -51,15 +71,9 @@
           </div>
 
         </div>
+        
         <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Phòng chiếu</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" name="room" [(ngModel)]="showtime.roomName">
-              </div>
-            </div>
-          </div>
+          
 
           <!-- <div class="col-6">
             <div class="form-group row">
@@ -83,15 +97,6 @@
         <div class="row mt-3">
           <div class="col-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Ghế</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" name="chair" [(ngModel)]="chair">
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group row">
               <label class="col-sm-3 col-form-label">Thành tiền</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" name="chair" >
@@ -101,6 +106,9 @@
         </div>
   </div>
   <div class="modal-footer">
+    <p> 
+      {{ timeRemaining$ | async | date:'mm:ss' }}
+    </p>
     <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Hủy</button>
   </div>
