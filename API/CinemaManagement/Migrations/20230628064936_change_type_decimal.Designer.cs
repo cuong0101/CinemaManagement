@@ -4,14 +4,16 @@ using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230628064936_change_type_decimal")]
+    partial class change_type_decimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,9 +277,6 @@ namespace CinemaManagement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("RankId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
@@ -312,9 +311,6 @@ namespace CinemaManagement.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")

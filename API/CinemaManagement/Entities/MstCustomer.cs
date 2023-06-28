@@ -25,6 +25,7 @@ namespace CinemaManagement.Entities
         public byte[] PasswordSalt { get; set; }
         public string RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
-        public int CusPoint { get; set; } // điểm dùng để đổi quà
+        public long? RankId { get; set; }
+        public decimal CusPoint { get; set; } // điểm dùng để đổi quà
     }
 }

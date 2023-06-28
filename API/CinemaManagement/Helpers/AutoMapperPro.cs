@@ -24,8 +24,7 @@ namespace CinemaManagement.Helpers
             CreateMap<PolicyGiftsDto, PolicyGifts>().ReverseMap();
             CreateMap<CreateOrEditBenefitDto, MstBenefitsCus>().ReverseMap();
             CreateMap<FoodDto, MstFood>().ReverseMap();
-
-            //map nhưng gì thì khai báo vào đâu
+            CreateMap<CreateOrEditCumulativeDto, CumulativePoint>().ReverseMap();
         }
     }
 }

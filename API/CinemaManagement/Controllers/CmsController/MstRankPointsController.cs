@@ -72,6 +72,8 @@ namespace CinemaManagement.Controllers.CmsController
             }
             return result;
         }
+
+        #region --- Thêm sửa xóa hạng
         [HttpPost("Create")]
         private async Task Create(CreateOrEditRankPointsDto input)
         {
@@ -107,6 +109,7 @@ namespace CinemaManagement.Controllers.CmsController
             _context.MstRankPoints.Update(rankpoints);
             await _context.SaveChangesAsync();
         }
+        #endregion
 
         #region --- Thêm sửa xóa quyền lợi
         [HttpPost("createOrEditBenefit")]
@@ -155,6 +158,68 @@ namespace CinemaManagement.Controllers.CmsController
             _context.MstBenefitsCus.Remove(benefit);
             await _context.SaveChangesAsync();
         }
+        #endregion
+
+        #region --- Điểm tích lũy
+
+        [HttpGet("getAllCumulative")]
+        public async Task<List<CumulativeForView>> GetAll()
+        {
+            var rankpoints = _context.MstRankPoints.ToList();
+            var cumulatives = _context.CumulativePoints.ToList();
+
+            var query = (from r in rankpoints.Where(e => e.IsDeleted == false)
+                         join c in cumulatives.Where(e => e.IsDeleted == false) on r.Id equals c.RankId
+                            select new CumulativeForView
+                            {
+                                Id = c.Id,
+                                RankId = r.Id,
+                                RankName = r.Grade,
+                                Money = c.Money,
+                                Point = c.Point
+                            }).ToList();
+            return query;
+        }
+
+        [HttpPost("createOrEditCumulative")]
+        public async Task createOrEditCumulative(CreateOrEditCumulativeDto createOrEditCumulative)
+        {
+            if (createOrEditCumulative.Id == null)
+            {
+                await CreateCumulative(createOrEditCumulative);
+            }
+            else await EditCumulative(createOrEditCumulative);
+        }
+        private async Task CreateCumulative(CreateOrEditCumulativeDto input)
+        {
+            var benefit = _context.CumulativePoints.FirstOrDefault(e => e.RankId == input.RankId);
+            if (benefit != null)
+            {
+                throw new UserFriendlyException("Giá trị đổi quà đã tồn tại");
+            }
+            else
+            {
+                var cusBenefit = _mapper.Map<CumulativePoint>(input);
+                _context.CumulativePoints.Add(cusBenefit);
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task EditCumulative(CreateOrEditCumulativeDto input)
+        {
+            var cumu = _context.CumulativePoints.FirstOrDefault(e => e.RankId == input.RankId);
+            if (cumu != null)
+            {
+                throw new UserFriendlyException("Giá trị đổi quà đã tồn tại");
+            }
+            else
+            {
+                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.Id == input.Id);
+                var saves = _mapper.Map(input, cumulative);
+                _context.CumulativePoints.Update(saves);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         #endregion
     }
 }

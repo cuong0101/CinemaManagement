@@ -36,7 +36,6 @@ export const navbarData: INavbarData[] = [
         icon: 'fa-solid fa-couch',
         label: 'Seat Rank',
     },
-
     {
         routeLink: 'customer',
         icon: 'fa-solid fa-file-invoice',
@@ -48,25 +47,26 @@ export const navbarData: INavbarData[] = [
         label: 'Room Cinema'
     },
     {
-        routeLink: 'media',
-        icon: 'fal fa-camera',
-        label: 'Media'
-    },
-    {
-        routeLink: 'rankpoints',
-        icon: 'fa-solid fa-ranking-star',
-        label: 'Rank Point'
-    },
-    {
-        routeLink: 'report',
-        icon: 'fa-solid fa-chart-line',
-        label: 'Report'
+      routeLink: 'policy',
+      icon: 'fa-solid fa-ranking-star',
+      label: 'Rank Policy',
+      expanded: false,
+      items: [
+          {
+              routeLink: 'policy/rankpoints',
+              label: 'Rank Point'
+          },
+          {
+              routeLink: 'policy/cumulative',
+              label: 'Cumulative'
+          }
+      ]
     },
     {
       routeLink: 'promo',
       icon: 'fa-solid fa-tags',
       label: 'Discount',
-      expanded: true,
+      expanded: false,
       items: [
           {
               routeLink: 'promo/promotion',
@@ -75,14 +75,23 @@ export const navbarData: INavbarData[] = [
           {
               routeLink: 'policygift',
               label: 'Voucher - Đổi điểm'
+          },
+          {
+              routeLink: 'promo/history',
+              label: 'History Voucher'
           }
       ]
     },
     {
+      routeLink: 'report',
+      icon: 'fa-solid fa-chart-line',
+      label: 'Report'
+  },
+    {
         routeLink: 'settings',
         icon: 'fa-solid fa-gear',
         label: 'Settings',
-        expanded: true,
+        expanded: false,
         items: [
             {
                 routeLink: 'settings/profile',

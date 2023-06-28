@@ -7,6 +7,6 @@ namespace CinemaManagement.Entities
     {
         public long? RankId { get; set; }
         public long? Money { get; set; }
-        public long? Point { get; set; }
+        public decimal? Point { get; set; }
     }
 }

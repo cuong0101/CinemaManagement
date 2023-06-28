@@ -111,7 +111,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, long? cusId)
+        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, long? cusId, decimal money)
         {
             try
             {
@@ -125,7 +125,18 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.LastModificationTime = DateTime.Now;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
+
+
                 }
+                // update điểm cho khách hàng
+                var cus = from c in _context.MstCustomer.Where(e => e.Id == cusId && e.IsDeleted == false)
+                            join cl in _context.CumulativePoints.Where(e => e.IsDeleted == false) on c.RankId equals cl.RankId
+                            select new
+                            {
+                                Money = cl.Money,
+                                Point = cl.Point
+                            }.Point;
+
                 return CustomResult(true);
             }
             catch (Exception ex)
