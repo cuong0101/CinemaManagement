@@ -27,6 +27,8 @@ namespace CinemaManagement.Data
         public DbSet<PolicyGifts> PolicyGift { get; set; }
         public DbSet<CumulativePoint> CumulativePoints { get; set; }
         public DbSet<MstFood> MstFood { get; set; }
+        public DbSet<HistoryTransaction> HistoryTransaction { get; set; }
+        public DbSet<TransactionFood> TransactionFood { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Abp.Json;
+using AutoMapper;
 using CinemaManagement.Controllers.CmsController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs;
@@ -63,42 +64,41 @@ namespace CinemaManagement.Controllers.WeuController
         }
 
         [HttpPost("EditMyInfo")]
-        //public async Task<WebEndUserDto<object>> EditMyInfo([FromForm] CustomerEditDto input)
-        //{
-        //    var response = new WebEndUserDto<object>(false, null, 500, "");
-        //    var cus = _context.MstCustomer.Find(GetMyInfo().Id);
-        //    if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
+        public async Task<IActionResult> EditMyInfo([FromForm] CustomerEditDto input)
+        {
+            var response = new WebEndUserDto<object>(false, null, 500, "");
+            var cus = _context.MstCustomer.Find(GetMyInfo().Result);
+            if (await _context.MstCustomer.AnyAsync(e => e.Phone == input.phone)) response.Message = "Phone number is taken";
 
-        //    try
-        //    {
-        //        var imageUrl = GetMyInfo().Result.z;
-        //        if (input.image != null)
-        //        {
-        //            Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
-        //            cloudinary = new Cloudinary(account);
-        //            var uploadParams = new ImageUploadParams()
-        //            {
-        //                File = new FileDescription(input.image.FileName, input.image.OpenReadStream()),
-        //                PublicId = Guid.NewGuid().ToString(),
-        //                Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
-        //            };
-        //            var uploadResult = await cloudinary.UploadAsync(uploadParams);
-        //            imageUrl = uploadResult.Url.ToString();
-        //        }
-        //        cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? GetMyInfo().Result.Data.Name : input.name;
-        //        cus.Image = imageUrl;
-        //        cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? GetMyInfo().Result.Data.Address : input.address;
-        //        cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? GetMyInfo().Result.Data.Phone : input.phone;
-        //        _context.MstCustomer.Update(cus);
-        //        await _context.SaveChangesAsync();
-        //        return CustomResult(true);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        response.Message = e.Message;
-        //    }
-        //    return response;
-        //}
+            try
+            {
+                var imageUrl = cus.Image;
+                if (input.image != null)
+                {
+                    Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+                    cloudinary = new Cloudinary(account);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(input.image.FileName, input.image.OpenReadStream()),
+                        PublicId = Guid.NewGuid().ToString(),
+                        Transformation = new Transformation().Crop("limit").Width(1000).Height(1000)
+                    };
+                    var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                    imageUrl = uploadResult.Url.ToString();
+                }
+                cus.Name = string.IsNullOrWhiteSpace(input.name) || string.IsNullOrEmpty(input.name) ? cus.Name : input.name;
+                cus.Image = imageUrl;
+                cus.Address = string.IsNullOrWhiteSpace(input.address) || string.IsNullOrEmpty(input.address) ? cus.Address : input.address;
+                cus.Phone = string.IsNullOrWhiteSpace(input.phone) || string.IsNullOrEmpty(input.phone) ? cus.Phone : input.phone;
+                _context.MstCustomer.Update(cus);
+                await _context.SaveChangesAsync();
+                return CustomResult(true);
+            }
+            catch (Exception e)
+            {
+                return CustomResult(e.Message);
+            }
+        }
 
         [HttpPost("Register")]
         [Consumes("multipart/form-data")]
@@ -184,12 +184,7 @@ namespace CinemaManagement.Controllers.WeuController
                 customer.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
                 await _context.SaveChangesAsync();
                
-                return CustomResult(new UserDto()
-                {
-                    Username = customer.Name,
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken
-                });
+                return CustomResult(customer);
             }
             catch (Exception ex)
             {
