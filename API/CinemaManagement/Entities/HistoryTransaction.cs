@@ -6,6 +6,7 @@ namespace CinemaManagement.Entities
     public class HistoryTransaction : FullAuditedEntity<long>, IEntity<long>
     {
         public decimal Price { get; set; }
-        public long? PersonId { get; set; }
+        public long? EmpId { get; set; }
+        public long? CusId { get; set; }
     }
 }

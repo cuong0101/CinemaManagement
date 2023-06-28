@@ -27,6 +27,17 @@ namespace CinemaManagement.Controllers.CmsController
             _tokenService = tokenService;
             _dapper = dapper;
         }
+        //Khi người dùng bấm xác nhận đặt vé (có thể có đồ ăn) thì chốt tạo ra 1 giao dịch chính thức
+        public async Task<long> CreateTransaction(long? cusId, long? empId)
+        {
+            HistoryTransaction giaodich = new HistoryTransaction();
+            giaodich.CusId = cusId;
+            giaodich.EmpId = empId;
+            _context.HistoryTransaction.Add(giaodich);
+            await _context.SaveChangesAsync();
+            return giaodich.Id;
+        }
+
 
         [HttpPost("AdminCheckTicket")]
         //Kiểm tra vé đã được chọn bởi người khác chưa?
@@ -54,16 +65,8 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("AdminBooking")]
-        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId, long? cusId, decimal money)
+        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, decimal money, long magiaodich)
         {
-            try
-            {
-                HistoryTransaction giaodich = new HistoryTransaction();
-                giaodich.PersonId = cusId;
-                _context.HistoryTransaction.Add(giaodich);
-                await _context.SaveChangesAsync();
-
-                var magiaodich = giaodich.Id;
 
                 foreach (var idmovie in input.listticket)
                 {
@@ -71,13 +74,12 @@ namespace CinemaManagement.Controllers.CmsController
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.EmployeeId = empId;
-                    ticket.CustomerId = cusId;
                     ticket.LastModificationTime = DateTime.Now;
                     ticket.TransactionId = magiaodich;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
+            var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
                 // update điểm cho khách hàng
                 if (cusId != null)
                 {
@@ -87,26 +89,7 @@ namespace CinemaManagement.Controllers.CmsController
                 }
 
                 return CustomResult(true);
-            }
-            catch (Exception ex)
-            {
-                foreach (var idmovie in input.listticket)
-                {
-                    var ticket = _context.MstTicket
-                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
-
-                    ticket.Status = 0; // 1 là đã được mua
-                    ticket.EmployeeId = null;
-                    ticket.CustomerId = null;
-                    ticket.LastModificationTime = DateTime.Now;
-                    ticket.TransactionId = null;
-                    _context.MstTicket.Update(ticket);
-                    await _context.SaveChangesAsync();
-                }
-
-                return CustomResult(false);
-            }
-
+            
         }
 
         [HttpPost("CustomerCheckTicket")]
@@ -131,16 +114,8 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("CustomerBooking")]
-        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, long? cusId, decimal money)
+        public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, decimal money, long magiaodich)
         {
-            try
-            {
-                HistoryTransaction giaodich = new HistoryTransaction();
-                giaodich.PersonId = cusId;
-                _context.HistoryTransaction.Add(giaodich);
-                await _context.SaveChangesAsync();
-
-                var magiaodich = giaodich.Id;
 
                 foreach (var idmovie in input.listticket)
                 {
@@ -148,36 +123,61 @@ namespace CinemaManagement.Controllers.CmsController
                        .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
                     ticket.Status = 1; // 1 là đã được mua
-                    ticket.CustomerId = cusId;
                     ticket.LastModificationTime = DateTime.Now;
                     ticket.TransactionId = magiaodich;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
+            var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
                 // update điểm cho khách hàng
                 var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
                 var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
                 cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
 
                 return CustomResult(true);
-            }
-            catch (Exception ex)
+
+        }
+
+        [HttpPost("AdminBookFood")]
+        public async Task<IActionResult> AdminBookFood( decimal totalfoodmoney, ListFood listfood, long magiaodich)
+        {
+            var soluongdoan = 0;
+            foreach(var item in listfood.listfood)
             {
-                foreach (var idmovie in input.listticket)
+                soluongdoan += item.quantity;
+            }    
+            if(soluongdoan > 0)
+            {
+                foreach (var item in listfood.listfood)
                 {
-                    var ticket = _context.MstTicket
-                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
-
-                    ticket.Status = 0; // 1 là đã được mua
-                    ticket.CustomerId = null;
-                    ticket.LastModificationTime = DateTime.Now;
-                    ticket.TransactionId = null;
-                    _context.MstTicket.Update(ticket);
-                    await _context.SaveChangesAsync();
+                    TransactionFood transfood = new TransactionFood();
+                    transfood.TransactionId = magiaodich;
+                    transfood.FoodId = item.FoodId;
+                    transfood.quantity = item.quantity;
                 }
-                return CustomResult(false);
             }
+            return CustomResult(true);
+        }
 
+        [HttpPost("CustomerBookFood")]
+        public async Task<IActionResult> CustomerBookFood(decimal totalfoodmoney, ListFood listfood, long magiaodich)
+        {
+            var soluongdoan = 0;
+            foreach (var item in listfood.listfood)
+            {
+                soluongdoan += item.quantity;
+            }
+            if (soluongdoan > 0)
+            {
+                foreach (var item in listfood.listfood)
+                {
+                    TransactionFood transfood = new TransactionFood();
+                    transfood.TransactionId = magiaodich;
+                    transfood.FoodId = item.FoodId;
+                    transfood.quantity = item.quantity;
+                }
+            }
+            return CustomResult(true);
         }
         [HttpPost("CancelBooking")]
         public async Task<IActionResult> CancelBooking(ListTicketInputDto input)
