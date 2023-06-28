@@ -15,5 +15,7 @@ namespace CinemaManagement.DTOs
         public DateTime? DoB { get; set; }
         public bool Sex { get; set; }
         public string Email { get; set; }
+        public long? RankId { get; set; }
+        public decimal CusPoint { get; set; }
     }
 }

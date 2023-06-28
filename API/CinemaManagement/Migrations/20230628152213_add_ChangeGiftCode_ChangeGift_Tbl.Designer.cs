@@ -4,14 +4,16 @@ using CinemaManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230628152213_add_ChangeGiftCode_ChangeGift_Tbl")]
+    partial class add_ChangeGiftCode_ChangeGift_Tbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,17 +192,11 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("CusId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("EmpId")
-                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -209,6 +205,9 @@ namespace CinemaManagement.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PersonId")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Price")
@@ -975,11 +974,8 @@ namespace CinemaManagement.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TransactionId")
+                    b.Property<long>("PersonId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

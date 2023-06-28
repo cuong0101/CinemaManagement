@@ -53,12 +53,12 @@ namespace CinemaManagement.Controllers.WeuController
         [HttpGet("GetMyInfo")]
         public async Task<IActionResult> GetMyInfo()
         {
-            var mail = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             using (var conn = _dapper.CreateConnection())
             {
                 var cus = await conn.QueryAsync<CustomerDto>(@"
-                Select * from MstCustomer where isDeleted = 0 and Email = @mail", new { mail = mail });
+                Select * from MstCustomer where isDeleted = 0 and id = @id", new { id = id });
                 return CustomResult(cus.FirstOrDefault());
             }
         }
