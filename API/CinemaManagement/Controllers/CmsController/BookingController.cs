@@ -4,6 +4,7 @@ using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.BookingDtos;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
+using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,10 +54,17 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("AdminBooking")]
-        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId)
+        public async Task<IActionResult> AdminBooking(ListTicketInputDto input, long? empId, long? cusId)
         {
             try
             {
+                HistoryTransaction giaodich = new HistoryTransaction();
+                giaodich.PersonId = cusId;
+                _context.HistoryTransaction.Add(giaodich);
+                await _context.SaveChangesAsync();
+
+                var magiaodich = giaodich.Id;
+
                 foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
@@ -64,7 +72,9 @@ namespace CinemaManagement.Controllers.CmsController
 
                     ticket.Status = 1; // 1 là đã được mua
                     ticket.EmployeeId = empId;
+                    ticket.CustomerId = cusId;
                     ticket.LastModificationTime = DateTime.Now;
+                    ticket.TransactionId = magiaodich;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
@@ -79,7 +89,9 @@ namespace CinemaManagement.Controllers.CmsController
 
                     ticket.Status = 0; // 1 là đã được mua
                     ticket.EmployeeId = null;
+                    ticket.CustomerId = null;
                     ticket.LastModificationTime = DateTime.Now;
+                    ticket.TransactionId = null;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
@@ -115,6 +127,13 @@ namespace CinemaManagement.Controllers.CmsController
         {
             try
             {
+                HistoryTransaction giaodich = new HistoryTransaction();
+                giaodich.PersonId = cusId;
+                _context.HistoryTransaction.Add(giaodich);
+                await _context.SaveChangesAsync();
+
+                var magiaodich = giaodich.Id;
+
                 foreach (var idmovie in input.listticket)
                 {
                     var ticket = _context.MstTicket
@@ -123,6 +142,7 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 1; // 1 là đã được mua
                     ticket.CustomerId = cusId;
                     ticket.LastModificationTime = DateTime.Now;
+                    ticket.TransactionId = magiaodich;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
 
@@ -149,6 +169,7 @@ namespace CinemaManagement.Controllers.CmsController
                     ticket.Status = 0; // 1 là đã được mua
                     ticket.CustomerId = null;
                     ticket.LastModificationTime = DateTime.Now;
+                    ticket.TransactionId = null;
                     _context.MstTicket.Update(ticket);
                     await _context.SaveChangesAsync();
                 }

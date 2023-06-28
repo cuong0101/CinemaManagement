@@ -15,7 +15,7 @@ namespace CinemaManagement.Entities
         public long? CustomerId { get; set; }
         public long? EmployeeId { get; set; }
         public int Status { get; set; }
-        public long TransactionId { get; set; }
+        public long? TransactionId { get; set; }
 
     }
 }

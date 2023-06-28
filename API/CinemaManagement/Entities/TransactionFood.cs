@@ -6,7 +6,6 @@ namespace CinemaManagement.Entities
     public class TransactionFood : FullAuditedEntity<long>, IEntity<long>
     {
         public long FoodId { get; set; }
-        public decimal Price { get; set; }
         public long PersonId { get; set; }
     }
 }
