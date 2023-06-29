@@ -19,7 +19,7 @@ export class RankpointsService {
     return this.httpClient.post(this.baseUrl + "MstRankPoints/createOrEdit", user);
   }
   delete(id?: number){
-    return this.httpClient.post(this.baseUrl + `MstRankPoints/deleted`, id);
+    return this.httpClient.post(this.baseUrl + `MstRankPoints/deleted?id=${id}`, id);
   }
 
   createOrEditBenefits(benefits?: Benefits){

@@ -52,6 +52,7 @@ import { MstFoodComponent } from './business/mst-food/mst-food.component';
 import { CreateOrEditFoodComponent } from './business/mst-food/create-or-edit-food/create-or-edit-food.component';
 import { ImageFormatterComponent } from './business/mst-food/ImageFormater.component';
 import { OrderFoodComponent } from './business/book-tickets/create-book-tickets/order-food/order-food.component';
+import { HistoryChangeGiftComponent } from './business/history-change-gift/history-change-gift.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { OrderFoodComponent } from './business/book-tickets/create-book-tickets/
       UploadComponent,
     PolicyGiftComponent,
     CreateOrEditPolicyGiftComponent,
-    OrderFoodComponent
+    OrderFoodComponent,
+    HistoryChangeGiftComponent,
    ],
   imports: [
     BrowserModule,

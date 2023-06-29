@@ -15,6 +15,8 @@ import { BookTicketsComponent } from './business/book-tickets/book-tickets.compo
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
 import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 import { MstFoodComponent } from './business/mst-food/mst-food.component';
+import { HistoryChangeGiftComponent } from './business/history-change-gift/history-change-gift.component';
+import { MstCulmulativeComponent } from './business/mst-cumulative/mst-culmulative.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
@@ -24,8 +26,11 @@ const routes: Routes = [
   {path: "mstfood", component: MstFoodComponent},
   {path: "mstshowtime", component: MstShowTimeComponent},
   {path: "room", component: MstRoomComponent},
+  {path: 'policyRankPoints',  component: MstRankPointsComponent },
   {path: 'promo', children: [
       { path: 'promotion', component: MstPromotionComponent },
+      { path: 'history', component: HistoryChangeGiftComponent },
+      {path: "policygift", component: PolicyGiftComponent}
     ]
   },
   {path: "bookTickets", component: BookTicketsComponent},
@@ -34,8 +39,6 @@ const routes: Routes = [
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "showtime-customer", component: ShowTimeCustomerComponent},
   {path: "report", component: ReportRevenueComponent},
-  {path: "policygift", component: PolicyGiftComponent}
-
 ];
 
 @NgModule({

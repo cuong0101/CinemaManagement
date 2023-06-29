@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams, ValueGetterParams } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { RankpointsService } from 'src/app/_services/rankpoints.service';
 import { CreateOrEditMstRankPointsComponent } from './create-or-edit-mst-rank-points/create-or-edit-mst-rank-points.component';
@@ -41,8 +41,9 @@ export class MstRankPointsComponent implements OnInit {
         field: "grade",
       },
       {
-        headerName: "Hoạt động",
+        headerName: "Trạng thái",
         field: "isActive",
+        valueGetter: (params: ValueGetterParams) => { return params.data.isActive == true ? "Hoạt động" : "Ngừng hoạt động" }
       },
       {
         headerName: "Ngày hoạt động",
@@ -55,6 +56,14 @@ export class MstRankPointsComponent implements OnInit {
       {
         headerName: "Số lần mua vé cần đạt được",
         field: "numberOfVisit",
+      },
+      {
+        headerName: "Số tiền quy đổi",
+        field: "money",
+      },
+      {
+        headerName: "Số điểm quy đổi tương ứng",
+        field: "point",
       },
       {
         headerName: "Mô tả",
@@ -90,6 +99,8 @@ export class MstRankPointsComponent implements OnInit {
 
   onGridReady(params: GridReadyEvent<RankPoints>){
     this.gridApi = params.api;
+    console.log(this.params);
+console.log(params)
     this.params = params;
     this.rankpointSelected = new RankPoints();
     this.rankpoints.getAll().subscribe((re) => {
@@ -141,6 +152,11 @@ export class MstRankPointsComponent implements OnInit {
         error: (ersr: any) => this.toastr.error("Xóa thất bại")
       });
     }
+  }
+
+  test(event: any)
+  {
+    console.log(event);
   }
 
 }
