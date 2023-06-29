@@ -57,10 +57,10 @@ export const navbarData: INavbarData[] = [
       label: 'Discount',
       expanded: false,
       items: [
-          {
-              routeLink: 'promo/promotion',
-              label: 'Promotion'
-          },
+        //   {
+        //       routeLink: 'promo/promotion',
+        //       label: 'Promotion'
+        //   },
           {
               routeLink: 'promo/policygift',
               label: 'Voucher - Đổi điểm'

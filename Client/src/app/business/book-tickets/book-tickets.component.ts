@@ -126,7 +126,7 @@ export class BookTicketsComponent implements OnInit {
       {
         headerName: 'Trạng thái',
         field: 'status',
-        valueFormatter: (params) => params.value == 0 ? "Chưa đặt" : params.value == 1 ? "Đang chọn" : "Đã đặt",
+        valueFormatter: (params) => params.value == 0 ? "Chưa đặt" : params.value == 2 ? "Đang chọn" : "Đã đặt",
         cellClass: ['text-center'],
         flex: 1,
       },

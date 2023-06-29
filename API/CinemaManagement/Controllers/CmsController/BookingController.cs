@@ -230,7 +230,7 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<List<InfoShowtimeDto>> GetShowTimeByMovieAndDate(DateTime startTime, long idmovie)
         {
             var shows = await (from showtime in _context.MstShowTimes
-                               .Where(e => e.IsDeleted == false && e.MovieId == idmovie && e.StartTime.Date == startTime.Date)
+                               .Where(e => e.IsDeleted == false && e.MovieId == idmovie && e.StartTime.Date == startTime.Date && e.StartTime >= DateTime.Now)
 
                                select new InfoShowtimeDto
                                {
@@ -245,7 +245,7 @@ namespace CinemaManagement.Controllers.CmsController
         [HttpGet("GetTicketByShowtimeAdmin")]
         public async Task<List<InfoTicketDto>> GetTicketByShowtimeAdmin(long idshow)
         {
-            var tickets = await (from ticket in _context.MstTicket.Where(e => e.IsDeleted == false)
+            var tickets = await (from ticket in _context.MstTicket.Where(e => e.IsDeleted == false && e.Status == 0 && e.ShowTimeId == idshow)
                                  join showtime in _context.MstShowTimes.Where(e => e.IsDeleted == false && e.Id == idshow)
                                  on ticket.ShowTimeId equals showtime.Id
                                  join seat in _context.MstSeats.Where(e => e.IsDeleted == false)
@@ -274,7 +274,7 @@ namespace CinemaManagement.Controllers.CmsController
                 .Where(e => string.IsNullOrWhiteSpace(namemovie) || e.Name.Contains(namemovie))
 
                 join show in _context.MstShowTimes
-                .Where(e => !startTime.HasValue || e.StartTime.Date == startTime.Value.Date)
+                .Where(e => (!startTime.HasValue || e.StartTime.Date == startTime.Value.Date)&& e.StartTime >= DateTime.Now)
                 on movie.Id equals show.MovieId
 
                 join room in _context.MstRooms
