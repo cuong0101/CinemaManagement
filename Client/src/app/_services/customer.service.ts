@@ -6,7 +6,7 @@ import { Customer } from '../_interfaces/customer';
   providedIn: 'root'
 })
 export class CustomersService {
-  baseUrl = "https://localhost:44389/api/cus/";
+  baseUrl = "https://localhost:44389/api/";
 
   constructor(private httpClient: HttpClient) { }
 

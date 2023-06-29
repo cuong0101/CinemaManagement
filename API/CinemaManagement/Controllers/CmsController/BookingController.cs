@@ -60,26 +60,27 @@ namespace CinemaManagement.Controllers.CmsController
                 cus.CusPoint += (booking.totalAmount / (decimal)rankpoint.Money) * rankpoint.Point;
                 _context.MstCustomer.Update(cus);
             }    
-            
-            //if(booking.listfood)
             var soluongdoan = 0;
-            foreach (var item in booking.listfood)
-            {
-                soluongdoan += item.quantity;
-            }
-            if (soluongdoan > 0)
+            if(booking.listfood != null)
             {
                 foreach (var item in booking.listfood)
                 {
-                    TransactionFood transfood = new TransactionFood();
-                    transfood.TransactionId = (long)giaodich.Id;
-                    transfood.FoodId = item.FoodId;
-                    transfood.quantity = item.quantity;
+                    soluongdoan += item.quantity;
                 }
-            }
-
+                if (soluongdoan > 0)
+                {
+                    foreach (var item in booking.listfood)
+                    {
+                        TransactionFood transfood = new TransactionFood();
+                        transfood.TransactionId = (long)giaodich.Id;
+                        transfood.FoodId = item.FoodId;
+                        transfood.quantity = item.quantity;
+                        _context.TransactionFood.Add(transfood);
+                    }
+                }
+            }    
+            
             await _context.SaveChangesAsync();
-
             return CustomResult(true);
         }
         //Khi người dùng bấm xác nhận đặt vé (có thể có đồ ăn) thì chốt tạo ra 1 giao dịch chính thức

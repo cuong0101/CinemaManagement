@@ -13,6 +13,7 @@ import { OrderFoodComponent } from './order-food/order-food.component';
 import { FormatService } from 'src/app/_services/format-service.service';
 import { CellClassParams, ColDef, EditableCallbackParams, GridApi, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { BookingTickets } from 'src/app/_interfaces/_IBookTickets/bookingTickets';
+import { FoodItemDto } from 'src/app/_interfaces/_IBookTickets/FoodItem';
 
 @Component({
   selector: 'create-book-tickets',
@@ -53,7 +54,7 @@ export class CreateBookTicketsComponent implements OnInit {
     resizable: true,
     floatingFilter: true,
   };
-  rowDataFood: any;
+  rowDataFood: any[]=[];
   public paginationPageSize = 100;
   public paginationNumberFormatter: (
     params: PaginationNumberFormatterParams
@@ -163,8 +164,21 @@ export class CreateBookTicketsComponent implements OnInit {
     booking.cusId = this.giftChoose.find(e => e.phoneCus == this.phone)?.cusId;
     booking.empId = this.empId;
     booking.totalAmount = this.totalAmount;
+    booking.listfood = [];
+    // for(let item in this.rowDataFood)
+    // {
+    //   if(Number(item.quantity) != 0){
+    //     booking.listfood?.push({foodId: item.id, quantity: item.quantity});
+    //   }
+    // }
     this.rowDataFood.forEach((e: any) => {
-      if(Number(e.quantity) != 0) booking.listfood?.push({foodId: e.id, quantity: e.quantity});
+      if(Number(e.quantity) != 0) 
+      {
+        let food = new FoodItemDto()
+        food.foodId = e.id;
+        food.quantity = e.quantity;
+        booking.listfood?.push(food);
+      }
     })
     booking.listticket = this.tickets;
     this._bookTicketService.bookingTickets(booking).subscribe({
