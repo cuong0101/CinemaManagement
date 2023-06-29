@@ -17,7 +17,7 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoadingInterceptor } from './loading.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { CreateOrEditUserComponent } from './business/mst-users/create-or-edit-user/create-or-edit-user.component';
 import { MstSeatranksComponent } from './mst-seatranks/mst-seatranks.component';
 import { CreateOrEditSeatrankComponent } from './mst-seatranks/create-or-edit-seatrank/create-or-edit-seatrank.component';
@@ -122,7 +122,8 @@ import { ReportMovieComponent } from './business/report-movie/report-movie.compo
   providers:  [
     {
       provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
-    }
+    },
+    BsModalService
   ],
   bootstrap: [AppComponent]
 })

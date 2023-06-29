@@ -1,28 +1,32 @@
 ﻿using Abp.UI;
 using AutoMapper;
+using CinemaManagement.Controllers.CmsController;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.Entities;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CMSController
 {
     [Authorize]
-    public class UsersController : BaseApiController
+    public class UsersController : BaseApiController_new
     {
-        private readonly DataContext _dataContext; 
-        public UsersController(DataContext dataContext, IMapper mapper):base(mapper) 
+        private readonly DataContext _dataContext;
+        private readonly DapperContext _dapper;
+
+        public UsersController(DataContext dataContext, IMapper mapper, DapperContext dapper) : base(mapper)
         {
             _dataContext = dataContext;
+            _dapper=dapper;
         }
         //[AllowAnonymous]
         [HttpGet("getAll")]
@@ -43,16 +47,15 @@ namespace CinemaManagement.Controllers.CMSController
             return _dataContext.Users.Find(id);
         }
         [HttpPost("createOrEdit")]
-
         public async Task CreateOrEdit(UserManagementDto createOrEdit)
         {
             if (createOrEdit.Id == null)
             {
-               await Create(createOrEdit);
+                await Create(createOrEdit);
             }
             else await Edit(createOrEdit);
         }
-        private async Task Create ( UserManagementDto createOrEdit)
+        private async Task Create(UserManagementDto createOrEdit)
         {
             var username = _dataContext.Users.FirstOrDefault(e => e.UserName.ToLower() ==  createOrEdit.UserName.ToLower());
             if (username != null)
@@ -86,6 +89,19 @@ namespace CinemaManagement.Controllers.CMSController
             user.IsDeleted = false;
             _dataContext.Users.Remove(user);
             await _dataContext.SaveChangesAsync();
+        }
+
+        [HttpGet("getMyEmpInfo")]
+        public async Task<IActionResult> GetMyEmpInfo()
+        {
+            var username = HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+
+            using (var conn = _dapper.CreateConnection())
+            {
+                var emp = await conn.QueryAsync<AppUser>(@"
+                Select * from users where isDeleted = 0 and username = @username", new { username = username });
+                return CustomResult(emp.FirstOrDefault());
+            }
         }
 
     }

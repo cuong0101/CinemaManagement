@@ -1,11 +1,13 @@
 ﻿using Abp.UI;
 using AutoMapper;
+using Castle.Facilities.TypedFactory.Internal;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.BookingDtos;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
+using CinemaManagement.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,6 +30,59 @@ namespace CinemaManagement.Controllers.CmsController
             _tokenService = tokenService;
             _dapper = dapper;
         }
+
+        [HttpPost("bookingTickets")]
+        public async Task<IActionResult> BookingTickets (BookingTicketsDto booking)
+        {
+            HistoryTransaction giaodich = new HistoryTransaction();
+            giaodich.CusId = booking.cusId;
+            giaodich.EmpId = booking.empId;
+            _context.HistoryTransaction.Add(giaodich);
+            await _context.SaveChangesAsync();
+
+            foreach (var tranId in booking.listticket)
+            {
+                var ticket = _context.MstTicket
+                   .Where(e => e.IsDeleted == false && e.Id == tranId).FirstOrDefault();
+
+                ticket.Status = 1; // 1 là đã được mua
+                ticket.LastModificationTime = DateTime.Now;
+                ticket.TransactionId = giaodich.Id;
+                _context.MstTicket.Update(ticket);
+                
+            }
+            //var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
+            // update điểm cho khách hàng
+            var cus = _context.MstCustomer.FirstOrDefault(e => e.Id ==  booking.cusId && e.IsDeleted == false);
+            if(cus != null)
+            {
+                var rankpoint = _context.MstRankPoints.FirstOrDefault(e => e.IsDeleted == false && e.Id == cus.RankId);
+                cus.CusPoint += (booking.totalAmount / (decimal)rankpoint.Money) * rankpoint.Point;
+                _context.MstCustomer.Update(cus);
+            }    
+            var soluongdoan = 0;
+            if(booking.listfood != null)
+            {
+                foreach (var item in booking.listfood)
+                {
+                    soluongdoan += item.quantity;
+                }
+                if (soluongdoan > 0)
+                {
+                    foreach (var item in booking.listfood)
+                    {
+                        TransactionFood transfood = new TransactionFood();
+                        transfood.TransactionId = (long)giaodich.Id;
+                        transfood.FoodId = item.FoodId;
+                        transfood.quantity = item.quantity;
+                        _context.TransactionFood.Add(transfood);
+                    }
+                }
+            }    
+            
+            await _context.SaveChangesAsync();
+            return CustomResult(true);
+        }
         //Khi người dùng bấm xác nhận đặt vé (có thể có đồ ăn) thì chốt tạo ra 1 giao dịch chính thức
         [HttpPost("CreateTransaction")]
         public async Task<long> CreateTransaction(long? cusId, long? empId)
@@ -39,7 +94,6 @@ namespace CinemaManagement.Controllers.CmsController
             await _context.SaveChangesAsync();
             return giaodich.Id;
         }
-
 
         [HttpPost("AdminCheckTicket")]
         //Kiểm tra vé đã được chọn bởi người khác chưa?
