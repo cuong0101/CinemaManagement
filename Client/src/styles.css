@@ -52,3 +52,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     
     transform: translate(0px,-12px);
 }
+
+.form-control{
+  height: 30px;
+}

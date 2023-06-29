@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { CreateOrEditPromotionComponent } from '../../mst-promotion/create-or-edit-promotion/create-or-edit-promotion.component';
 import { TicketByShowTime } from 'src/app/_interfaces/listTickets';
 import { BookTickets } from 'src/app/_interfaces/booktickets';
-import { tick } from '@angular/core/testing';
 import * as moment from 'moment';
 import { Promotion } from 'src/app/_interfaces/_iMstPromotion/promotion';
 import { PromotionDetail } from 'src/app/_interfaces/_iMstPromotion/promotionDetail';
@@ -11,6 +9,7 @@ import { BookticketService } from 'src/app/_services/bookticket.service';
 import { ToastrService } from 'ngx-toastr';
 import { GiftChoose } from 'src/app/_interfaces/_IBookTickets/GiftChoose';
 import { filter, iif, map, takeWhile, timer } from 'rxjs';
+import { OrderFoodComponent } from './order-food/order-food.component';
 
 @Component({
   selector: 'create-book-tickets',
@@ -18,6 +17,7 @@ import { filter, iif, map, takeWhile, timer } from 'rxjs';
   styleUrls: ['./create-book-tickets.component.css']
 })
 export class CreateBookTicketsComponent implements OnInit {
+  @ViewChild("orderfoods") modalOrder?: OrderFoodComponent;
 
   bsModalRef!: BsModalRef;
   showtime: BookTickets = new BookTickets();
@@ -31,7 +31,12 @@ export class CreateBookTicketsComponent implements OnInit {
   cusId?: number;
   giftChoose: GiftChoose[]=[];
   giftsCb: GiftChoose[]=[];
-
+  config: ModalOptions = {
+    class: 'modal-dialog modal-xl',
+    backdrop: 'static',
+    keyboard: false,
+    id: "booking"
+  };
   timeRemaining$ = timer(0, 1000).pipe(
     map(n => (300 - n) * 1000),
     takeWhile(n => n >= 0),
@@ -50,13 +55,9 @@ export class CreateBookTicketsComponent implements OnInit {
   }
 
   show(showtimes: BookTickets, tickets: any[]) {
-    const config: ModalOptions = {
-      class: 'modal-dialog modal-xl',
-      backdrop: 'static',
-      keyboard: false
-    };
 
-    this.bsModalRef = this._modalService.show(CreateBookTicketsComponent, config);
+
+    this.bsModalRef = this._modalService.show(CreateBookTicketsComponent, this.config);
     showtimes.startDate = moment(showtimes.startDate).toDate()
     this.bsModalRef.content.showtime = showtimes;
     tickets.forEach(e => {
@@ -70,6 +71,7 @@ export class CreateBookTicketsComponent implements OnInit {
     this.bsModalRef.content.tickets = this.tickets
     this.chair = "";
     this.total = 0;
+    console.log(this._modalService)
 
     setTimeout(() => {
       this.close();
@@ -78,7 +80,8 @@ export class CreateBookTicketsComponent implements OnInit {
 
   close() {
     this.tickets = [];
-    this._modalService.hide();
+    this._modalService.hide("booking");
+      
   }
 
   save() {
@@ -94,5 +97,9 @@ export class CreateBookTicketsComponent implements OnInit {
       this.giftsCb = this.giftChoose.filter(e => e.phoneCus == this.phone);
     }
     else this.giftsCb.length = 0;
+  }
+
+  orderFood(){
+    this.modalOrder?.show();
   }
 }

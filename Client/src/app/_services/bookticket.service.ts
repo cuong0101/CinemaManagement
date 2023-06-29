@@ -40,4 +40,8 @@ export class BookticketService {
     getChangeGift(){
       return this.httpClient.get<GiftChoose[]>(this.baseUrl + "Booking/getChangeGift");
     }
+
+    getAllFood(){
+      return this.httpClient.get(this.baseUrl + "MstFood/GetAll" )
+    }
 }

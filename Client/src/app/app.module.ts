@@ -51,6 +51,7 @@ import { CreateOrEditPolicyGiftComponent } from './business/policy-gift/create-o
 import { MstFoodComponent } from './business/mst-food/mst-food.component';
 import { CreateOrEditFoodComponent } from './business/mst-food/create-or-edit-food/create-or-edit-food.component';
 import { ImageFormatterComponent } from './business/mst-food/ImageFormater.component';
+import { OrderFoodComponent } from './business/book-tickets/create-book-tickets/order-food/order-food.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { ImageFormatterComponent } from './business/mst-food/ImageFormater.compo
     //GridPaginationComponent,
       UploadComponent,
     PolicyGiftComponent,
-    CreateOrEditPolicyGiftComponent
+    CreateOrEditPolicyGiftComponent,
+    OrderFoodComponent
    ],
   imports: [
     BrowserModule,

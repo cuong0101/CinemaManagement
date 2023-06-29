@@ -9,47 +9,56 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-        <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Tên Phim</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" name="movie" [(ngModel)]="showtime.name">
+    <div class="modal-body" >
+      <!-- <fieldset class="fieldset-border" style="width: 101%; border:1px solid #999; border-radius:8px; box-shadow:0 0 8px #999;padding:6px;">
+        <legend style="text-align: left;margin-top:-15px;">Personalia:</legend> -->
+            <div style="width: 99%; margin-left: 5px;"> 
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Tên Phim</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="movie" [(ngModel)]="showtime.name">
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Suất chiếu</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="toDate" name="startDate"
+                      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                      bsDatepicker required [(ngModel)]="showtime.startDate">
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Phòng chiếu</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="room" [(ngModel)]="showtime.roomName">
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Ghế</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="chair" [(ngModel)]="chair">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Suất chiếu</label>
-              <div class="col-sm-9">
-                <input class="form-control" id="toDate" name="startDate"
-                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
-                bsDatepicker required [(ngModel)]="showtime.startDate">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Phòng chiếu</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" name="room" [(ngModel)]="showtime.roomName">
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Ghế</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" name="chair" [(ngModel)]="chair">
-              </div>
-            </div>
-          </div>
-        </div>
+            
+      <!-- </fieldset> -->
+        
+        
         <div class="row mt-3">
           
           <div class="col-6">
@@ -63,7 +72,7 @@
 
           <div class="col-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Tổng tiền</label>
+              <label class="col-sm-3 col-form-label">Tổng tiền vé</label>
               <div class="col-sm-9">
                 <input disabled="true" class="form-control" name="amount" [(ngModel)]="total">
               </div>
@@ -93,6 +102,15 @@
               </div>
             </div>
           </div>
+
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Tổng tiền đồ ăn</label>
+              <div class="col-sm-9 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-primary" (click)="orderFood()" >Đồ ăn</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row mt-3">
           <div class="col-6">
@@ -113,3 +131,4 @@
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Hủy</button>
   </div>
 </div>
+<order-food hidden="true" #orderfoods></order-food>
