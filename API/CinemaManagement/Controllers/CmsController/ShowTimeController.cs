@@ -56,7 +56,7 @@ namespace CinemaManagement.Controllers.CmsController
                 INNER JOIN dbo.MstMovie m ON s.MovieId = m.Id
                 INNER JOIN dbo.MstRooms c ON s.RoomId = c.Id
                 WHERE c.IsDeleted = 0 AND m.IsDeleted = 0
-                AND s.IsDeleted = 0");
+                AND s.IsDeleted = 0 AND s.StartTime > GETDATE()");
                 return showtimes.ToList();
             }
         }

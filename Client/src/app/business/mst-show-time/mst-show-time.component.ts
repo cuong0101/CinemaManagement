@@ -35,12 +35,13 @@ export class MstShowTimeComponent implements OnInit {
     this.colDefs=[
       {
         headerName: "Start Time",
-        field: "startDate",
+        field: "startTime",
         valueFormatter: (params) => formatMyDate(params.value)
       },
       {
         headerName: "End Time Planning",
-        field: "endTimePlanning",
+        field: "endTime",
+        valueFormatter: (params) => formatMyDate(params.value)
       },
       {
         headerName: "Movie Name",

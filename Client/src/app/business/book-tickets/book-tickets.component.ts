@@ -43,7 +43,7 @@ export class BookTicketsComponent implements OnInit {
     resizable: true,
     // floatingFilter: true,
   };
-
+empId!: number;
   constructor(
     private _bookTicketService: BookticketService,
     private _format: FormatService
@@ -126,7 +126,7 @@ export class BookTicketsComponent implements OnInit {
       {
         headerName: 'Trạng thái',
         field: 'status',
-        valueFormatter: (params) => params.value == 0 ? "Chưa đặt" : params.value == 1 ? "Đang chọn" : "Đã đặt",
+        valueFormatter: (params) => params.value == 0 ? "Chưa đặt" : params.value == 2 ? "Đang chọn" : "Đã đặt",
         cellClass: ['text-center'],
         flex: 1,
       },
@@ -134,6 +134,9 @@ export class BookTicketsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._bookTicketService.getMyEmpInfo().subscribe((re: any) => {
+      this.empId = re.data.id;
+    })
   }
 
   onGridReady(params: any) {
@@ -155,9 +158,6 @@ export class BookTicketsComponent implements OnInit {
     
   }
 
-  changePage(params: any) {
-
-  }
 
   search() {
     this._bookTicketService.getMovieInfor(this.searchDate, this.movie).subscribe((res: any) => {
@@ -182,6 +182,6 @@ export class BookTicketsComponent implements OnInit {
       }
         
     })
-    this.modal?.show(this.showTimeSelected, listTicket)
+    this.modal?.show(this.showTimeSelected, listTicket, this.empId)
   }
 }

@@ -35,7 +35,7 @@
     <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [rowData]="showTimeData"
       [columnDefs]="colShowTimeDefs" (gridReady)="onGridReady($event)" (selectionChanged)="onChangeSelection($event)"
       [defaultColDef]="defaultColDef" [rowSelection]="rowSelection" [pagination]="true"
-      [paginationPageSize]="paginationPageSize" (pageChangedEvent)="changePage($event)"
+      [paginationPageSize]="paginationPageSize"
       [paginationNumberFormatter]="paginationNumberFormatter"></ag-grid-angular>
   </div>
   <span>

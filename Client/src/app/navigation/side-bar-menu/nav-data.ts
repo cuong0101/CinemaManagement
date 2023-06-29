@@ -13,8 +13,8 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'mstmovie',
-        icon: 'fa-solid fa-film',
-        label: 'Movie',
+        icon: 'class="fa-solid fa-film',
+        label: 'Movies'
     },
     {
         routeLink: 'mstshowtime',
@@ -57,10 +57,10 @@ export const navbarData: INavbarData[] = [
       label: 'Discount',
       expanded: false,
       items: [
-          {
-              routeLink: 'promo/promotion',
-              label: 'Promotion'
-          },
+        //   {
+        //       routeLink: 'promo/promotion',
+        //       label: 'Promotion'
+        //   },
           {
               routeLink: 'promo/policygift',
               label: 'Voucher - Đổi điểm'
