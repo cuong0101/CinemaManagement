@@ -100,12 +100,9 @@ export class MstRankPointsComponent implements OnInit {
   onGridReady(params: GridReadyEvent<RankPoints>){
     this.gridApi = params.api;
     console.log(this.params);
-console.log(params)
     this.params = params;
     this.rankpointSelected = new RankPoints();
-    this.rankpoints.getAll().subscribe((re) => {
-      this.rowData = re;
-    })
+    this.getAll();
   }
 
   onSelectionChanged(event: any){
@@ -153,10 +150,10 @@ console.log(params)
       });
     }
   }
-
-  test(event: any)
-  {
-    console.log(event);
+  getAll() {
+    this.rowData = [];
+    this.rankpoints.getAll().subscribe((re) => {
+      this.rowData = re;
+    })
   }
-
 }

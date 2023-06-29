@@ -1,0 +1,38 @@
+#cuong {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}
+
+
+:host ::ng-deep {
+    .ag-paging-panel>span:first-child {
+        margin-right: 8%;
+    }
+
+}
+
+.panel-grid {
+    position: relative;
+}
+
+.panel-grid .pagenationSize {
+    position: absolute;
+    bottom: 0;
+    right: 19%;
+    width: 40px;
+    height: 49px;
+    background-color: red;
+    z-index: 999999999;
+}
+
+@media only screen and (max-width: 1188px) {
+    .panel-grid .pagenationSize {
+        right: 23%;
+    }
+}
+@media only screen and (max-width: 994px) {
+    .panel-grid .pagenationSize {
+        right: 28%;
+    }
+}

@@ -13,10 +13,11 @@ import { MstPromotionComponent } from './business/mst-promotion/mst-promotion.co
 import { MstShowTimeComponent } from './business/mst-show-time/mst-show-time.component';
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
-import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 import { MstFoodComponent } from './business/mst-food/mst-food.component';
 import { HistoryChangeGiftComponent } from './business/history-change-gift/history-change-gift.component';
 import { MstCulmulativeComponent } from './business/mst-cumulative/mst-culmulative.component';
+import { ReportFoodComponent } from './business/report-food/report-food.component';
+import { ReportMovieComponent } from './business/report-movie/report-movie.component';
 const routes: Routes = [
   {path: "", redirectTo:"login", pathMatch:"full"},
   {path: "login", component:LoginComponent},
@@ -38,7 +39,10 @@ const routes: Routes = [
   //{path: "rankpoints", component: MstRankPointsComponent},
   {path: "seatrank", component: MstSeatranksComponent},
   {path: "showtime-customer", component: ShowTimeCustomerComponent},
-  {path: "report", component: ReportRevenueComponent},
+  {path: "report", children:[
+    {path: "report-food", component: ReportFoodComponent},
+    {path: "report-movie", component: ReportMovieComponent},
+  ]},
 ];
 
 @NgModule({

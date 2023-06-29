@@ -73,26 +73,32 @@ namespace CinemaManagement.Controllers.CmsController
             return query;
         }
         [HttpPost("CreateRedeemVoucher")]
-        public async Task CreateVoucher(long giftId, long cusId, int giftPoint)
+        public async Task<string> CreateVoucher(long giftId, long cusId, int giftPoint)
         {
+            string result = "";
             var voucher = new HistoryChangeGift();
             var checkGiftCode = "DQ_" + GiftCodeRandom();
             var historyChangeGifts = _context.HistoryChangeGift.ToList();
-            var check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
-            while (check != null)
-            {
-                checkGiftCode = "DQ_" + GiftCodeRandom();
-                check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
-            }
-            voucher.ChangeGiftCode = checkGiftCode;
-            voucher.CusId = cusId;
-            voucher.GiftId = giftId;
-            _context.HistoryChangeGift.Add(voucher);
-
-            //trừ điểm tiêu dùng của KH
             var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId);
-            cus.CusPoint -= giftPoint;
-            await _context.SaveChangesAsync();
+            if (cus.CusPoint >= giftPoint)
+            {
+                var check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
+                while (check != null)
+                {
+                    checkGiftCode = "DQ_" + GiftCodeRandom();
+                    check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
+                }
+                voucher.ChangeGiftCode = checkGiftCode;
+                voucher.CusId = cusId;
+                voucher.GiftId = giftId;
+                _context.HistoryChangeGift.Add(voucher);
+                //trừ điểm tiêu dùng của KH
+                cus.CusPoint -= giftPoint;
+                await _context.SaveChangesAsync();
+                result = "Doi qua thanh cong";
+            }
+            else result = "Ban khong du diem de doi qua, vui long chon lai";
+            return result;
         }
 
         [HttpPost("UpdateRedeemVoucher")]
