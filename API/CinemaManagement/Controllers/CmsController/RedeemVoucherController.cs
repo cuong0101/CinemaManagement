@@ -78,21 +78,24 @@ namespace CinemaManagement.Controllers.CmsController
             var voucher = new HistoryChangeGift();
             var checkGiftCode = "DQ_" + GiftCodeRandom();
             var historyChangeGifts = _context.HistoryChangeGift.ToList();
-            var check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
-            while (check != null)
-            {
-                checkGiftCode = "DQ_" + GiftCodeRandom();
-                check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
-            }
-            voucher.ChangeGiftCode = checkGiftCode;
-            voucher.CusId = cusId;
-            voucher.GiftId = giftId;
-            _context.HistoryChangeGift.Add(voucher);
-
-            //trừ điểm tiêu dùng của KH
             var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId);
-            cus.CusPoint -= giftPoint;
-            await _context.SaveChangesAsync();
+            if (cus.CusPoint >= giftPoint)
+            {
+                var check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
+                while (check != null)
+                {
+                    checkGiftCode = "DQ_" + GiftCodeRandom();
+                    check = historyChangeGifts.FirstOrDefault(e => e.ChangeGiftCode == checkGiftCode);
+                }
+                voucher.ChangeGiftCode = checkGiftCode;
+                voucher.CusId = cusId;
+                voucher.GiftId = giftId;
+                _context.HistoryChangeGift.Add(voucher);
+                //trừ điểm tiêu dùng của KH
+                cus.CusPoint -= giftPoint;
+                await _context.SaveChangesAsync();
+            }
+            else throw new UserFriendlyException("Bạn không đủ điểm để đổi Voucher này");
         }
 
         [HttpPost("UpdateRedeemVoucher")]

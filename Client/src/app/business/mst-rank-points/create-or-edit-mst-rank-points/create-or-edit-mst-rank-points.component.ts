@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +21,7 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
   //fileBlob!: Blob
   //selectFile: File | null;
   constructor(private modalService: BsModalService,
-    //private route: Router,
+    private route: Router,
     private rankPointService: RankpointsService,
     private toastr: ToastrService,) { }
 
@@ -37,7 +38,6 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CreateOrEditMstRankPointsComponent, config);
-    this.modalSave = this.bsModalRef.content.modalSave;
     if (movie) {
       this.rankpoints = movie;
       this.rankpoints.operationDate = moment(movie.operationDate).toDate() ?? undefined;
@@ -63,7 +63,9 @@ save(){
     }
   }
   );
-  this.modalSave.emit(1);
+  location.reload();
+  this.modalSave.emit(null);
+  this.route.navigate(["/ policyRankPoints"]);
   this.hide();
 }
 
