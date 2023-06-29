@@ -13,8 +13,8 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'mstmovie',
-        icon: 'fa-solid fa-film',
-        label: 'Movie',
+        icon: 'class="fa-solid fa-film',
+        label: 'Movies'
     },
     {
         routeLink: 'mstshowtime',
