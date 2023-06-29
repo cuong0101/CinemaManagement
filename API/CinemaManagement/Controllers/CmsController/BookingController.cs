@@ -328,7 +328,7 @@ namespace CinemaManagement.Controllers.CmsController
                 .Where(e => string.IsNullOrWhiteSpace(namemovie) || e.Name.Contains(namemovie))
 
                 join show in _context.MstShowTimes
-                .Where(e => (!startTime.HasValue || e.StartTime.Date == startTime.Value.Date)&& e.StartTime >= DateTime.Now)
+                .Where(e => (!startTime.HasValue || e.StartTime.Date == startTime.Value.Date)&& e.StartTime >= DateTime.Today.Date)
                 on movie.Id equals show.MovieId
 
                 join room in _context.MstRooms

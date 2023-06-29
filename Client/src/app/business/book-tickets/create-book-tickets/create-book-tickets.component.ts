@@ -8,8 +8,7 @@ import { PromotionDetail } from 'src/app/_interfaces/_iMstPromotion/promotionDet
 import { BookticketService } from 'src/app/_services/bookticket.service';
 import { ToastrService } from 'ngx-toastr';
 import { GiftChoose } from 'src/app/_interfaces/_IBookTickets/GiftChoose';
-import { filter, iif, map, takeWhile, timer } from 'rxjs';
-import { OrderFoodComponent } from './order-food/order-food.component';
+import { filter, finalize, iif, map, takeWhile, timer } from 'rxjs';
 import { FormatService } from 'src/app/_services/format-service.service';
 import { CellClassParams, ColDef, EditableCallbackParams, GridApi, PaginationNumberFormatterParams } from 'ag-grid-community';
 import { BookingTickets } from 'src/app/_interfaces/_IBookTickets/bookingTickets';
@@ -21,7 +20,6 @@ import { FoodItemDto } from 'src/app/_interfaces/_IBookTickets/FoodItem';
   styleUrls: ['./create-book-tickets.component.css']
 })
 export class CreateBookTicketsComponent implements OnInit {
-  @ViewChild('orderFoodModal') orderFoodModal!: OrderFoodComponent;
   bsModalRef!: BsModalRef;
   showtime: BookTickets = new BookTickets();
   ticket: TicketByShowTime = new TicketByShowTime();
@@ -30,10 +28,10 @@ export class CreateBookTicketsComponent implements OnInit {
   totalTicket: number = 0;
   promotions?: Promotion
   promoDetail?: PromotionDetail
-  tickets: number[]=[];
+  tickets: number[] = [];
   cusId?: number;
-  giftChoose: GiftChoose[]=[];
-  giftsCb: GiftChoose[]=[];
+  giftChoose: GiftChoose[] = [];
+  giftsCb: GiftChoose[] = [];
   config: ModalOptions = {
     class: 'modal-dialog modal-xl',
     backdrop: 'static',
@@ -41,7 +39,7 @@ export class CreateBookTicketsComponent implements OnInit {
     id: "booking"
   };
   timeRemaining$ = timer(0, 1000).pipe(
-    map(n => (300 - n) * 1000),
+    map(n => (240 - n) * 1000),
     takeWhile(n => n >= 0),
   );
   totalFood: number = 0;
@@ -54,7 +52,7 @@ export class CreateBookTicketsComponent implements OnInit {
     resizable: true,
     floatingFilter: true,
   };
-  rowDataFood: any[]=[];
+  rowDataFood: any[] = [];
   public paginationPageSize = 100;
   public paginationNumberFormatter: (
     params: PaginationNumberFormatterParams
@@ -67,17 +65,17 @@ export class CreateBookTicketsComponent implements OnInit {
   public columnTypes: {
     [key: string]: ColDef;
   } = {
-    editableColumn: {
-      editable: (params: EditableCallbackParams<any>) => {
-        return true;
+      editableColumn: {
+        editable: (params: EditableCallbackParams<any>) => {
+          return true;
+        },
+        cellStyle: (params: CellClassParams<any>) => {
+          if (params.column.getColId() == 'quantity') {
+            return { backgroundColor: '#FFD700' };
+          }
+        },
       },
-      cellStyle: (params: CellClassParams<any>) => {
-        if (params.column.getColId() == 'quantity') {
-          return { backgroundColor: '#FFD700' };
-        }
-      },
-    },
-  };
+    };
 
   empId!: number;
   constructor(
@@ -86,7 +84,7 @@ export class CreateBookTicketsComponent implements OnInit {
     private toastr: ToastrService,
     private _format: FormatService
 
-  ) { 
+  ) {
     this.colDefs = [
       {
         headerName: 'STT',
@@ -117,29 +115,26 @@ export class CreateBookTicketsComponent implements OnInit {
         flex: 1,
       },
     ];
-
-
   }
 
   ngOnInit(): void {
     this._bookTicketService.getChangeGift().subscribe((re) => {
       this.giftChoose = re;
     })
-    
+
   }
 
   show(showtimes: BookTickets, tickets: any[], empId: number) {
-    
-    this.totalAmount = 0;
-    this.bsModalRef = this._modalService.show(CreateBookTicketsComponent, this.config);
-    showtimes.startDate = moment(showtimes.startDate).toDate()
-    this.bsModalRef.content.showtime = showtimes;
     tickets.forEach(e => {
       this.chair += e.chair + ", ";
       this.totalTicket += e.price;
       this.tickets.push(e.id)
     })
-    this.chair = this.chair?.substring(0, this.chair.length-2);
+    this.totalAmount = 0;
+    this.bsModalRef = this._modalService.show(CreateBookTicketsComponent, this.config);
+    showtimes.startDate = moment(showtimes.startDate).toDate()
+    this.bsModalRef.content.showtime = showtimes;
+    this.chair = this.chair?.substring(0, this.chair.length - 2);
     this.bsModalRef.content.chair = this.chair;
     this.bsModalRef.content.totalTicket = this.totalTicket
     this.bsModalRef.content.tickets = this.tickets
@@ -150,13 +145,13 @@ export class CreateBookTicketsComponent implements OnInit {
 
     setTimeout(() => {
       this.close();
-    }, 300000); // Thời gian đóng modal sau 5 phút
+    }, 240000); // Thời gian đóng modal sau 5 phút
   }
 
   close() {
     this.tickets = [];
     this._modalService.hide("booking");
-      
+
   }
 
   save() {
@@ -165,15 +160,8 @@ export class CreateBookTicketsComponent implements OnInit {
     booking.empId = this.empId;
     booking.totalAmount = this.totalAmount;
     booking.listfood = [];
-    // for(let item in this.rowDataFood)
-    // {
-    //   if(Number(item.quantity) != 0){
-    //     booking.listfood?.push({foodId: item.id, quantity: item.quantity});
-    //   }
-    // }
     this.rowDataFood.forEach((e: any) => {
-      if(Number(e.quantity) != 0) 
-      {
+      if (Number(e.quantity) != 0) {
         let food = new FoodItemDto()
         food.foodId = e.id;
         food.quantity = e.quantity;
@@ -181,15 +169,17 @@ export class CreateBookTicketsComponent implements OnInit {
       }
     })
     booking.listticket = this.tickets;
-    this._bookTicketService.bookingTickets(booking).subscribe({
+    // this._bookTicketService.checkTickets(tickets).subscribe(re => {
+    //   if(re == true) this.modal?.show(this.showTimeSelected, listTicket, this.empId);
+    //   else return this.toastr.warning("Vé đã được đặt vui lòng chọn vé khác!")
+    // })
+    this._bookTicketService.bookingTickets(booking).pipe(finalize(() => this.close())).subscribe({
       complete: () => this.toastr.success("Đặt vé thành công!")
     })
   }
 
-  changeGiftChoose(event: any)
-  {
-    if(this.phone?.length == 10)
-    {
+  changeGiftChoose(event: any) {
+    if (this.phone?.length == 10) {
       this.giftsCb = this.giftChoose.filter(e => e.phoneCus == this.phone);
     }
     else this.giftsCb.length = 0;
@@ -197,17 +187,16 @@ export class CreateBookTicketsComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api
-     this.search();
+    this.search();
   }
   search() {
     this._bookTicketService.getAllFood().subscribe((res: any) => {
       this.rowDataFood = res;
-      this.rowDataFood.forEach((ele: any)=> ele.quantity = 0);
+      this.rowDataFood.forEach((ele: any) => ele.quantity = 0);
     });
   }
 
-  onCellValueChange(params: any )
-  {
+  onCellValueChange(params: any) {
     this.totalFood = 0;
     this.rowDataFood.forEach((e: any) => {
       this.totalFood += e.price * e.quantity

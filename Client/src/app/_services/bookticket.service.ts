@@ -53,6 +53,9 @@ export class BookticketService {
     getMyEmpInfo()
     {
       return this.httpClient.get(this.baseUrl + "users/getMyEmpInfo" )
+    }
 
+    checkTickets(tickets: number[]){
+      return this.httpClient.post<boolean>(this.baseUrl + "Booking/AdminCheckTicket",tickets);
     }
 }

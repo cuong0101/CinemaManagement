@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/_services/users.service';
 import { CreateOrEditUserComponent } from './create-or-edit-user/create-or-edit-user.component';
 import { ToastrService } from 'ngx-toastr';
 import { error } from 'console';
+import { FormatService } from 'src/app/_services/format-service.service';
 
 @Component({
   selector: 'app-mst-users',
@@ -21,22 +22,55 @@ export class MstUsersComponent implements OnInit {
   userSelected: UserManagement = new UserManagement();
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
-  constructor(private users: UsersService, private toastr: ToastrService,) { 
+  constructor(private users: UsersService, 
+    private toastr: ToastrService,
+    private _format: FormatService
+    ) { 
     this.colDefs=[
       {
-        headerName: "Họ và tên",
+        headerName: "Username",
         field: "userName",
-
+        flex:1
       },
       {
-        headerName: "Ngày sinh",
+        headerName: "Image",
+        field: "image",
+        flex:1
+      },
+      {
+        headerName: "Địa chỉ",
+        field: "address",
+        flex:1
+      },
+      {
+        headerName: "Số điện thoại",
+        field: "phone",
+        flex:1
+      },
+      {
+        headerName: "DoB",
         field: "doB",
-      }
+        valueFormatter: (params) => this._format.formatMyDate(params.value),
+        flex:1
+      },
+      {
+        headerName: "Giới tính",
+        field: "sex",
+        valueFormatter: (params)=> params.data.sex == true ? "Nam" : "Nữ",
+        flex:1
+      },
+      {
+        headerName: "Email",
+        field: "email",
+        flex:1
+      },
     ];
     this.defaultColDef = {
+      flex:1,
       sortable: true,
       filter: true,
-      resizable: true
+      resizable: true,
+
     };
   }
 

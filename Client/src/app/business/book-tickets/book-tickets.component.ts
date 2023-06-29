@@ -176,12 +176,25 @@ empId!: number;
 
   modalShow(){
     let listTicket: any[] = []
+    let tickets: number[] = [];
     this.gridTicketApi.forEachNode(e => {
       if(e.isSelected()){
-        listTicket.push({id: e.data?.id, chair: e.data?.location, price: e.data?.price})
+        listTicket.push({id: e.data?.id, chair: e.data?.location, price: e.data?.price});
       }
-        
+    }) 
+    this.modal?.show(this.showTimeSelected, listTicket, this.empId);
+    // this._bookTicketService.checkTickets(tickets).subscribe(re => {
+    //   if(re == true) 
+    //   else return this.toastr.warning("Vé đã được đặt vui lòng chọn vé khác!")
+    // })
+  }
+
+  onCellValueChange(params: any){
+    let tickets: number[]=[]
+    this.gridTicketApi.forEachNode(e => {
+      if(e.isSelected()){
+        //this._bookTicketService.checkTickets()
+      }
     })
-    this.modal?.show(this.showTimeSelected, listTicket, this.empId)
   }
 }

@@ -5,6 +5,7 @@ import { CustomersService } from 'src/app/_services/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { error } from 'console';
 import { CreateOrEditCustomerComponent } from './create-or-edit-customer/create-or-edit-customer.component';
+import { FormatService } from 'src/app/_services/format-service.service';
 
 
 @Component({
@@ -23,13 +24,16 @@ export class MstCustomersComponent implements OnInit {
   params!: GridReadyEvent;
   rowSelection: 'single' | 'multiple' = 'single';
   message:any;
-  public paginationPageSize = 5;
+  public paginationPageSize =50;
   public paginationNumberFormatter: (
     params: PaginationNumberFormatterParams
   ) => string = (params: PaginationNumberFormatterParams) => {
     return '' + params.value.toLocaleString() + '';
   };
-  constructor(private customers: CustomersService, private toastr: ToastrService,) { 
+  constructor(private customers: CustomersService, 
+    private toastr: ToastrService,    
+    private _format: FormatService
+    ) { 
     this.colDefs=[
       {
         headerName: "Tên khách hàng",
@@ -51,10 +55,12 @@ export class MstCustomersComponent implements OnInit {
       {
         headerName: "DoB",
         field: "doB",
+        valueFormatter: (params) => this._format.formatMyDate(params.value),
       },
       {
         headerName: "Giới tính",
         field: "sex",
+        valueFormatter: (params)=> params.data.sex == true ? "Nam" : "Nữ"
       },
       {
         headerName: "Email",
@@ -80,9 +86,8 @@ export class MstCustomersComponent implements OnInit {
     this.gridApi = params.api;
     this.params = params;
     this.customerSelected = undefined;
-    this.customers.getAll().subscribe((re:Customer[] | undefined) => {
-      console.log(re)
-      this.rowData = re;
+    this.customers.getAll().subscribe((re:any) => {
+      this.rowData = re.data;
     })
   }
 

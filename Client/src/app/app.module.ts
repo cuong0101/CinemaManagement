@@ -50,7 +50,6 @@ import { CreateOrEditPolicyGiftComponent } from './business/policy-gift/create-o
 import { MstFoodComponent } from './business/mst-food/mst-food.component';
 import { CreateOrEditFoodComponent } from './business/mst-food/create-or-edit-food/create-or-edit-food.component';
 import { ImageFormatterComponent } from './business/mst-food/ImageFormater.component';
-import { OrderFoodComponent } from './business/book-tickets/create-book-tickets/order-food/order-food.component';
 import { HistoryChangeGiftComponent } from './business/history-change-gift/history-change-gift.component';
 import { ReportFoodComponent } from './business/report-food/report-food.component';
 import { ReportMovieComponent } from './business/report-movie/report-movie.component';
@@ -94,7 +93,6 @@ import { ReportMovieComponent } from './business/report-movie/report-movie.compo
       UploadComponent,
     PolicyGiftComponent,
     CreateOrEditPolicyGiftComponent,
-    OrderFoodComponent,
     HistoryChangeGiftComponent,
     ReportFoodComponent,
     ReportMovieComponent
