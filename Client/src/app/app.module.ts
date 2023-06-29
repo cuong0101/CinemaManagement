@@ -42,7 +42,6 @@ import { CreateOrEditMstShowTimeComponent } from './business/mst-show-time/creat
 import { BookTicketsComponent } from './business/book-tickets/book-tickets.component';
 import { CreateBookTicketsComponent } from './business/book-tickets/create-book-tickets/create-book-tickets.component';
 import { ShowTimeCustomerComponent } from './business/show-time-customer/show-time-customer.component';
-import { ReportRevenueComponent } from './business/report-revenue/report-revenue.component';
 import { CreateOrEditBenefitsComponent } from './business/mst-rank-points/create-or-edit-benefits/create-or-edit-benefits.component';
 // import { GridTableComponent } from './base/base_grid_table/grid-table/grid-table.component';
 // import { GridPaginationComponent } from './base/base_grid_table/grid-pagination/grid-pagination.component';
@@ -83,7 +82,6 @@ import { HistoryChangeGiftComponent } from './business/history-change-gift/histo
     BookTicketsComponent,
     CreateBookTicketsComponent,
     ShowTimeCustomerComponent,
-    ReportRevenueComponent,
     CreateOrEditBenefitsComponent,
     PolicyGiftComponent,
     MstFoodComponent,
