@@ -49,6 +49,29 @@ namespace CinemaManagement.Controllers.CmsController
                          }).ToList();
             return query;
         }
+
+        [HttpGet("GetAllRedeemVoucher")]
+        public async Task<List<ChangeGiftForView>> GetAllRedeemVoucher([FromQuery] ChangeGiftInput input)
+        {
+            var query = (from change in _context.HistoryChangeGift.Where(e => e.IsDeleted == false)
+                         join cus in _context.MstCustomer.Where(e => e.IsDeleted == false) on change.CusId equals cus.Id
+                         join gift in _context.PolicyGift.Where(e => e.IsDeleted == false) on change.GiftId equals gift.Id
+                         where (!input.CusId.HasValue || input.CusId == change.CusId)
+                         && (string.IsNullOrWhiteSpace(input.ChangeGiftCode) || input.ChangeGiftCode == change.ChangeGiftCode)
+                         select new ChangeGiftForView
+                         {
+                             Id = change.Id,
+                             ChangeGiftCode = change.ChangeGiftCode,
+                             CusId = cus.Id,
+                             GiftId = gift.Id,
+                             GiftPoint = gift.Point,
+                             PhoneCus = cus.Phone,
+                             GiftName = gift.GiftName,
+                             UsedStatus = change.UsedStatus
+
+                         }).ToList();
+            return query;
+        }
         [HttpPost("CreateRedeemVoucher")]
         public async Task CreateVoucher(long giftId, long cusId, int giftPoint)
         {
