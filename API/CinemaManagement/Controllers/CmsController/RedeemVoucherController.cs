@@ -35,8 +35,8 @@ namespace CinemaManagement.Controllers.CmsController
             var query = (from change in _context.HistoryChangeGift.Where(e => e.UsedStatus == false && e.IsDeleted == false)
                          join cus in _context.MstCustomer.Where(e => e.IsDeleted == false) on change.CusId equals cus.Id
                          join gift in _context.PolicyGift.Where(e => e.IsDeleted == false) on change.GiftId equals gift.Id
-                         where (!input.CusId.HasValue || input.CusId == change.CusId)
-                         && (!string.IsNullOrWhiteSpace(input.ChangeGiftCode) || input.ChangeGiftCode == change.ChangeGiftCode)
+                         where (!input.CusId.HasValue || change.CusId == input.CusId)
+                         && (string.IsNullOrWhiteSpace(input.ChangeGiftCode) || change.ChangeGiftCode == input.ChangeGiftCode)
                          select new ChangeGiftForView
                          {
                              Id = change.Id,
