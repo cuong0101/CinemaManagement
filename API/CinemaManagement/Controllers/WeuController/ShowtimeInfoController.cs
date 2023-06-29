@@ -50,6 +50,8 @@ namespace CinemaManagement.Controllers.WeuController
             return CustomResult(res);
         }
 
+
+
         [HttpGet("getListTicketByShowTime")]
 
         public async Task<IActionResult> getListSeatByShowTime(long IdShowTime)
