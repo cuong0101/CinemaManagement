@@ -157,13 +157,15 @@ namespace CinemaManagement.Controllers.CmsController
                     transfood.TransactionId = magiaodich;
                     transfood.FoodId = item.FoodId;
                     transfood.quantity = item.quantity;
+                    _context.TransactionFood.Add(transfood);
+                    await _context.SaveChangesAsync();
                 }
             }
             return CustomResult(true);
         }
 
         [HttpPost("CustomerBookFood")]
-        public async Task<IActionResult> CustomerBookFood(decimal totalfoodmoney, ListFood listfood, long magiaodich)
+        public async Task<IActionResult> CustomerBookFood(decimal totalfoodmoney, ListFood? listfood, long magiaodich)
         {
             var soluongdoan = 0;
             foreach (var item in listfood.listfood)
@@ -178,6 +180,8 @@ namespace CinemaManagement.Controllers.CmsController
                     transfood.TransactionId = magiaodich;
                     transfood.FoodId = item.FoodId;
                     transfood.quantity = item.quantity;
+                    _context.TransactionFood.Add(transfood);
+                    await _context.SaveChangesAsync();
                 }
             }
             return CustomResult(true);
