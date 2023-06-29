@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { format } from 'date-fns';
 import { GiftChoose } from '../_interfaces/_IBookTickets/GiftChoose';
+import { BookingTickets } from '../_interfaces/_IBookTickets/bookingTickets';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,15 @@ export class BookticketService {
 
     getAllFood(){
       return this.httpClient.get(this.baseUrl + "MstFood/GetAll" )
+    }
+
+    bookingTickets(booking: BookingTickets){
+      return this.httpClient.post(this.baseUrl + "Booking/bookingTickets",booking);
+    }
+
+    getMyEmpInfo()
+    {
+      return this.httpClient.get(this.baseUrl + "users/getMyEmpInfo" )
+
     }
 }
