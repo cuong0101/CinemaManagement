@@ -86,8 +86,8 @@ namespace CinemaManagement.Controllers.CmsController
             if (cusId != null)
             {
                 var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
-                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
-                cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+                var rankpoint = _context.MstRankPoints.FirstOrDefault(e => e.IsDeleted == false && e.Id == cus.RankId);
+                cus.CusPoint += (money / rankpoint.Money) * rankpoint.Point;
                 _context.MstCustomer.Update(cus);
             }
             await _context.SaveChangesAsync();
@@ -133,8 +133,8 @@ namespace CinemaManagement.Controllers.CmsController
             var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
             // update điểm cho khách hàng
             var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
-            var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
-            cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+            var rankpoint = _context.MstRankPoints.FirstOrDefault(e => e.IsDeleted == false && e.Id == cus.RankId);
+            cus.CusPoint += (money / rankpoint.Money) * rankpoint.Point;
             _context.MstCustomer.Update(cus);
 
             await _context.SaveChangesAsync();

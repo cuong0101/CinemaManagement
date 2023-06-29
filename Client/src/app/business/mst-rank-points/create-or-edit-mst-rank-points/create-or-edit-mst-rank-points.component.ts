@@ -37,6 +37,7 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(CreateOrEditMstRankPointsComponent, config);
+    this.modalSave = this.bsModalRef.content.modalSave;
     if (movie) {
       this.rankpoints = movie;
       this.rankpoints.operationDate = moment(movie.operationDate).toDate() ?? undefined;
@@ -54,11 +55,6 @@ export class CreateOrEditMstRankPointsComponent implements OnInit {
 
 
 save(){
-  // console.log(this.uploader)
-  // let formData = new FormData();
-  // formData.append('id', this.movie.id!.toString())
-
-  // formData.append('image', this.fileBlob)
   this.rankPointService.createOrEdit(this.rankpoints).pipe(finalize(() => this.rankpoints = new RankPoints())).subscribe({
     next: (re) => this.toastr.success("Lưu thành công"),
     error: (error) => {
@@ -67,10 +63,8 @@ save(){
     }
   }
   );
-  this.modalSave.emit(null);
-  //location.reload();
+  this.modalSave.emit(1);
   this.hide();
-  //this.route.navigate(["/mstmovie"]);
 }
 
 }

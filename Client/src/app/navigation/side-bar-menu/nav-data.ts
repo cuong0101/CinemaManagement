@@ -47,20 +47,9 @@ export const navbarData: INavbarData[] = [
         label: 'Room Cinema'
     },
     {
-      routeLink: 'policy',
+      routeLink: 'policyRankPoints',
       icon: 'fa-solid fa-ranking-star',
       label: 'Rank Policy',
-      expanded: false,
-      items: [
-          {
-              routeLink: 'policy/rankpoints',
-              label: 'Rank Point'
-          },
-          {
-              routeLink: 'policy/cumulative',
-              label: 'Cumulative'
-          }
-      ]
     },
     {
       routeLink: 'promo',

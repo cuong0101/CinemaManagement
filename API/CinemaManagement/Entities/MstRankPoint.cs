@@ -12,6 +12,7 @@ namespace CinemaManagement.Entities
         public DateTime? ExpirationDate { get; set; } //Ngày hết hạn
         public int NumberOfVisit { get; set; } //Số lần ghé rạp trong 12 tháng (kể từ ngày mở tk)
         public string Description { get; set; }
-
+        public long Money { get; set; }
+        public decimal Point { get; set; }
     }
 }

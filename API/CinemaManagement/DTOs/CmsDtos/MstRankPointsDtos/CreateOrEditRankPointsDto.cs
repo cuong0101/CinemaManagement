@@ -10,6 +10,8 @@ namespace CinemaManagement.DTOs.CmsDtos.MstRankPointsDtos
         public DateTime? OperationDate { get; set; } //Ngày hoạt động
         public DateTime? ExpirationDate { get; set; } //Ngày hết hạn
         public int NumberOfVisit { get; set; } //Điểm cần đạt
+        public long Money { get; set; }
+        public decimal Point { get; set; }
         public string Description { get; set; }
     }
 }

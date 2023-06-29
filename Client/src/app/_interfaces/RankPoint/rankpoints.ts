@@ -8,5 +8,7 @@ export class RankPoints {
     expirationDate?: Date  //Ngày hết hạn
     numberOfVisit?: number  //Điểm cần đạt
     description?: string
+    money?: number
+    point?: number
     benefits?: Benefits[];
 }
