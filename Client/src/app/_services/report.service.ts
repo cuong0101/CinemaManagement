@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Room } from '../_interfaces/room';
+import { Report } from '../_interfaces/report';
+import { ReportDateInput } from '../_interfaces/reportDateInput';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,14 @@ export class ReportService {
 
   constructor(private httpClient: HttpClient) { }
  
-  doanhThuDoAn(from?:Date, to?:Date)
+  doanhThuDoAn(input: ReportDateInput)
   {
-    return this.httpClient.get<Report[]>(this.baseUrl + `Room/DoanhThuDoAn?from=${from}&to=${to}`);
+    return this.httpClient.post(this.baseUrl + `Report/DoanhThuDoAn`, input);
   }
 
-  doanhThuPhim(from?:Date, to?:Date)
+  doanhThuPhim(input: ReportDateInput)
   {
-    return this.httpClient.get<Report[]>(this.baseUrl + `Room/DoanhThuPhim?from=${from}&to=${to}`);
+    return this.httpClient.post(this.baseUrl + `Report/DoanhThuPhim`, input);
   }
 
 }

@@ -57,10 +57,10 @@ export const navbarData: INavbarData[] = [
       label: 'Discount',
       expanded: false,
       items: [
-        //   {
-        //       routeLink: 'promo/promotion',
-        //       label: 'Promotion'
-        //   },
+          {
+              routeLink: 'promo/promotion',
+              label: 'Promotion'
+          },
           {
               routeLink: 'promo/policygift',
               label: 'Voucher - Đổi điểm'
@@ -74,8 +74,18 @@ export const navbarData: INavbarData[] = [
     {
       routeLink: 'report',
       icon: 'fa-solid fa-chart-line',
-      label: 'Report'
-  },
+      label: 'Report',
+      items:[
+        {
+            routeLink: 'report/report-food',
+            label: 'Report Food'
+        },
+        {
+            routeLink: 'report/report-movie',
+            label: 'Report Movie'
+        }
+      ]
+    },
     {
         routeLink: 'settings',
         icon: 'fa-solid fa-gear',

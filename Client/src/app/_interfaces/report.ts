@@ -1,4 +1,4 @@
 export class Report{
     name?: string;
-    doanhthu?: number;
+    doanhThu?: number;
 }

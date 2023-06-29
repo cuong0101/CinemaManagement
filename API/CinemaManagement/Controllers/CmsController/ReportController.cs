@@ -23,8 +23,8 @@ namespace CinemaManagement.Controllers.CmsController
             _photoService = photoService;
         }
 
-        [HttpGet("DoanhThuPhim")]
-        public async Task<List<DoanhThuDto>> DoanhThuPhim(DateTime from, DateTime to)
+        [HttpPost("DoanhThuPhim")]
+        public async Task<List<DoanhThuDto>> DoanhThuPhim(ReportDateInput input)
         {
             using (var conn = _dapper.CreateConnection())
             {
@@ -34,15 +34,15 @@ namespace CinemaManagement.Controllers.CmsController
                     @to = @toDate",
                 new
                 {
-                    fromDate = from,
-                    toDate = to
+                    fromDate = input.From,
+                    toDate = input.To
                 });
                 return res.ToList();
             }
         }
 
-        [HttpGet("DoanhThuDoAn")]
-        public async Task<List<DoanhThuDto>> DoanhThuDoAn(DateTime from, DateTime to)
+        [HttpPost("DoanhThuDoAn")]
+        public async Task<List<DoanhThuDto>> DoanhThuDoAn(ReportDateInput input)
         {
             using (var conn = _dapper.CreateConnection())
             {
@@ -52,8 +52,8 @@ namespace CinemaManagement.Controllers.CmsController
                     @to = @toDate",
                 new
                 {
-                    fromDate = from,
-                    toDate = to
+                    fromDate = input.From,
+                    toDate = input.To
                 });
                 return res.ToList();
             }

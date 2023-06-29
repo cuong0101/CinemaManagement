@@ -1,18 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ColDef, GridApi, GridReadyEvent, PaginationNumberFormatterParams } from 'ag-grid-community';
-import { da } from 'date-fns/locale';
 import { ToastrService } from 'ngx-toastr';
+import { ReportDateInput } from 'src/app/_interfaces/reportDateInput';
 import { ReportService } from 'src/app/_services/report.service';
 import { Report } from 'src/app/_interfaces/report';
-import { ReportDateInput } from 'src/app/_interfaces/reportDateInput';
 type NewType = ColDef;
 @Component({
-  selector: 'app-report-food',
-  templateUrl: './report-food.component.html',
-  styleUrls: ['./report-food.component.css']
+  selector: 'app-report-movie',
+  templateUrl: './report-movie.component.html',
+  styleUrls: ['./report-movie.component.css']
 })
-export class ReportFoodComponent implements OnInit {
+export class ReportMovieComponent implements OnInit {
   colDefs?: ColDef[];
   defaultColDef?:NewType;
   rowData?: Report[];
@@ -74,7 +73,7 @@ export class ReportFoodComponent implements OnInit {
     var input = new ReportDateInput();
     input.from = this.fromDate;
     input.to = this.toDate;
-    this.reportFoodService.doanhThuDoAn(input).subscribe((res: any) => {
+    this.reportFoodService.doanhThuPhim(input).subscribe((res: any) => {
       this.rowData = res;
     });
   }
@@ -93,8 +92,9 @@ export class ReportFoodComponent implements OnInit {
   export()
   {
     this.gridApi.exportDataAsCsv({
-      fileName: 'DoanhThuDoAn.csv',
+      fileName: 'DoanhThuPhim.csv',
     });
   }
+
 
 }
