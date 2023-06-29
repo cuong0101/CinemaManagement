@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CmsController
@@ -69,28 +70,28 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<IActionResult> AdminBooking(ListTicketInputDto input, decimal money, long magiaodich)
         {
 
-                foreach (var idmovie in input.listticket)
-                {
-                    var ticket = _context.MstTicket
-                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+            foreach (var idmovie in input.listticket)
+            {
+                var ticket = _context.MstTicket
+                   .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
-                    ticket.Status = 1; // 1 là đã được mua
-                    ticket.LastModificationTime = DateTime.Now;
-                    ticket.TransactionId = magiaodich;
-                    _context.MstTicket.Update(ticket);
-                    await _context.SaveChangesAsync();
-                }
+                ticket.Status = 1; // 1 là đã được mua
+                ticket.LastModificationTime = DateTime.Now;
+                ticket.TransactionId = magiaodich;
+                _context.MstTicket.Update(ticket);
+                await _context.SaveChangesAsync();
+            }
             var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
-                // update điểm cho khách hàng
-                if (cusId != null)
-                {
-                    var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
-                    var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
-                    cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
-                }
-
-                return CustomResult(true);
-            
+            // update điểm cho khách hàng
+            if (cusId != null)
+            {
+                var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
+                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
+                cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+                _context.MstCustomer.Update(cus);
+            }
+            await _context.SaveChangesAsync();
+            return CustomResult(true);
         }
 
         [HttpPost("CustomerCheckTicket")]
@@ -118,36 +119,37 @@ namespace CinemaManagement.Controllers.CmsController
         public async Task<IActionResult> CustomerBooking(ListTicketInputDto input, decimal money, long magiaodich)
         {
 
-                foreach (var idmovie in input.listticket)
-                {
-                    var ticket = _context.MstTicket
-                       .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
+            foreach (var idmovie in input.listticket)
+            {
+                var ticket = _context.MstTicket
+                   .Where(e => e.IsDeleted == false && e.Id == idmovie).FirstOrDefault();
 
-                    ticket.Status = 1; // 1 là đã được mua
-                    ticket.LastModificationTime = DateTime.Now;
-                    ticket.TransactionId = magiaodich;
-                    _context.MstTicket.Update(ticket);
-                    await _context.SaveChangesAsync();
-                }
+                ticket.Status = 1; // 1 là đã được mua
+                ticket.LastModificationTime = DateTime.Now;
+                ticket.TransactionId = magiaodich;
+                _context.MstTicket.Update(ticket);
+                await _context.SaveChangesAsync();
+            }
             var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
-                // update điểm cho khách hàng
-                var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
-                var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
-                cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+            // update điểm cho khách hàng
+            var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId && e.IsDeleted == false);
+            var cumulative = _context.CumulativePoints.FirstOrDefault(e => e.IsDeleted == false && e.RankId == cus.RankId);
+            cus.CusPoint += (money / cumulative.Money) * cumulative.Point;
+            _context.MstCustomer.Update(cus);
 
-                return CustomResult(true);
-
+            await _context.SaveChangesAsync();
+            return CustomResult(true);
         }
 
         [HttpPost("AdminBookFood")]
-        public async Task<IActionResult> AdminBookFood( decimal totalfoodmoney, ListFood listfood, long magiaodich)
+        public async Task<IActionResult> AdminBookFood(decimal totalfoodmoney, ListFood listfood, long magiaodich)
         {
             var soluongdoan = 0;
-            foreach(var item in listfood.listfood)
+            foreach (var item in listfood.listfood)
             {
                 soluongdoan += item.quantity;
-            }    
-            if(soluongdoan > 0)
+            }
+            if (soluongdoan > 0)
             {
                 foreach (var item in listfood.listfood)
                 {
@@ -268,12 +270,12 @@ namespace CinemaManagement.Controllers.CmsController
                 .Where(e => string.IsNullOrWhiteSpace(namemovie) || e.Name.Contains(namemovie))
 
                 join show in _context.MstShowTimes
-                .Where(e =>  !startTime.HasValue || e.StartTime.Date == startTime.Value.Date)
+                .Where(e => !startTime.HasValue || e.StartTime.Date == startTime.Value.Date)
                 on movie.Id equals show.MovieId
-               
+
                 join room in _context.MstRooms
                 on show.RoomId equals room.Id
-                
+
                 select new MovieDto
                 {
                     Id = show.Id,

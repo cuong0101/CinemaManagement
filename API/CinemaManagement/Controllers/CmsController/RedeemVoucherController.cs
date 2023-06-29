@@ -69,7 +69,6 @@ namespace CinemaManagement.Controllers.CmsController
             //trừ điểm tiêu dùng của KH
             var cus = _context.MstCustomer.FirstOrDefault(e => e.Id == cusId);
             cus.CusPoint -= giftPoint;
-
             await _context.SaveChangesAsync();
         }
 

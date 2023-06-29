@@ -195,8 +195,8 @@ namespace CinemaManagement.Controllers.CmsController
             var benefit = _context.CumulativePoints.FirstOrDefault(e => e.RankId == input.RankId);
             if (benefit != null)
             {
-                throw new UserFriendlyException("Giá trị đổi quà đã tồn tại");
-            }
+                throw new UserFriendlyException("Giá trị đổi quà đã tồn tại (Hạng rank là duy nhất)");
+            } 
             else
             {
                 var cusBenefit = _mapper.Map<CumulativePoint>(input);
@@ -206,7 +206,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
         private async Task EditCumulative(CreateOrEditCumulativeDto input)
         {
-            var cumu = _context.CumulativePoints.FirstOrDefault(e => e.RankId == input.RankId);
+            var cumu = _context.CumulativePoints.FirstOrDefault(e => e.RankId == input.RankId && e.Money == input.Money && e.Point == input.Point);
             if (cumu != null)
             {
                 throw new UserFriendlyException("Giá trị đổi quà đã tồn tại");
