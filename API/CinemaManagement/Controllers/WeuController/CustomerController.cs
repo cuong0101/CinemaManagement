@@ -141,7 +141,8 @@ namespace CinemaManagement.Controllers.WeuController
                     Sex = input.Sex,
                     Email = input.Email,
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input.password)),
-                    PasswordSalt = hmac.Key
+                    PasswordSalt = hmac.Key,
+                    RankId = 1
                 };
 
                 _context.Add(customer);

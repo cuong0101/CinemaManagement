@@ -1,19 +1,15 @@
-﻿using Abp.UI;
-using AutoMapper;
-using Castle.Facilities.TypedFactory.Internal;
+﻿using AutoMapper;
 using CinemaManagement.Data;
 using CinemaManagement.DTOs.CmsDtos;
 using CinemaManagement.DTOs.CmsDtos.BookingDtos;
 using CinemaManagement.DTOs.CmsDtos.ShowTime;
 using CinemaManagement.Entities;
 using CinemaManagement.Interfaces;
-using CinemaManagement.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace CinemaManagement.Controllers.CmsController
@@ -32,7 +28,7 @@ namespace CinemaManagement.Controllers.CmsController
         }
 
         [HttpPost("bookingTickets")]
-        public async Task<IActionResult> BookingTickets (BookingTicketsDto booking)
+        public async Task<IActionResult> BookingTickets(BookingTicketsDto booking)
         {
             HistoryTransaction giaodich = new HistoryTransaction();
             giaodich.CusId = booking.cusId;
@@ -49,19 +45,19 @@ namespace CinemaManagement.Controllers.CmsController
                 ticket.LastModificationTime = DateTime.Now;
                 ticket.TransactionId = giaodich.Id;
                 _context.MstTicket.Update(ticket);
-                
+
             }
             //var cusId = _context.HistoryTransaction.FirstOrDefault(e => e.Id == magiaodich).CusId;
             // update điểm cho khách hàng
             var cus = _context.MstCustomer.FirstOrDefault(e => e.Id ==  booking.cusId && e.IsDeleted == false);
-            if(cus != null)
+            if (cus != null)
             {
                 var rankpoint = _context.MstRankPoints.FirstOrDefault(e => e.IsDeleted == false && e.Id == cus.RankId);
                 cus.CusPoint += (booking.totalAmount / (decimal)rankpoint.Money) * rankpoint.Point;
                 _context.MstCustomer.Update(cus);
-            }    
+            }
             var soluongdoan = 0;
-            if(booking.listfood != null)
+            if (booking.listfood != null)
             {
                 foreach (var item in booking.listfood)
                 {
@@ -78,8 +74,8 @@ namespace CinemaManagement.Controllers.CmsController
                         _context.TransactionFood.Add(transfood);
                     }
                 }
-            }    
-            
+            }
+
             await _context.SaveChangesAsync();
             return CustomResult(true);
         }
